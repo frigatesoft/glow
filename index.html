@@ -1048,7 +1048,7 @@
         @media only screen and (max-width : 1024px) {
             .grid-level li {
                 width: 20%;
-                padding-bottom: 9.0%;
+                padding-bottom: 11.2%;
             }
         }
 
@@ -1083,7 +1083,7 @@
         var maxRepeat = 0;
         var stepIndex = 0;
         //var score = 0;
-        var cellCount = 25;
+        var cellCount = 20;
         var ids = new Array(5);
 
         function StartStage2LevelsView() {
@@ -1135,7 +1135,7 @@
                 for (index = 0; index < 5; index++) {
                     exists = false;
                     while (!exists) {
-                        id = Math.floor((Math.random() * 25) + 1);
+                        id = Math.floor((Math.random() * 20) + 1);
                         if (ids.indexOf(id) < 0) {
                             ids[index] = id;
                             exists = true;
@@ -1146,18 +1146,18 @@
             }
             else if (Type == 1) {
                 //UpForward
-                ids = ["21", "22", "18", "14", "10"];
+                ids = ["16", "17", "13", "9", "5"];
             }
             else if (Type == 2) {
                 //DownForward
-                ids = ["1", "7", "13", "19", "25"];
+                ids = ["1", "7", "13", "19", "20"];
             }
             else if (Type == 3) {
                 //Left to Right
                 ids = ["11", "12", "13", "14", "15"];
             }
             else if (Type == 4) {
-                //Left to Right
+                //bottom to top
                 ids = ["23", "18", "13", "8", "3"];
             }
             else if (Type == 5) {
@@ -1905,12 +1905,12 @@
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <li>
                         <div id="div1" class="grid-level-box">
-                            <img id="1" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="1" src=""  style="height:100%; width: auto;"  onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div2" class="grid-level-box">
-                            <img id="2" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="2" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
@@ -1925,87 +1925,87 @@
                     </li>
                     <li>
                         <div id="div5" class="grid-level-box">
-                            <img id="5" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="5" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div6" class="grid-level-box">
-                            <img id="6" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="6" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div7" class="grid-level-box">
-                            <img id="7" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="7" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div8" class="grid-level-box">
-                            <img id="8" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="8" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div9" class="grid-level-box">
-                            <img id="9" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="9" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div10" class="grid-level-box">
-                            <img id="10" src="" style="height: 100%; width: auto;" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="10" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
 
                     <li>
                         <div id="div11" class="grid-level-box">
-                            <img id="11" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="11" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div12" class="grid-level-box">
-                            <img id="12" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="12" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div13" class="grid-level-box">
-                            <img id="13" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="13" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div14" class="grid-level-box">
-                            <img id="14" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="14" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div15" class="grid-level-box">
-                            <img id="15" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="15" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
 
                     <li>
                         <div id="div16" class="grid-level-box">
-                            <img id="16" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="16" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div17" class="grid-level-box">
-                            <img id="17" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="17" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div18" class="grid-level-box">
-                            <img id="18" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="18" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div19" class="grid-level-box">
-                            <img id="19" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="19" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
                         <div id="div20" class="grid-level-box">
-                            <img id="20" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                            <img id="20" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                    <li>
+                    <!--<li>
                         <div id="div21" class="grid-level-box">
                             <img id="21" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
@@ -2029,7 +2029,7 @@
                         <div id="div25" class="grid-level-box">
                             <img id="25" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
-                    </li>
+                    </li>-->
 
                 </div>
             </div>
