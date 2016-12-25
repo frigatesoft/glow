@@ -27,7 +27,7 @@
                 setTimeout(function () {
                     show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 4000);
+                }, 100);
             });
         }
 
@@ -999,43 +999,52 @@
             margin: 0px;
         }
 
-            .grid-level:after {
-                border: none;
-                content: '';
-                display: block;
-                clear: both;
-            }
-
-            .grid-level li {
-                float: left;
-                border: none;
-                position: relative;
-                display: block;
-                float: left;
-                width: 20%;
-                padding-bottom: 20%;
-                list-style-type: none;
-            }
-
-            .grid-level .grid-level-box {
-                border: none;
-                position: absolute;
-                left: 3px;
-                right: 3px;
-                top: 3px;
-                bottom: 3px;
-                list-style-type: none;
-            }
-
+        .grid-level:after {
+            border: none;
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .grid-level li {
+            float: left;
+            border: none;
+            position: relative;
+            display: block;
+            float: left;
+            width: 20%;
+            padding-bottom: 20%;
+            list-style-type: none;
+        }
+        .grid-level .grid-level-box {
+            border: none;
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            list-style-type: none;
+            text-align: center; 
+        }
+        
+        .grid-level .grid-level-box:before {
+            vertical-align: middle; 
+            height: 100%;
+        }
+        
         .grid-level-box img {
+            border: none;
+            text-align: center;
+            vertical-align: middle;
             height: 100%;
             width: auto;
+            max-width: 100%;
         }
 
         .grid-level img {
             border: none;
-            width: 100%;
             height: 100%;
+            width: auto;
+            max-width: 100%;
         }
 
         @media only screen and (max-width : 2048px) {
@@ -1158,7 +1167,7 @@
             }
             else if (Type == 4) {
                 //bottom to top
-                ids = ["23", "18", "13", "8", "3"];
+                ids = ["18", "13", "8", "3"];
             }
             else if (Type == 5) {
                 //Half Circle
@@ -1166,7 +1175,7 @@
             }
             else if (Type == 6) {
                 //UpForward
-                ids = ["21", "17", "13", "9", "5"];
+                ids = ["16", "17", "13", "9", "5"];
             }
 
             for (i = 1; i <= cellCount; i++) {
@@ -1295,10 +1304,7 @@
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
         }
-
     </script>
-
-
 
     <style>
         /* CSS responsive square grid */
@@ -1390,15 +1396,15 @@
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
 
-            #div_Started img {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 30em;
-                height: 18em;
-                margin-top: -9em; /*set to a negative number 1/2 of your height*/
-                margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            }
+        #div_Started img {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30em;
+            height: 18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        }
     </style>
 
     <!--level 2 puzzle-->
@@ -1904,105 +1910,105 @@
             <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <li>
-                        <div id="div1" class="grid-level-box">
-                            <img id="1" src=""  style="height:100%; width: auto;"  onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img id="1" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div2" class="grid-level-box">
-                            <img id="2" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img id="2" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div3" class="grid-level-box">
-                            <img id="3" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img id="3" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div4" class="grid-level-box">
-                            <img id="4" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div4" class="grid-level-box" style="text-align: center;">
+                            <img id="4" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div5" class="grid-level-box">
-                            <img id="5" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div5" class="grid-level-box" style="text-align: center;">
+                            <img id="5" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div6" class="grid-level-box">
-                            <img id="6" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div6" class="grid-level-box" style="text-align: center;">
+                            <img id="6" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div7" class="grid-level-box">
-                            <img id="7" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div7" class="grid-level-box" style="text-align: center;">
+                            <img id="7" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div8" class="grid-level-box">
-                            <img id="8" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div8" class="grid-level-box" style="text-align: center;">
+                            <img id="8" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div9" class="grid-level-box">
-                            <img id="9" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div9" class="grid-level-box" style="text-align: center;">
+                            <img id="9" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div10" class="grid-level-box">
-                            <img id="10" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-
-                    <li>
-                        <div id="div11" class="grid-level-box">
-                            <img id="11" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div12" class="grid-level-box">
-                            <img id="12" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div13" class="grid-level-box">
-                            <img id="13" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div14" class="grid-level-box">
-                            <img id="14" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div15" class="grid-level-box">
-                            <img id="15" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div10" class="grid-level-box" style="text-align: center;">
+                            <img id="10" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
 
                     <li>
-                        <div id="div16" class="grid-level-box">
-                            <img id="16" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div11" class="grid-level-box" style="text-align: center;">
+                            <img id="11" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div17" class="grid-level-box">
-                            <img id="17" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div12" class="grid-level-box" style="text-align: center;">
+                            <img id="12" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div18" class="grid-level-box">
-                            <img id="18" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div13" class="grid-level-box" style="text-align: center;">
+                            <img id="13" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div19" class="grid-level-box">
-                            <img id="19" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div14" class="grid-level-box" style="text-align: center;">
+                            <img id="14" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div20" class="grid-level-box">
-                            <img id="20" src="" style="height:100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        <div id="div15" class="grid-level-box" style="text-align: center;">
+                            <img id="15" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img id="16" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img id="17" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img id="18" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img id="19" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img id="20" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
                     <!--<li>
@@ -2035,7 +2041,7 @@
             </div>
 
             <div id="pnl_Cat3Levels" class="panel grid" data-title="" data-selected="true">
-                <table style="width: 100%; height: 80%;margin-top: 5%; ">
+                <table style="width: 100%; height: 80%; margin-top: 5%; ">
                     <tr>
                         <td style="width: 25%" valign="center">
                             <div style="border: 0px; width: 100%;">
