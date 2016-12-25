@@ -155,7 +155,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://egylamp.com/mobileapps/glow/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
+            xhr.open("POST", "http://localhost/Autizam/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
             //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
             xhr.onload = function () {
                 var json_string = xhr.responseText;
@@ -224,7 +224,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://egylamp.com/mobileapps/glow/setuserscore.php?id=" + userId + "&practice= "
+            xhr.open("POST", "http://localhost/Autizam/setuserscore.php?id=" + userId + "&practice= "
                 + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
             //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
             
@@ -498,7 +498,7 @@
             age = document.getElementById('txtAge').value;
             var xhr = new XMLHttpRequest();
 
-            xhr.open("POST", "http://egylamp.com/mobileapps/glow/register.php?name=" + name + "&age= " + age, false);
+            xhr.open("POST", "http://localhost:/Autizam/register.php?name=" + name + "&age= " + age, false);
             xhr.onload = function () {
                 //navigator.notification.alert("Message", "", "Caption");
                 var json_string = xhr.responseText;
