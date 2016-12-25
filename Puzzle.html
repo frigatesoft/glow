@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--HTML5 doctype-->
+<html>
+
+<head>
+        <title>Puzzle</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+
+    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        //$.afui.splitview.enable();
+    })
+    </script>
+    <script>
+        var timeoutPeriod = 0;
+        var startTime = Date.now();
+        var lastTime = Date.now();
+        var maxTime = 0;
+        var maxRepeat = 0;
+        var repeatCount = 0;
+        var stepIndex = 0;
+        var score = 0;
+        var cellCount = 25;
+        function FadInOut()
+        {
+            $(document).ready(function(){
+                $("#div_Started").fadeIn(3000);
+                $("#div_Started").fadeOut(3000);
+            });
+        }
+        
+        function Started()
+        {
+            FadInOut();
+            Intialize(25000);
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 250000;
+            maxRepeat = 5;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
+        }
+        function Intialize(Time)
+        {
+            timeoutPeriod = Time;
+            stepIndex = 0;
+            ids = ["right" , "left"];
+            images = ["content/banana.png" , "content/orange.png"];
+            sounds = ["content/banana.ogg" , "content/orange.ogg"];
+            document.getElementById(ids[0]).src = images[0];
+            document.getElementById(ids[1]).src = "";
+            var audio = new Audio(sounds[0]);
+            audio.play();
+        }
+        
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+        
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+    <style>
+        /* CSS responsive square grid */
+        .grid-photo {margin:0px;}
+        .grid-photo:after {content:''; display:block; clear:both;}
+        .grid-photo li {position: relative; display:block; float:left; width: 16.5%; padding-bottom: 20%;}
+        .grid-photo .grid-photo-box {position: absolute;left: 2px;right: 2px;top: 2px;bottom: 2px; background-color: transparent;}
+        .grid-photo-box .dragable-Image {-webkit-user-drag: auto; width: 100%; height:100%;}
+        .grid-photo img {width:100%;height:100%}
+        .grid-photo .img-dragable{background-color: green; -webkit-user-drag: auto;}
+        
+        @media only screen and (max-width : 2048px) {
+        .grid-photo li {padding-bottom: 5%;}
+        }
+        @media only screen and (max-width : 1024px) {
+        .grid-photo li {padding-bottom: 8.8%;}
+        }
+        @media only screen and (max-width : 768px) {
+        .grid-photo li {padding-bottom: 8.5%;}
+        }
+        @media only screen and (max-width : 480px) {
+        .grid-photo li {padding-bottom: 20%;}
+        }
+        @media only screen and (max-width : 320px) {
+        .grid-photo li {padding-bottom: 25%;}
+        }
+        
+        #div-Excercise{
+            z-index: 0;
+        }
+        
+        #div_Started {
+            z-index: 1;
+            position:fixed;
+            top: 50%;
+            left: 50%;
+            width:30em;
+            height:18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+            
+        }
+        #div_Started img{
+            position:fixed;
+            top: 50%;
+            left: 50%;
+            width:30em;
+            height:18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        }
+        
+    </style>
+
+    </head>
+    <body onload="javascript:Started();">
+        <div class="view">
+            <header>
+                <h1>Puzzle</h1>
+            </header>
+            <input ID="Score" type="hidden" value="0"/>
+            <div id="div_Started">
+                <img src="content/started.png"/>
+            </div>
+            <div id="div-Excercise" class="pages" style="width:100%;">
+                <div id="grid" class="panel grid" data-title="Skill Development" data-selected="true">
+                    <div class="grid grid-photo">
+                        <li><div id="div1" class="grid-photo-box"><img id="1" src="content/Puzzle/car_1.jpg"/></div></li>
+                        <li><div id="div2" class="grid-photo-box"><img id="2" src="content/Puzzle/car_2.jpg"/></div></li>
+                        <li><div id="div3" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div></li>
+                        <li><div id="div4" class="grid-photo-box"><img id="4" src="content/Puzzle/car_4.jpg"/></div></li>
+                        <li><div id="div5" class="grid-photo-box"><img id="5" src="content/Puzzle/car_5.jpg"/></div></li>
+                        <li style="width:10px;"><div class="grid-photo-box" style="background: #000000;"></div></li>
+                        <li style="left: 0px;"><div id="divdrag1" class="grid-photo-box" ><img id="drag1" class="dragable-Image" src="content/Puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                        
+                        <li><div id="div6" class="grid-photo-box"><img id="6" src="content/Puzzle/car_6.jpg"/></div></li>
+                        <li><div id="div7" class="grid-photo-box"><img id="7" src="content/Puzzle/car_7.jpg"/></div></li>
+                        <li><div id="div8" class="grid-photo-box"><img id="8" src="content/Puzzle/car_8.jpg"/></div></li>
+                        <li><div id="div9" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div></li>
+                        <li><div id="div10" class="grid-photo-box"><img id="10" src="content/Puzzle/car_10.jpg" /></div></li>
+                        <li style="width:10px;"><div class="grid-photo-box" style="background: #000000;"></div></li>
+                        <li style="left: 0px;"><div id="divdrag2" class="grid-photo-box"><img id="drag2" class="dragable-Image" src="content/Puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                        
+                        <li><div id="div11" class="grid-photo-box"><img id="11" src="content/Puzzle/car_11.jpg"/></div></li>
+                        <li><div id="div12" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div></li>
+                        <li><div id="div13" class="grid-photo-box"><img id="13" src="content/Puzzle/car_13.jpg"/></div></li>
+                        <li><div id="div14" class="grid-photo-box"><img id="14" src="content/Puzzle/car_14.jpg"/></div></li>
+                        <li><div id="div15" class="grid-photo-box"><img id="15" src="content/Puzzle/car_15.jpg"/></div></li>
+                        <li style="width:10px;"><div class="grid-photo-box" style="background: #000000;"></div></li>
+                        <li style="left: 0px;"><div id="divdrag3" class="grid-photo-box" ><img id="drag3" class="dragable-Image" src="content/Puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                        
+                        <li><div id="div16" class="grid-photo-box"><img id="16" src="content/Puzzle/car_16.jpg"/></div></li>
+                        <li><div id="div17" class="grid-photo-box"><img id="17" src="content/Puzzle/car_17.jpg"/></div></li>
+                        <li><div id="div18" class="grid-photo-box"><img id="18" src="content/Puzzle/car_18.jpg"/></div></li>
+                        <li><div id="div19" class="grid-photo-box"><img id="19" src="content/Puzzle/car_19.jpg"/></div></li>
+                        <li><div id="div20" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div></li>
+                        <li style="width:10px;"><div class="grid-photo-box" style="background: #000000;"></div></li>
+                        <li style="left: 0px;"><div id="divdrag4" class="grid-photo-box"><img id="drag4" class="dragable-Image" src="content/Puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                        
+                        <li><div id="div21" class="grid-photo-box"><img id="21" src="content/Puzzle/car_21.jpg"/></div></li>
+                        <li><div id="div22" class="grid-photo-box"><img id="22" src="content/Puzzle/car_22.jpg"/></div></li>
+                        <li><div id="div23" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div></li>
+                        <li><div id="div24" class="grid-photo-box"><img id="24" src="content/Puzzle/car_24.jpg"/></div></li>
+                        <li><div id="div25" class="grid-photo-box"><img id="25" src="content/Puzzle/car_25.jpg"/></div></li>
+                        <li style="width:10px;"><div class="grid-photo-box" style="background: #000000;"></div></li>
+                        <li style="left: 0px;"><div id="divdrag5" class="grid-photo-box"><img id="drag5" class="dragable-Image" src="content/Puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                    </div>
+                </div>
+           </div>    
+        </div>
+    </body>
+</html

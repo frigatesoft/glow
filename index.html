@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<!--HTML5 doctype-->
+<html>
+<head>
+    <title>Glow</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+
+    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+        })
+
+        function GameLoading() {
+            $(document).ready(function () {
+                //pnl_LoginForm
+                $('#div_pages > :not(#pnlSplash)').hide();
+                $('#pnlSplash').appendTo('#div_pages');
+                setTimeout(function () {
+                    show_OnlyOneForm("pnl_LoginForm");
+                    //show_OnlyFormWithMenu('pnl_Cat1Levels');
+                }, 4000);
+            });
+        }
+
+        function show_OnlyOneForm(formName) {
+            $(document).ready(function () {
+                $('#div_pages > :not(#' + formName + ')').hide();
+                $('#' + formName + '').appendTo('#div_pages');
+                document.getElementById("pnl_Menu").style.display = 'none';
+            });
+        }
+
+        function show_OnlyFormWithMenu(formName) {
+            $(document).ready(function () {
+                $('#div_pages > :not(#' + formName + ')').hide();
+                $('#' + formName + '').appendTo('#div_pages');
+                document.getElementById("pnl_Menu").style.display = 'block';
+            });
+        }
+
+        function GotoStageLevelsForm(stageid) {
+            document.getElementById('currentStage').value = stageid;
+            GetActiveLevels(stageid);
+            show_OnlyFormWithMenu("pnl_Cat" + stageid + "Levels");
+        }
+
+        function GotoStage1Practice(levelid) {
+
+            document.getElementById("currentStage").value = 1;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            
+            StartStage1LevelsView();
+            show_OnlyFormWithMenu('pnlLevel1Practices');
+            
+        }
+
+        function GotoStage2Practice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+
+            show_OnlyFormWithMenu('pnlLevel1Practices');
+            StartStage2LevelsView();
+        }
+
+        function GotoStage2PuzzlePractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+
+            show_OnlyFormWithMenu('pnl_level2_puzzle');
+            StartStage2LevelPuzzleView();
+        }
+        
+
+        function GotoStage3Practice(levelid) {
+            document.getElementById("currentStage").value = 3;
+            document.getElementById("currentPracitceLevel").value = levelid;
+
+            show_OnlyFormWithMenu('pnlLevel3Practices');
+            StartStage3LevelsView();
+            
+        }
+
+        var tryF = function () {
+
+            // convert arguments to normal array
+            var args = [].slice.call(arguments, 0, arguments.length);
+
+            // if has function to execute
+            if (args.length > 0) {
+                var func = args[0];//alert(func);
+                try { func(); }
+                finally {
+
+                    // if has next function to execute
+                    if (args.length > 1) {
+                        tryF.apply(null, args.slice(1, args.length));
+                    }
+                }
+            }
+        }
+
+        var musictrack;
+        function Starting() {
+            musictrack = new Audio("content/sounds/music.ogg");
+            musictrack.play();
+            //var beepOne = $("#beep-one")[0];
+            //beepOne.play();
+        }
+        function EnableDisableMusic() {
+
+            var music = document.getElementById("isMusicPlayed").value;
+            if (music == 0) {
+                //var beepOne = $("#beep-one")[0];
+                //beepOne.play();
+                //musictrack = new Audio("content/sounds/music.ogg");
+                musictrack.play();
+                document.getElementById("idMusic").src = "content/screen02/Music.png";
+                music = 1;
+            } else {
+                //var beepOne = $("#beep-one")[0];
+                musictrack.pause();
+                document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+                music = 0;
+            }
+            document.getElementById("isMusicPlayed").value = music;
+        }
+
+        function EnableDisableSound() {
+            var sound = document.getElementById("isSoundPlayed").value;
+            if (sound == 0) {
+                document.getElementById("idSound").src = "content/screen02/Sound.png";
+                sound = 1;
+            } else {
+                document.getElementById("idSound").src = "content/screen02/Sound-off.png";
+                sound = 0;
+            }
+            document.getElementById("isSoundPlayed").value = sound;
+        }
+
+        function GetActiveLevels(stageID) {
+            //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
+            
+            var userId = document.getElementById('userid').value;
+            if (userId == 0) {
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost/Autizam/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
+            //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
+            xhr.onload = function () {
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                var maxPractice = 1;
+
+                for (var i = 0 ; i < json.error_msg.length ; i++) {
+                    if (json.error_msg[i].PracticeID == 1) {
+                        maxPractice++;
+                    } else {
+                        maxPractice = json.error_msg[i].PracticeID;
+                        if (maxPractice < 10) {
+                            document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                            maxPractice++;
+                        }
+                        else {
+                            document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                            maxPractice++;
+                        }
+                    }
+                }
+
+                if (maxPractice > 1) {
+                    if (maxPractice < 10) {
+                        document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                    } else {
+                        document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                    }
+                }
+
+
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
+                    var json = JSON.parse(json_string);
+                    intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                }
+                else if (xhr.status == 404) {
+                    intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                }
+                else {
+                    intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                }
+            }
+            xhr.send();
+        }
+
+        function RegisterScore() {
+            //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
+           
+            var userId = document.getElementById('userid').value;
+            var userScore = document.getElementById('score').value;
+            var stageID = document.getElementById('currentStage').value;
+            var practiceid = document.getElementById('currentPracitceLevel').value;
+            document.getElementById('score').value=0;
+
+            if (userScore ==5){
+                var audio = new Audio("content/sounds/goodjob.ogg");
+                audio.play();
+            }else if (userScore >0){
+                var audio = new Audio("content/sounds/clamps.ogg");
+                audio.play();
+            }else {
+                var audio = new Audio("content/sounds/tryagain.ogg");
+                audio.play();
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost/Autizam/setuserscore.php?id=" + userId + "&practice= "
+                + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
+            //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
+            
+            xhr.onload = function () {
+                //navigator.notification.alert("Message", "", "Caption");
+
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                //alert("Welcom " + json.user.name);
+
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
+                    var json = JSON.parse(json_string);
+                }
+                else if (xhr.status == 404) {
+                }
+                else {
+                }
+            }
+            xhr.send();
+        }
+
+    </script>
+
+    <!--Splash Screen Related-->
+    <script>
+        function Splashing() {
+            setTimeout(function () {
+                window.location.href = "userlogin.html";
+            }, 4000);
+        }
+    </script>
+    <style>
+        /*.cover {
+            background: #E3F5FD url("content/screen00/Bg.png") no-repeat 100% 100%;
+            width: 100%;
+            height: 100%;
+        }*/
+
+        @media only screen and (max-width : 2048px) {
+            .pnlLoginContainer {
+                background: url("content/screen01/Panel.png") no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+
+        /* -7- 900*1280   216ppi */
+        @media only screen and (max-width : 1024px) {
+              
+            .pnlLoginContainer  {
+                background: url("content/screen01/Panel.png") no-repeat;
+                background-size: 100% 93%;
+            }
+
+            .tblLoginContent {
+                /*margin-top:-20px;*/
+                margin-bottom: -40px;
+            }
+
+            .btnLoginBack {
+                margin-top: -30px;
+                width: 60px;
+                Height: 60px;
+            }
+
+            .tblLoginHeader img {
+                margin-left: -30px;
+                margin-Top: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+
+        }
+
+        /* -4- 768*1280   320ppi  &&& HTC Droid */
+        @media only screen and (max-width : 768px) {
+            .pnlLoginContainer {
+                background: url("content/screen01/Panel.png") no-repeat;
+                background-size: 95% 90%;
+            }
+
+            .tblLoginContent {
+                margin-Top: -40px;
+                margin-bottom: -30px;
+            }
+
+            .btnLoginBack {
+                margin-top: -20px;
+                width: 40px;
+                Height: 40px;
+            }
+
+            .tblLoginHeader img {
+                margin-left: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+ 
+        }
+
+        @media only screen and (max-width : 480px) {
+            
+            .pnlLoginContainer {
+                background: url("content/screen01/Panel.png") no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+
+        @media only screen and (max-width : 320px) {
+            .pnlLoginContainer {
+                background: url("content/screen01/Panel.png") no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+    </style>
+
+    <style>
+        .rotator {
+            width: 100px;
+            height: 100px;
+            margin: 20px;
+            /*background-color:teal;*/
+        }
+
+        .transition {
+            -webkit-transition: all 1000s linear;
+        }
+
+        .translateAnimationClass {
+            -webkit-transform: rotateX(43200deg) rotateY(14400deg);
+        }
+
+        .animation {
+            -webkit-animation: rotator 3s forwards;
+        }
+
+        @-webkit-keyframes rotator {
+            0% {
+                width: 100px;
+                height: 100px;
+                -webkit-transition: width 1s, height 1s, -webkit-transform 1s; /* Safari */
+                transition: width 1s, height 1s, transform 1s;
+            }
+
+            100% {
+                width: 400px;
+                height: 400px;
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <!--level2_star-->
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+    <script>
+        var timeoutPeriod = 12000;
+        var maxTime = 0;
+        var maxRepeat = 0;
+        var repeatCount = 0;
+        var score = 0;
+        var startTime = Date.now();
+        var lastTime = Date.now();
+        var emptyimageURL = "/www/lib/content/level02/empty_star.png";
+        var fullimageURL = "/www/lib/content/level02/full_star.png";
+
+
+        function Hide() {
+            $(document).ready(function () {
+                $('#div_pages > :not(#page_Level2_Star2)').hide();
+                $('#page_Level2_Star2').appendTo('#div_pages');
+            });
+        }
+        function level2star_start() {
+
+            $(document).ready(function () {
+                $('#div_pages > :not(#page_level2_star)').hide();
+                $('#page_level2_star').appendTo('#div_pages');
+            });
+            initialize();
+        }
+
+        function initialize() {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            emptyimageURL = "/www/lib/content/level02/empty_star.png";
+            fullimageURL = "/www/lib/content/level02/full_star.png";
+            UpdateCells();
+        }
+
+        function Level2Star_UpdateCells() {
+            var emptyImage = document.getElementById("img_empty");
+            var fullImage = document.getElementById("img_full");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+            setTimeout(Level2Star_TimeOut, timeoutPeriod);
+        }
+
+        function Level2Star_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Star_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var currentTime = Date.now();
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_empty");
+                var fullimage = document.getElementById("img_full");
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(4);
+                }
+            }
+        }
+    </script>
+    <!--level2_star-->
+
+    <!--Categories Form-->
+    <script>
+        var userID;
+        function RegisterUser() {
+            name = document.getElementById('txtName').value;
+            age = document.getElementById('txtAge').value;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "http://localhost:/Autizam/register.php?name=" + name + "&age= " + age, false);
+            xhr.onload = function () {
+                //navigator.notification.alert("Message", "", "Caption");
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                //alert("Welcom " + json.user.name);
+                userID = json.user.id;
+
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
+                    var json = JSON.parse(json_string);
+                    //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                }
+                else if (xhr.status == 404) {
+                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                }
+                else {
+                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                }
+            }
+            xhr.send();
+
+            //GoTocontainerMenu();
+            //window.location.href = "categories.html?userid=" + userID;
+            document.getElementById("userid").value = userID;
+            if (userID > 0) {
+                document.getElementById("divusername").innerHTML = "Welcome: " + name;
+            } else {
+                document.getElementById("divusername").innerHTML = "";
+            }
+            ShowCategoriesForm();
+        }
+
+        function ShowCategoriesForm() {
+            show_OnlyFormWithMenu("pnl_Categories");
+            PlayMusic();
+        }
+
+    </script>
+    <style>
+        /* CSS responsive square grid */
+        .Category img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        @media only screen and (width : 2048px) {
+            .Category {
+                width: 30px;
+                height: 50px;
+            }
+        }
+
+        @media only screen and (width : 1024px) {
+            .Category {
+                width: 100%;
+                height: 70%;
+            }
+        }
+
+        @media only screen and (width : 768px) {
+            .Category {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media only screen and (width : 480px) {
+            .Category {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        @media only screen and (width : 320px) {
+            .Category {
+                width: 50px;
+                height: 40px;
+            }
+        }
+    </style>
+    <!--<categories form-->
+
+    <!--Menue Actions-->
+    <script>
+        var musictrack;
+        function PlayMusic() {
+            musictrack = new Audio("content/sounds/music.ogg");
+            musictrack.play();
+
+
+
+            //var beepOne = $("#beep-one")[0];
+            //beepOne.play();
+        }
+        function EnableDisableMusic() {
+            var music = document.getElementById("isMusicPlayed").value;
+            if (music == 0) {
+                //var beepOne = $("#beep-one")[0];
+                //beepOne.play();
+                //musictrack = new Audio("content/sounds/music.ogg");
+                musictrack.play();
+                document.getElementById("idMusic").src = "content/screen02/Music.png";
+                document.getElementById("isMusicPlayed").value = 1;
+            } else {
+                //var beepOne = $("#beep-one")[0];
+                musictrack.pause();
+                document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+                document.getElementById("isMusicPlayed").value = 0;
+            }
+        }
+
+        function EnableDisableSound() {
+            var sound = document.getElementById("isSoundPlayed").value;
+            if (sound == 0) {
+                document.getElementById("idSound").src = "content/screen02/Sound.png";
+                sound = 1;
+            } else {
+                document.getElementById("idSound").src = "content/screen02/Sound-off.png";
+                sound = 0;
+            }
+            document.getElementById("isSoundPlayed").value = sound;
+        }
+
+        function GotoInfo() {
+            show_OnlyFormWithMenu("pnl_Info");
+        }
+
+    </script>
+    <!--Menue Actions-->
+
+    <!--Categ 1 Levels-->
+    <script>
+        var images = new Array(2);
+        var sounds = new Array(2);
+
+        function GoHome() {
+            window.location.href = "categories.html";
+        }
+
+        function GotoPractice(practiceID) {
+            //window.location.href = "level1.html";
+            //var name = $(this).data('username');        
+            if (practiceID != undefined && practiceID != null) {
+                window.location = 'level1.html?practiceid=' + practiceID + '&userid=' + document.getElementById("userid").value;
+            }
+        }
+
+        var finishedid = getParameterByName('finishedid');
+        var UserId = getParameterByName('userid');
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function LoadFinished() {
+            document.getElementById("userid").value = getParameterByName('userid');
+            //alert(document.getElementById("userid").value);
+            //alert(window.location.href);
+            GetActiveLevels(1);
+        }
+
+    </script>
+    <style>
+        /* CSS responsive square grid */
+        .grid-photo {
+            border: 0px;
+            margin: 0px;
+        }
+
+            .grid-photo:after {
+                border: 0px;
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .grid-photo li {
+                border: 0px;
+                position: relative;
+                display: block;
+                float: left;
+                width: 15%;
+                /*padding-bottom: 10%;*/
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+
+            .grid-photo .grid-photo-box {
+                position: absolute;
+                left: 1%;
+                right: 1%;
+                top: 1%;
+                bottom: 0;
+            }
+
+            .grid-photo img {
+                border: 0px;
+                width: 100%;
+                height: 100%;
+            }
+
+        @media only screen and (max-width : 2048px) {
+            .grid-photo li {
+                width: 22%;
+                padding-bottom: 19%;
+            }
+
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer, .pnlContainerCat3LevelsContainer {
+                background: url(content/screen01/Panel.png) no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+
+        /* -7- 900*1280   216ppi */
+        @media only screen and (max-width : 1024px) {
+            .grid-photo li {
+                width: 20%;
+                padding-bottom: 12.0%;
+            }
+
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+                background: url(content/screen01/Panel.png) no-repeat;
+                background-size: 100% 93%;
+            }
+
+            .tblCat1LevelsContent {
+                /*margin-top:-20px;*/
+                margin-bottom: -40px;
+            }
+
+            .btnCat1LevelsBack {
+                margin-top: 0px;
+                width: 60px;
+                Height: 60px;
+            }
+
+            .tblCat1LevelsHeader img {
+                margin-left: -30px;
+                margin-Top: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+             .tblCat2LevelsHeader img {
+                margin-left: -30px;
+                margin-Top: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+
+            .btnCat1LevelsClose {
+                Width: 100%;
+                height: 100%;
+            }
+
+            .liContainerCat1Levels {
+                margin-Top: -30px;
+            }
+        }
+
+        /* -4- 768*1280   320ppi  &&& HTC Droid */
+        @media only screen and (max-width : 768px) {
+            .grid-photo li {
+                width: 11.5%;
+                /*padding-bottom: 12.0%;*/
+            }
+
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+                background: url(content/screen01/Panel.png) no-repeat;
+                background-size: 95% 90%;
+            }
+
+            .tblCat1LevelsContent {
+                margin-Top: -40px;
+                margin-bottom: -30px;
+            }
+
+            .btnCat1LevelsBack {
+                margin-top: -20px;
+                width: 40px;
+                Height: 40px;
+            }
+
+            .tblCat1LevelsHeader img {
+                margin-left: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+
+            .tblCat2LevelsHeader img {
+                margin-left: -30px;
+                Width: 80%;
+                height: 5%;
+            }
+
+            .btnCat1LevelsClose {
+                Width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media only screen and (max-width : 480px) {
+            .grid-photo li {
+                width: 20%;
+                /*padding-bottom: 30%;*/
+            }
+
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+                background: url(content/screen01/Panel.png) no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+
+        @media only screen and (max-width : 320px) {
+            .grid-photo li {
+                width: 20%;
+                /*padding-bottom: 40%;*/
+            }
+
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+                background: url(content/screen01/Panel.png) no-repeat;
+                background-size: 95% 85%;
+            }
+        }
+
+       
+    </style>
+    <!--Categ 1 Levels-->
+
+    <!--Categ 1 Levels Practices-->
+    <script>
+        var imgURL = "";
+        var stepIndex = 0;
+
+        function FadInOut() {
+            //alert("sdsdsd");
+            $(document).ready(function () {
+
+                $("#div_Started").fadeIn(3000);
+                $("#div_Started").fadeOut(3000);
+                $("#div_Started").setAttribute("Display", "none");
+                //$("#div-Excercise").fadeIn(3000);
+                //$("#div-Excercise").setAttribute("Display", "block");
+            });
+        }
+
+        function StartStage1LevelsView() {
+
+            var practiceid = document.getElementById('currentPracitceLevel').value;
+            var PracticeImageName = "content/level01/pic" + practiceid + ".png";
+            //Intialize(0, "content/level01/pic01.png", 6000);
+            
+            IntializeLevel1(0, PracticeImageName, 6000);
+
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 1;
+            repeatCount = 1;
+            setTimeout(Level1_TimeOut, timeoutPeriod);
+
+        }
+
+        function IntializeLevel1(Type, URL, Time) {
+            imgURL = URL;
+            timeoutPeriod = Time;
+
+            stepIndex = 0;
+
+            if (Type == 0) {
+                //Random
+                var id = 0;
+                var exists = false;
+                for (index = 0; index < 5; index++) {
+                    exists = false;
+                    while (!exists) {
+                        id = Math.floor((Math.random() * 20) + 1);
+                        if (ids.indexOf(id) < 0) {
+                            ids[index] = id;
+                            exists = true;
+                        }
+                    }
+
+                    //alert(id);
+                }
+            }
+
+            for (i = 1; i <= cellCount; i++) {
+                document.getElementById(i).src = "";
+            }
+            document.getElementById(ids[stepIndex]).src = imgURL;
+        }
+
+        function Level1_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                document.getElementById(ids[i]).src = "";
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
+                }
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
+                    }
+                    else {
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
+                    }
+                    break;
+                }
+            }
+
+            if (nextCellIndex != -1) {
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = imgURL;
+
+                lastTime = Date.now();
+                setTimeout(Level1_TimeOut, timeoutPeriod);
+            }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                    GetActiveLevels(1);
+
+                    //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
+
+                }
+                else {
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                    GetActiveLevels(1);
+
+                }
+            }
+            return;
+        }
+
+        function Level12_ItemClicked(currentCellId) {
+            
+            if (document.getElementById('currentStage').value == 1) {
+                Level1_ItemClicked(currentCellId);
+            } else {
+                //alert(document.getElementById('currentStage').value);
+                
+                Level2_ItemClicked(currentCellId);
+            }
+
+        }
+
+        function Level1_ItemClicked(currentCellId) {
+            if (!Level1_CheckClickedID(currentCellId))
+                return;
+
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level1_UpdateCells(currentCellId);
+        }
+
+        function Level1_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level1_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                Level1_UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+
+    </script>
+    <style>
+        /* CSS responsive square grid */
+        .grid-level {
+            border: none;
+            margin: 0px;
+        }
+
+            .grid-level:after {
+                border: none;
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .grid-level li {
+                float: left;
+                border: none;
+                position: relative;
+                display: block;
+                float: left;
+                width: 20%;
+                padding-bottom: 20%;
+                list-style-type: none;
+            }
+
+            .grid-level .grid-level-box {
+                border: none;
+                position: absolute;
+                left: 3px;
+                right: 3px;
+                top: 3px;
+                bottom: 3px;
+                list-style-type: none;
+            }
+
+        .grid-level-box img {
+            height: 100%;
+            width: auto;
+        }
+
+        .grid-level img {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media only screen and (max-width : 2048px) {
+            .grid-level li {
+                width: 20%;
+                padding-bottom: 5%;
+            }
+        }
+
+        @media only screen and (max-width : 1024px) {
+            .grid-level li {
+                width: 20%;
+                padding-bottom: 9.0%;
+            }
+        }
+
+        @media only screen and (max-width : 768px) {
+            .grid-level li {
+                width: 20%;
+                padding-bottom: 8.0%;
+            }
+        }
+
+        @media only screen and (max-width : 480px) {
+            .grid-level li {
+                width: 20%;
+                padding-bottom: 20%;
+            }
+        }
+
+        @media only screen and (max-width : 320px) {
+            .grid-level li {
+                width: 20%;
+                padding-bottom: 25%;
+            }
+        }
+
+    </style>
+    <!--Categ 1 Levels Practices-->
+
+    <!--Categ 2 Levels Practices-->
+    <script>
+        var imgURL = "";
+        var maxTime = 0;
+        var maxRepeat = 0;
+        var stepIndex = 0;
+        //var score = 0;
+        var cellCount = 25;
+        var ids = new Array(5);
+
+        function StartStage2LevelsView() {
+            var practiceid = document.getElementById('currentPracitceLevel').value;
+            
+            var practiceType = practiceid;
+            if (practiceid == 1 ) {
+                practiceType = 1;
+            } else if (practiceid == 2) {
+                practiceType = 6;
+            } else if (practiceid == 4 || practiceid == 5) {
+                practiceType = 3;
+            } else if (practiceid == 6 ) {
+                practiceType = 4;
+            } else if (practiceid == 7) {
+                practiceType = 2;
+            } else if (practiceid == 8 ) {
+                practiceType = 5;
+            }
+            
+            if (practiceid == 1) {
+                document.getElementById('currentPracitceLevel').src = "content\leve02\pic01-bg.png"
+            } else {
+                document.getElementById('currentPracitceLevel').src = "content\leve02\bg.png";
+            }
+            
+            var PracticeImageName = "content/level02/pic" + practiceid + ".png";
+
+            IntializeLevel2(practiceType, PracticeImageName, 6000);
+
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 1;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
+        }
+
+        function IntializeLevel2(Type, URL, Time) {
+            imgURL = URL;
+            timeoutPeriod = Time;
+
+            stepIndex = 0;
+           
+            if (Type == 0) {
+                //Random
+                var id = 0;
+                var exists = false;
+                for (index = 0; index < 5; index++) {
+                    exists = false;
+                    while (!exists) {
+                        id = Math.floor((Math.random() * 25) + 1);
+                        if (ids.indexOf(id) < 0) {
+                            ids[index] = id;
+                            exists = true;
+                        }
+                    }
+                }
+
+            }
+            else if (Type == 1) {
+                //UpForward
+                ids = ["21", "22", "18", "14", "10"];
+            }
+            else if (Type == 2) {
+                //DownForward
+                ids = ["1", "7", "13", "19", "25"];
+            }
+            else if (Type == 3) {
+                //Left to Right
+                ids = ["11", "12", "13", "14", "15"];
+            }
+            else if (Type == 4) {
+                //Left to Right
+                ids = ["23", "18", "13", "8", "3"];
+            }
+            else if (Type == 5) {
+                //Half Circle
+                ids = ["15", "9", "3", "7", "11"];
+            }
+            else if (Type == 6) {
+                //UpForward
+                ids = ["21", "17", "13", "9", "5"];
+            }
+
+            for (i = 1; i <= cellCount; i++) {
+                document.getElementById(i).src = "";
+            }
+
+            document.getElementById(ids[stepIndex]).src = imgURL;
+        }
+
+        function Level2_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                document.getElementById(ids[i]).src = "";
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
+                }
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
+                    }
+                    else {
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
+                    }
+                    break;
+                }
+            }
+
+            if (nextCellIndex != -1) {
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = imgURL;
+                lastTime = Date.now();
+                setTimeout(Level2_TimeOut, timeoutPeriod);
+            }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+
+                    RegisterScore();
+                    GetActiveLevels(2);
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+                    
+                }
+                else {
+                    RegisterScore();
+                    GetActiveLevels(2);
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    
+
+                }
+            }
+            return;
+        }
+ 
+        function Level2_ItemClicked(currentCellId) {
+            if (!Level2_CheckClickedID(currentCellId))
+                return;
+            
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level2_UpdateCells(currentCellId);
+        }
+
+        function Level2_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level2_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                Level2_UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+          
+    </script>
+
+    <!--Categ 2 Levels Practices-->
+
+    <!--level 2 Puzzle-->
+
+       <script>
+           function StartStage2LevelPuzzleView() {
+            
+            LevelPuzzle(25000);
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 250000;
+            maxRepeat = 5;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
+        }
+           function IntializeLevelPuzzle(Time) {
+            timeoutPeriod = Time;
+            stepIndex = 0;
+            ids = ["right", "left"];
+            images = ["content/banana.png", "content/orange.png"];
+            sounds = ["content/banana.ogg", "content/orange.ogg"];
+            document.getElementById(ids[0]).src = images[0];
+            document.getElementById(ids[1]).src = "";
+            var audio = new Audio(sounds[0]);
+            audio.play();
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+
+    </script>
+
+
+
+    <style>
+        /* CSS responsive square grid */
+        .grid-puzzle {
+            margin-top: 10%;
+        }
+
+        .grid-puzzle:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .grid-puzzle li {
+            position: relative;
+            display: block;
+            float: left;
+            width: 16.5%;
+            padding-bottom: 20%;
+        }
+
+        .grid-puzzle .grid-puzzle-box {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            top: 2px;
+            bottom: 2px;
+            background-color: transparent;
+        }
+
+        .grid-puzzle-box .dragable-Image {
+            -webkit-user-drag: auto;
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-puzzle img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-puzzle .img-dragable {
+            background-color: green;
+            -webkit-user-drag: auto;
+        }
+
+        @media only screen and (max-width : 2048px) {
+            .grid-puzzle li {
+                padding-bottom: 5%;
+            }
+        }
+
+        @media only screen and (max-width : 1024px) {
+            .grid-puzzle li {
+                padding-bottom:8%;
+            }
+        }
+
+        @media only screen and (max-width : 768px) {
+            .grid-puzzle li {
+                padding-bottom: 8.5%;
+            }
+        }
+
+        @media only screen and (max-width : 480px) {
+            .grid-puzzle li {
+                padding-bottom: 20%;
+            }
+        }
+
+        @media only screen and (max-width : 320px) {
+            .grid-puzzle li {
+                padding-bottom: 25%;
+            }
+        }
+
+        #div-Excercise {
+            z-index: 0;
+        }
+
+        #div_Started {
+            z-index: 1;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30em;
+            height: 18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        }
+
+            #div_Started img {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 30em;
+                height: 18em;
+                margin-top: -9em; /*set to a negative number 1/2 of your height*/
+                margin-left: -15em; /*set to a negative number 1/2 of your width*/
+            }
+    </style>
+
+    <!--level 2 puzzle-->
+
+    <!--Level 3 Practice-->
+
+    <script>
+                 
+        function StartStage3LevelsView() {
+            IntializeLevel3(6000);
+
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 5;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
+
+
+        }
+
+        function IntializeLevel3(Time) {
+            timeoutPeriod = Time;
+            stepIndex = 0;
+            ids = ["right", "left"];
+            practiceid =document.getElementById("currentPracitceLevel").value ;
+
+            if (practiceid == 1) {
+                images = ["content/level03/pic6.png", "content/level03/pic10.png"];
+            } else if (practiceid == 2) {
+                images = ["content/level03/banana.png", "content/level03/orange.png"];
+            } else if (practiceid == 3) {
+                images = ["content/level03/pic11.png", "content/level03/pic12.png"];
+            } else if (practiceid == 4) {
+                images = ["content/level03/pic4.png", "content/level03/pic5.png"];
+            } else if (practiceid == 5) {
+                images = ["content/level03/pic8.png", "content/level03/pic9.png"];
+            } else if (practiceid == 6) {
+                images = ["content/level03/pic14.png", "content/level03/pic15.png"];
+            } else if (practiceid == 7) {
+                images = ["content/level03/pic16.png", "content/level03/pic17.png"];
+            }
+
+            sounds = ["content/sounds/banana.ogg", "content/sounds/orange.ogg"];
+            document.getElementById(ids[0]).src = images[0];
+
+
+            document.getElementById(ids[1]).src = "";
+            
+            if (document.getElementById("isSoundPlayed").value == 1){
+                var audio = new Audio(sounds[0]);
+                audio.play();
+            }
+        }
+
+        function Level3_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
+                }
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
+                    }
+                    else {
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
+                    }
+                    break;
+                }
+            }
+            if (nextCellIndex != -1) {
+
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+                
+                if (document.getElementById("isSoundPlayed").value == 1){
+                    var audio = new Audio(sounds[nextCellIndex]);
+                    audio.play();
+                }
+                lastTime = Date.now();
+                setTimeout(TimeOut, timeoutPeriod);
+            }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(3);
+                }
+                else {
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(3);
+                }
+            }
+            return;
+        }
+
+
+        function Level3_Clicked(currentCellId) {
+            if (!Level3_CheckClickedID(currentCellId))
+                return;
+
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level3_UpdateCells(currentCellId);
+        }
+
+        function Level3_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level3_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+
+        //$(function () {
+        //    $('#title-area').text(loadPageVar('practice'));
+        //});
+
+    </script>
+
+    <style>
+        /* CSS responsive square grid */
+        .level3-photo {
+            margin: 0px;
+        }
+
+            .level3-photo:after {
+                border: 0px;
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .level3-photo li {
+                border: 0px;
+                position: relative;
+                display: block;
+                float: left;
+                width: 40%;
+                padding-bottom: 10%;
+            }
+
+            .level3-photo .level3-photo-box {
+                position: absolute;
+                left: 3px;
+                right: 3px;
+                top: 3px;
+                bottom: 3px;
+            }
+
+            .level3-photo img {
+                border: 0px;
+                width: 90%;
+                height: 90%;
+            }
+
+        @media only screen and (max-width : 2048px) {
+            .level3-photo li {
+                width: 50%;
+                padding-bottom: 30%;
+            }
+        }
+
+        @media only screen and (max-width : 1024px) {
+            .level3-photo li {
+                width: 40%;
+                margin-left:10%;
+                padding-bottom: 0%;
+            }
+        }
+
+        @media only screen and (max-width : 768px) {
+            .level3-photo li {
+                width: 50%;
+                padding-bottom: 48%;
+            }
+        }
+
+        @media only screen and (max-width : 480px) {
+            .level3-photo li {
+                width: 50%;
+                padding-bottom: 120%;
+            }
+        }
+
+        @media only screen and (max-width : 320px) {
+            .level3-photo li {
+                width: 50%;
+                padding-bottom: 150%;
+            }
+        }
+
+    </style>
+
+    <!--Level 3 Practice-->
+
+</head>
+<body onload="javascript:GameLoading();">
+    <div class="view">
+        <!--<header>
+                <h1>Puzzle</h1>
+        </header>-->
+        <input id="score" type="hidden" value="0" />
+        <input id="userid" type="hidden" value="0" />
+        <input id="username" type="hidden" value="" />
+        <input type="hidden" id="isMusicPlayed" value="1" />
+        <input type="hidden" id="isSoundPlayed" value="1" />
+        <input type="hidden" id="currentStage" value="1" />
+        <input type="hidden" id="currentPracitceLevel" value="1" />
+
+        <div id="pnl_Menu" style="display: none; height: 100px; vertical-align: top;">
+            <table style="width: 100%;">
+                <tr>
+                    <td width="50" valign="center">
+                        <div id="divLogo" style="border: 0px; background-color: transparent">
+                            <img src="content/screen01/caracter.png" height="86" width="86" />
+                        </div>
+                    </td>
+                    <td></td>
+                    <td valign="top" style="margin-top:20px;">
+                        <div align="right" id="divusername" style="border: 0px;
+                            margin-top:20px;margin-right:24px; color: #660033; font-size: x-large;">
+                        </div>
+                    </td>
+                    <td width="40%" align="right" valign="Top" colspan="6">
+                        <div style="background-colo      vffft9/9--: lightGray;">
+                            <table style="height: 32px; width: 100%; align: right">
+                                <tr>
+                                    <td>
+                                        <div id="divHome" style="border: 0px;">
+                                            <img src="content/screen02/Home.png" onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" height="64" width="64" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="divSettings" style="border: 0px;">
+                                            <img src="content/screen02/Settings.png" onclick="javascript:show_OnlyOneForm('pnl_LoginForm');" height="64" width="64" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="divMusic" style="border: 0px;">
+                                            <img id="idMusic" src="content/screen02/Music.png" onclick="javascript:EnableDisableMusic();" height="64" width="64" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="divSound" style="border: 0px;">
+                                            <img id="idSound" src="content/screen02/Sound.png"
+                                                onclick="javascript:EnableDisableSound();"
+                                                height="64" width="64" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="divInfo" style="border: 0px;">
+                                            <img src="content/screen02/Info.png" onclick="javascript:GotoInfo();" height="64" width="64" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="div_pages" class="pages" style="width: 100%;">
+            <div id="pnl_Info" class="panel grid" data-title="" data-selected="true">
+                <table class="tblContent" style="width: 100%; height: 95%;">
+                    <tr>
+                        <td style="width: 20%" valign="center"></td>
+
+                        <td style="background: url('content/screen03/about.png') no-repeat; background-size: 100% 100%;">
+                            <!--<img src="content/screen03/about.png" />-->
+                        </td>
+                        <td style="width: 20%" valign="center"></td>
+                    </tr>
+                    <!--<tr style="height:20%">
+                        <td></td>
+                    </tr>-->
+                </table>
+            </div>
+
+            <div id="page_level2_star" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2star_start();">
+                <button onclick="javascript:Hide()">Close</button>
+                <div class="grid grid-photo">
+                    <li>
+                        <div id="div_empty" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img_empty" src="/www/lib/content/level02/empty_star.png" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_movingarrow" class="grid-photo-box" style="background-image: url(lib/content/level02/moving_arrow.gif); background-repeat: repeat-x; background-position: center;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="div_full" class="grid-photo-box">
+                            <img id="img_full" class="dragable-Image" src="/www/lib/content/level02/full_star.png" draggable="true" ondragstart="javascript:drag(event)" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div id="page_Level2_Star2" class="panel grid" data-title="Star" data-selected="true">
+                <div class="grid grid-photo">
+                    <button onclick="javascript:level2star_start()">Start</button>
+                </div>
+            </div>
+
+            <div id="pnlLevel3Practices" class="panel grid" data-title="" data-selected="true">
+                <div class="grid level3-photo" style="width: 100%; height:100%">
+                    <li>
+                        <div id="div1" class="grid-level3-box" style="border: 0px;">
+                            <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level3-box" style="border: 0px;">
+                            <img id="right" src="" onclick="javascript:Level3_Clicked(this.id);" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div id="pnl_level2_puzzle" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-puzzle" style="width: 100%; height:100%;margin-top:-0%">
+                    <li>
+                        <div id="div1" class="grid-puzzle-box">
+                            <img id="p1" src="content/Puzzle/car_1.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-puzzle-box">
+                            <img id="p2" src="content/Puzzle/car_2.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-puzzle-box">
+                            <img id="p4" src="content/Puzzle/car_4.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5" class="grid-puzzle-box">
+                            <img id="p5" src="content/Puzzle/car_5.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-photo-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag1" class="grid-puzzle-box">
+                            <img id="drag1" class="dragable-Image" src="content/Puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div6" class="grid-puzzle-box">
+                            <img id="p6" src="content/Puzzle/car_6.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div7" class="grid-puzzle-box">
+                            <img id="p7" src="content/Puzzle/car_7.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div8" class="grid-puzzle-box">
+                            <img id="p8" src="content/Puzzle/car_8.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div9" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
+                    </li>
+                    <li>
+                        <div id="div10" class="grid-puzzle-box">
+                            <img id="p10" src="content/Puzzle/car_10.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag2" class="grid-puzzle-box">
+                            <img id="drag2" class="dragable-Image" src="content/Puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div11" class="grid-puzzle-box">
+                            <img id="p11" src="content/Puzzle/car_11.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
+                    </li>
+                    <li>
+                        <div id="div13" class="grid-puzzle-box">
+                            <img id="p13" src="content/Puzzle/car_13.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14" class="grid-puzzle-box">
+                            <img id="p14" src="content/Puzzle/car_14.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15" class="grid-puzzle-box">
+                            <img id="p15" src="content/Puzzle/car_15.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag3" class="grid-puzzle-box">
+                            <img id="drag3" class="dragable-Image" src="content/Puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-puzzle-box">
+                            <img id="p16" src="content/Puzzle/car_16.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-puzzle-box">
+                            <img id="p17" src="content/Puzzle/car_17.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-puzzle-box">
+                            <img id="p18" src="content/Puzzle/car_18.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-puzzle-box">
+                            <img id="p19" src="content/Puzzle/car_19.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-photo-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag4" class="grid-puzzle-box">
+                            <img id="drag4" class="dragable-Image" src="content/Puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div21" class="grid-puzzle-box">
+                            <img id="p21" src="content/Puzzle/car_21.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div22" class="grid-puzzle-box">
+                            <img id="p22" src="content/Puzzle/car_22.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div23" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
+                    </li>
+                    <li>
+                        <div id="div24" class="grid-puzzle-box">
+                            <img id="p24" src="content/Puzzle/car_24.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div25" class="grid-puzzle-box">
+                            <img id="p25" src="content/Puzzle/car_25.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag5" class="grid-puzzle-box">
+                            <img id="drag5" class="dragable-Image" src="content/Puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+
+            <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box">
+                            <img id="1" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box">
+                            <img id="2" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box">
+                            <img id="3" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-level-box">
+                            <img id="4" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5" class="grid-level-box">
+                            <img id="5" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div6" class="grid-level-box">
+                            <img id="6" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div7" class="grid-level-box">
+                            <img id="7" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div8" class="grid-level-box">
+                            <img id="8" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div9" class="grid-level-box">
+                            <img id="9" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div10" class="grid-level-box">
+                            <img id="10" src="" style="height: 100%; width: auto;" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div11" class="grid-level-box">
+                            <img id="11" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12" class="grid-level-box">
+                            <img id="12" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div13" class="grid-level-box">
+                            <img id="13" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14" class="grid-level-box">
+                            <img id="14" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15" class="grid-level-box">
+                            <img id="15" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box">
+                            <img id="16" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box">
+                            <img id="17" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box">
+                            <img id="18" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box">
+                            <img id="19" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box">
+                            <img id="20" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div21" class="grid-level-box">
+                            <img id="21" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div22" class="grid-level-box">
+                            <img id="22" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div23" class="grid-level-box">
+                            <img id="23" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div24" class="grid-level-box">
+                            <img id="24" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div25" class="grid-level-box">
+                            <img id="25" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
+                        </div>
+                    </li>
+
+                </div>
+            </div>
+
+            <div id="pnl_Cat3Levels" class="panel grid" data-title="" data-selected="true">
+                <table style="width: 100%; height: 80%;margin-top: 5%; ">
+                    <tr>
+                        <td style="width: 25%" valign="center">
+                            <div style="border: 0px; width: 100%;">
+                                <img src="content/screen02/third-level.png"
+                                    style="max-height: 100%;margin-top: -10%;  max-width: 100%; position: center" />
+                            </div>
+                        </td>
+                        <td width="2%"></td>
+                        <td class="pnlContainerCat3LevelsContainer">
+                            <div style="margin-left: 5%;margin-top:-5%; width: 100%; height: 80%">
+                                <table style="width: 100%; height: 70%">
+                                    <tr>
+                                        <td valign="Top" width="10%">
+                                        </td>
+                                        <td align="center" style="margin-top: -20%;">
+                                            <div class="tblHeader" style="border: 0px; margin-top: -15%;">
+                                                <img src="content/screen03/third-level-label.png" style="max-width: 100%;" />
+                                            </div>
+                                        </td>
+                                        <td width="10%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="liContainer" colspan="3" valign="center" align="center">
+                                            <div class="grid grid-photo">
+                                                <li>
+                                                    <div id="div1" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L01" src="content/screen03/1.png" onclick="javascript:GotoStage3Practice('01');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div2" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L02" src="content/screen03/2.png" onclick="javascript:GotoStage3Practice('02');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div3" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L03" src="content/screen03/3.png" onclick="javascript:GotoStage3Practice('03');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div4" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L04" src="content/screen03/4.png" onclick="javascript:GotoStage3Practice('04');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div5" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L05" src="content/screen03/5.png" onclick="javascript:GotoStage3Practice('05');" />
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div id="div6" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L06" src="content/screen03/6.png" onclick="javascript:GotoStage3Practice('06');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div7" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L07" src="content/screen03/7.png" onclick="javascript:GotoStage3Practice('07');" />
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td align="Right" valign="center" style="margin-top:200%">
+                                            <img src="content/screen03/back.png"onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td style="width: 15%"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="pnl_Cat2Levels" class="panel grid" data-title="" data-selected="true">
+                <table style="width: 100%; height: 70%;margin-top: 50px">
+                    <tr>
+                        <td style="width: 25%" valign="center"> 
+                            <div style="border: 0px; width: 100%;margin-top:-20%">
+                                <img src="content/screen02/second-level.png"
+                                    style="max-height: 100%; max-width: 100%; position: center" />
+                            </div>
+                        </td>
+                        <td width="2%"></td>
+                        <td class="pnlContainerCat2LevelsContainer">
+                            <div style="margin-left: 5%; width: 100%; height: 80%">
+                                <table style="width: 100%; height: 70%;">
+                                    <tr>
+                                        <td valign="Center" width="10%"></td>
+                                        <td align="center">
+                                            <div class="tblCat2LevelsHeader" style="border: 0px; margin-top:-25px;">
+                                                <img src="content/screen03/second-level-label.png" style="max-width: 100%;" />
+                                            </div>
+                                        </td>
+                                        <td width="10%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="liContainer2" colspan="3" valign="center" align="center">
+                                            <div class="grid grid-photo">
+                                                <li>
+                                                    <div id="div1" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L01" src="content/screen03/1.png" onclick="javascript:GotoStage2Practice('1');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div2" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L02" src="content/screen03/2.png" onclick="javascript:GotoStage2Practice('2');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div3" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L03" src="content/screen03/3.png" onclick="javascript:GotoStage2PuzzlePractice('3');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div4" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L04" src="content/screen03/4.png" onclick="javascript:GotoStage2Practice('4');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div5" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L05" src="content/screen03/5.png" onclick="javascript:GotoStage2Practice('5');" />
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div id="div6" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L06" src="content/screen03/6.png" onclick="javascript:GotoStage2Practice('6');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div7" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L07" src="content/screen03/7.png" onclick="javascript:GotoStage2Practice('7');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div8" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S2L08" src="content/screen03/8.png" onclick="javascript:GotoStage2Practice('8');" />
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td align="Right" valign="center" style="margin-top: 100%;">
+                                            <img src="content/screen03/back.png" onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td style="width: 15%"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="pnl_Cat1Levels" class="panel grid" data-title="" data-selected="true">
+                <table style="width: 100%; height: 70%; margin-top: 50px">
+                    <tr>
+                        <td style="width: 25%" valign="center">
+                            <div id="divCategImage" style="border: 0px; width: 100%;">
+                                <img src="content/screen02/first-level.png"
+                                    style="max-height: 100%; max-width: 100%; position: center" />
+                            </div>
+                        </td>
+                        <td width="2%"></td>
+                        <td class="pnlContainerCat1LevelsContainer">
+                            <div data-title="" style="margin-left: 5%; width: 100%; height: 80%">
+                                <table style="width: 100%; height: 70%;">
+                                    <tr>
+                                        <td valign="Top" width="10%"></td>
+                                        <td align="center">
+                                            <div class="tblCat1LevelsHeader" style="border: 0px; margin-top: -25px;">
+                                                <img src="content/screen03/first-level-label.png" style="max-width: 100%;" />
+                                            </div>
+                                        </td>
+                                        <td width="10%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="liContainerCat1Levels" colspan="3" valign="center" align="center">
+                                            <div class="grid grid-photo">
+                                                <li>
+                                                    <div class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L01" src="content/screen03/1.png" onclick="javascript:GotoStage1Practice('01');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div2" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L02" src="content/screen03/2.png" onclick="javascript:GotoStage1Practice('02');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div3" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L03" src="content/screen03/3.png" onclick="javascript:GotoStage1Practice('03');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div4" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L04" src="content/screen03/4.png" onclick="javascript:GotoStage1Practice('04');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div5" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L05" src="content/screen03/5.png" onclick="javascript:GotoStage1Practice('05');" />
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div id="div6" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L06" src="content/screen03/6.png" onclick="javascript:GotoStage1Practice('06');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div7" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L07" src="content/screen03/7.png" onclick="javascript:GotoStage1Practice('07');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div8" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L08" src="content/screen03/8.png" onclick="javascript:GotoStage1Practice('08');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div9" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L09" src="content/screen03/9.png" onclick="javascript:GotoStage1Practice('09');" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div id="div10" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L10" src="content/screen03/10.png" onclick="javascript:GotoStage1Practice('10');" />
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div id="div11" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S1L11" src="content/screen03/11.png" onclick="javascript:GotoStage1Practice('11');" />
+                                                    </div>
+                                                </li>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td align="Right" valign="center" style="margin-top:-100%">
+                                            <img class="btnCat1LevelsBack" style="margin-top: 0%" src="content/screen03/back.png" onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td style="width: 15%"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="pnl_Categories" class="panel grid" data-title="" data-selected="true">
+                <div style="height: 80%; width:100%; margin-top: 50px; display: inline-block; vertical-align:central;text-align:center;">
+                    <table id="tblCategoriesContent" style="width: 100%; height:100%;">
+                        <tr>
+                            <td width="15%" valign="Top">
+                                <div id="divFirst" class="Category" style="border: 0px;">
+                                    <img src="content/screen02/third-level-lock.png" onclick="javascript:GotoStageLevelsForm(3);" />
+                                </div>
+                            </td>
+                            <td width="10%" valign="bottom">
+                                <div class="Category" style="border: 0px; margin-right: -5px; margin-left: -5px;">
+                                    <img src="content/screen02/link2.png" />
+                                </div>
+                            </td>
+                            <td width="15%" valign="bottom" style="margin-top: 50%;">
+                                <div id="divsecond" class="Category" style="border: 0px;">
+                                    <img src="content/screen02/second-level-lock.png" onclick="javascript:GotoStageLevelsForm(2);" />
+                                </div>
+                            </td>
+                            <td width="10%" valign="bottom">
+                                <div id="div111" class="Category" style="border: 0px; margin-right: -5px; margin-left: -5px">
+                                    <img src="content/screen02/link1.png" />
+                                </div>
+                            </td>
+                            <td width="15%" valign="Top">
+                                <div id="divThird" class="Category" style="border: 0px;">
+                                    <img src="content/screen02/first-level.png" onclick="javascript:GotoStageLevelsForm(1);" />
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pnl_LoginForm" class="panel grid" data-title="" data-selected="true">
+                <table class="tblContent" style="width: 100%; height: 80%; margin-top: 100px;">
+                    <tr>
+                        <td style="width: 25%" valign="center">
+                            <div id="divCharacter" style="border: 0px; width: 100%;">
+                                <img src="content/screen01/caracter.png" style="max-height: 100%; max-width: 100%; position: center" />
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td class="pnlLoginContainer">
+                            <div style="margin-left: 10px; width: 100%; height: 100%">
+                                <table style="width: 100%; height: 100%;">
+                                    <tr>
+                                        <td valign="Top" width="10%">
+                                            <div class="btnClose" style="border: 0px; margin-left: -25px;">
+                                                <!--<img src="content/screen03/close.png" style="max-width: 100%; max-height: 100%;" />-->
+                                            </div>
+                                        </td>
+                                        <td align="center">
+                                            <div class="tblLoginHeader" style="border: 0px; margin-top: -25px;">
+                                                <img src="content/screen01/about-child.png" style="max-width: 100%;" />
+                                            </div>
+                                        </td>
+                                        <td width="10%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="liLoginContainer" colspan="3" valign="center" align="center">
+                                            <table width="90%" height="100%">
+                                                <tr>
+                                                    <td>
+                                                        <div style="margin-right: 10%; background: url('content/screen01/Name.png') no-repeat; text-align: left; background-size: contain;">
+                                                            <input value="" type="text" id="txtName" style="width: 66%; text-align: center; background: none; color: #FFFFFF;" />
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="margin-right: 10%; background: url('content/screen01/Age.png') no-repeat; text-align: left; background-size: contain;">
+                                                            <input value="" type="text" id="txtAge" style="width: 66%; text-align: center; background: none; color: #FFFFFF;" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <img src="content/screen01/Done.png" onclick="javascript:RegisterUser();" style="max-width: 100%;" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td align="Right" valign="center">
+                                            <img class="btnLoginBack" src="content/screen03/back.png" onclick="javascript:ShowCategoriesForm();" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td style="width: 15%"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="pnl_Splash" class="panel grid" data-title="" data-selected="true" style="background-color: gray;">
+                <table width="100%" height="100%">
+                    <tr>
+                        <td class="test" align="center" valign="center">
+                            <img id="imgright" class="rotator animation" src="content/screen00/logo.png" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
