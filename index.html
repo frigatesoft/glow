@@ -27,7 +27,7 @@
                 setTimeout(function () {
                     show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 100);
+                }, 3000);
             });
         }
 
@@ -35,7 +35,25 @@
             $(document).ready(function () {
                 $('#div_pages > :not(#' + formName + ')').hide();
                 $('#' + formName + '').appendTo('#div_pages');
-                document.getElementById("pnl_Menu").style.display = 'none';
+                if (formName != "pnl_LoginForm") {
+                    document.getElementById("pnl_Menu").style.display = 'block';
+                    if (formName == "pnl_Categories") {
+                        document.getElementById("div_Settings").style.display = 'block';
+                    } else {
+                        document.getElementById("div_Settings").style.display = 'none';
+                        
+                    }
+
+                    document.getElementById("divID").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
+                    document.getElementById("div_pages").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
+                    
+                    //if (formName == "pnl_Splash" || formName == "pnl_LoginForm" || formName == "pnl_Categories" || formName == "pnl_Cat1Levels" || formName == "pnl_Cat2Levels" || formName == "pnl_Cat3Levels") {
+                        
+                    //} else {
+                    //    document.getElementById("divID").style.background = "";
+                    //}
+
+                }
             });
         }
 
@@ -43,7 +61,23 @@
             $(document).ready(function () {
                 $('#div_pages > :not(#' + formName + ')').hide();
                 $('#' + formName + '').appendTo('#div_pages');
-                document.getElementById("pnl_Menu").style.display = 'block';
+                if (formName != "pnl_LoginForm") {
+                    document.getElementById("pnl_Menu").style.display = 'block';
+                    if (formName == "pnl_Categories" ) {
+                        document.getElementById("div_Settings").style.display = 'block';
+
+                        //document.getElementById("divID").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
+                    } else {
+                        document.getElementById("div_Settings").style.display = 'none';
+                    }
+                    if (formName == "pnl_Splash" || formName == "pnl_LoginForm" || formName == "pnl_Categories" || formName == "pnl_Cat1Levels" || formName == "pnl_Cat2Levels" || formName == "pnl_Cat3Levels") {
+                        document.getElementById("div_pages").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
+                        document.getElementById("divID").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
+                    } else {
+                        document.getElementById("div_pages").style.background = "";
+                        document.getElementById("divID").style.background = "";
+                    }
+                }
             });
         }
 
@@ -57,10 +91,10 @@
 
             document.getElementById("currentStage").value = 1;
             document.getElementById("currentPracitceLevel").value = levelid;
-            
+
             StartStage1LevelsView();
             show_OnlyFormWithMenu('pnlLevel1Practices');
-            
+
         }
 
         function GotoStage2Practice(levelid) {
@@ -78,7 +112,7 @@
             show_OnlyFormWithMenu('pnl_level2_puzzle');
             StartStage2LevelPuzzleView();
         }
-        
+
 
         function GotoStage3Practice(levelid) {
             document.getElementById("currentStage").value = 3;
@@ -86,7 +120,7 @@
 
             show_OnlyFormWithMenu('pnlLevel3Practices');
             StartStage3LevelsView();
-            
+
         }
 
         var tryF = function () {
@@ -110,8 +144,9 @@
 
         var musictrack;
         function Starting() {
-            musictrack = new Audio("content/sounds/music.ogg");
-            musictrack.play();
+            //musictrack = new Audio("content/sounds/music.ogg");
+            //musictrack.play();
+
             //var beepOne = $("#beep-one")[0];
             //beepOne.play();
         }
@@ -122,14 +157,16 @@
                 //var beepOne = $("#beep-one")[0];
                 //beepOne.play();
                 //musictrack = new Audio("content/sounds/music.ogg");
-                musictrack.play();
-                document.getElementById("idMusic").src = "content/screen02/Music.png";
+
+
+                //musictrack.play();
+                //document.getElementById("idMusic").src = "content/screen02/Music.png";
                 music = 1;
             } else {
                 //var beepOne = $("#beep-one")[0];
-                musictrack.pause();
-                document.getElementById("idMusic").src = "content/screen02/Music-off.png";
-                music = 0;
+                //musictrack.pause();
+                //document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+                //music = 0;
             }
             document.getElementById("isMusicPlayed").value = music;
         }
@@ -148,7 +185,7 @@
 
         function GetActiveLevels(stageID) {
             //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
-            
+
             var userId = document.getElementById('userid').value;
             if (userId == 0) {
                 return;
@@ -205,20 +242,20 @@
 
         function RegisterScore() {
             //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
-           
+
             var userId = document.getElementById('userid').value;
             var userScore = document.getElementById('score').value;
             var stageID = document.getElementById('currentStage').value;
             var practiceid = document.getElementById('currentPracitceLevel').value;
-            document.getElementById('score').value=0;
+            document.getElementById('score').value = 0;
 
-            if (userScore ==5){
+            if (userScore == 5) {
                 var audio = new Audio("content/sounds/goodjob.ogg");
                 audio.play();
-            }else if (userScore >0){
+            } else if (userScore > 0) {
                 var audio = new Audio("content/sounds/clamps.ogg");
                 audio.play();
-            }else {
+            } else {
                 var audio = new Audio("content/sounds/tryagain.ogg");
                 audio.play();
             }
@@ -255,16 +292,10 @@
         function Splashing() {
             setTimeout(function () {
                 window.location.href = "userlogin.html";
-            }, 4000);
+            }, 5000);
         }
     </script>
     <style>
-        /*.cover {
-            background: #E3F5FD url("content/screen00/Bg.png") no-repeat 100% 100%;
-            width: 100%;
-            height: 100%;
-        }*/
-
         @media only screen and (max-width : 2048px) {
             .pnlLoginContainer {
                 background: url("content/screen01/Panel.png") no-repeat;
@@ -274,8 +305,8 @@
 
         /* -7- 900*1280   216ppi */
         @media only screen and (max-width : 1024px) {
-              
-            .pnlLoginContainer  {
+
+            .pnlLoginContainer {
                 background: url("content/screen01/Panel.png") no-repeat;
                 background-size: 100% 93%;
             }
@@ -297,7 +328,6 @@
                 Width: 80%;
                 height: 5%;
             }
-
         }
 
         /* -4- 768*1280   320ppi  &&& HTC Droid */
@@ -323,11 +353,10 @@
                 Width: 80%;
                 height: 5%;
             }
- 
         }
 
         @media only screen and (max-width : 480px) {
-            
+
             .pnlLoginContainer {
                 background: url("content/screen01/Panel.png") no-repeat;
                 background-size: 95% 85%;
@@ -382,160 +411,160 @@
     <!--level2_star-->
     <script>
         function allowDrop(ev) {
-            ev.preventDefault();
-        }
+          ev.preventDefault();
+      }
 
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
 
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-        }
-    </script>
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+            </script>
     <script>
         var timeoutPeriod = 12000;
-        var maxTime = 0;
-        var maxRepeat = 0;
-        var repeatCount = 0;
-        var score = 0;
-        var startTime = Date.now();
-        var lastTime = Date.now();
-        var emptyimageURL = "/www/lib/content/level02/empty_star.png";
-        var fullimageURL = "/www/lib/content/level02/full_star.png";
+            var maxTime = 0;
+            var maxRepeat = 0;
+            var repeatCount = 0;
+            var score = 0;
+            var startTime = Date.now();
+            var lastTime = Date.now();
+            var emptyimageURL = "/www/lib/content/level02/empty_star.png";
+            var fullimageURL = "/www/lib/content/level02/full_star.png";
 
 
-        function Hide() {
-            $(document).ready(function () {
-                $('#div_pages > :not(#page_Level2_Star2)').hide();
-                $('#page_Level2_Star2').appendTo('#div_pages');
-            });
-        }
-        function level2star_start() {
-
-            $(document).ready(function () {
-                $('#div_pages > :not(#page_level2_star)').hide();
-                $('#page_level2_star').appendTo('#div_pages');
-            });
-            initialize();
-        }
-
-        function initialize() {
-            timeoutPeriod = 12000;
-            maxTime = 60000;
-            maxRepeat = 5;
-            startTime = Date.now();
-            lastTime = Date.now();
-            emptyimageURL = "/www/lib/content/level02/empty_star.png";
-            fullimageURL = "/www/lib/content/level02/full_star.png";
-            UpdateCells();
-        }
-
-        function Level2Star_UpdateCells() {
-            var emptyImage = document.getElementById("img_empty");
-            var fullImage = document.getElementById("img_full");
-            emptyImage.setAttribute("src", emptyimageURL);
-            fullImage.setAttribute("src", fullimageURL);
-
-            repeatCount = repeatCount + 1;
-            lastTime = Date.now();
-            setTimeout(Level2Star_TimeOut, timeoutPeriod);
-        }
-
-        function Level2Star_TimeOut() {
-            var currentTime = Date.now();
-            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
-                //TimeOut
-                Level2Star_UpdateCells();
+            function Hide() {
+                $(document).ready(function () {
+                    $('#div_pages > :not(#page_Level2_Star2)').hide();
+                    $('#page_Level2_Star2').appendTo('#div_pages');
+                });
             }
-            return;
-        }
+            function level2star_start() {
 
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
+                $(document).ready(function () {
+                    $('#div_pages > :not(#page_level2_star)').hide();
+                    $('#page_level2_star').appendTo('#div_pages');
+                });
+                initialize();
+            }
 
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
+            function initialize() {
+                timeoutPeriod = 12000;
+                maxTime = 60000;
+                maxRepeat = 5;
+                startTime = Date.now();
+                lastTime = Date.now();
+                emptyimageURL = "/www/lib/content/level02/empty_star.png";
+                fullimageURL = "/www/lib/content/level02/full_star.png";
+                UpdateCells();
+            }
 
-        function drop(ev) {
-            ev.preventDefault();
-            var currentTime = Date.now();
-            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
-            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                var emptyimage = document.getElementById("img_empty");
-                var fullimage = document.getElementById("img_full");
+            function Level2Star_UpdateCells() {
+                var emptyImage = document.getElementById("img_empty");
+                var fullImage = document.getElementById("img_full");
+                emptyImage.setAttribute("src", emptyimageURL);
+                fullImage.setAttribute("src", fullimageURL);
 
-                emptyimage.setAttribute("src", fullimageURL);
-                fullimage.setAttribute("src", emptyimageURL);
+                repeatCount = repeatCount + 1;
+                lastTime = Date.now();
+                setTimeout(Level2Star_TimeOut, timeoutPeriod);
+            }
 
-                score = score + 1;
-                document.getElementById("score").value = score;
-                if (repeatCount < maxRepeat) {
-                    setTimeout(UpdateCells, 2000);
+            function Level2Star_TimeOut() {
+                var currentTime = Date.now();
+                if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                    //TimeOut
+                    Level2Star_UpdateCells();
                 }
-                else {
-                    //Practice Finished
-                    //alert(score);
-                    RegisterScore();
+                return;
+            }
 
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(4);
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var currentTime = Date.now();
+                var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+                if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                    var emptyimage = document.getElementById("img_empty");
+                    var fullimage = document.getElementById("img_full");
+
+                    emptyimage.setAttribute("src", fullimageURL);
+                    fullimage.setAttribute("src", emptyimageURL);
+
+                    score = score + 1;
+                    document.getElementById("score").value = score;
+                    if (repeatCount < maxRepeat) {
+                        setTimeout(UpdateCells, 2000);
+                    }
+                    else {
+                        //Practice Finished
+                        //alert(score);
+                        RegisterScore();
+
+                        show_OnlyFormWithMenu("pnl_Cat2Levels");
+                        GetActiveLevels(4);
+                    }
                 }
             }
-        }
-    </script>
+            </script>
     <!--level2_star-->
 
     <!--Categories Form-->
     <script>
         var userID;
-        function RegisterUser() {
-            name = document.getElementById('txtName').value;
-            age = document.getElementById('txtAge').value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/Autizam/register.php?name=" + name + "&age= " + age, false);
-            xhr.onload = function () {
-                //navigator.notification.alert("Message", "", "Caption");
-                var json_string = xhr.responseText;
-                var json = JSON.parse(json_string);
-                userID = json.user.id;
-                if (xhr.status == 200) {
-                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
-
+            function RegisterUser() {
+                name = document.getElementById('txtName').value;
+                age = document.getElementById('txtAge').value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:8080/Autizam/register.php?name=" + name + "&age= " + age, false);
+                xhr.onload = function () {
+                    //navigator.notification.alert("Message", "", "Caption");
+                    var json_string = xhr.responseText;
                     var json = JSON.parse(json_string);
-                    //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                    userID = json.user.id;
+                    if (xhr.status == 200) {
+                        //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
+                        var json = JSON.parse(json_string);
+                        //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                    }
+                    else if (xhr.status == 404) {
+                        //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                    }
+                    else {
+                        //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                    }
                 }
-                else if (xhr.status == 404) {
-                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                xhr.send();
+
+                //GoTocontainerMenu();
+                //window.location.href = "categories.html?userid=" + userID;
+                document.getElementById("userid").value = userID;
+                document.getElementById('userid').value = userID;
+                if (userID > 0) {
+                    document.getElementById("divusername").innerHTML = "Welcome: " + name;
+                } else {
+                    document.getElementById("divusername").innerHTML = "";
                 }
-                else {
-                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
-                }
+                ShowCategoriesForm();
             }
-            xhr.send();
 
-            //GoTocontainerMenu();
-            //window.location.href = "categories.html?userid=" + userID;
-            document.getElementById("userid").value = userID;
-            document.getElementById('userid').value = userID;
-            if (userID > 0) {
-                document.getElementById("divusername").innerHTML = "Welcome: " + name;
-            } else {
-                document.getElementById("divusername").innerHTML = "";
+            function ShowCategoriesForm() {
+                show_OnlyFormWithMenu("pnl_Categories");
+                //PlayMusic();
             }
-            ShowCategoriesForm();
-        }
 
-        function ShowCategoriesForm() {
-            show_OnlyFormWithMenu("pnl_Categories");
-            PlayMusic();
-        }
-
-    </script>
+            </script>
     <style>
         /* CSS responsive square grid */
         .Category img {
@@ -583,90 +612,90 @@
     <!--Menue Actions-->
     <script>
         var musictrack;
-        function PlayMusic() {
-            musictrack = new Audio("content/sounds/music.ogg");
-            musictrack.play();
+            function PlayMusic() {
+                //musictrack = new Audio("content/sounds/music.ogg");
+                //musictrack.play();
 
 
 
-            //var beepOne = $("#beep-one")[0];
-            //beepOne.play();
-        }
-        function EnableDisableMusic() {
-            var music = document.getElementById("isMusicPlayed").value;
-            if (music == 0) {
                 //var beepOne = $("#beep-one")[0];
                 //beepOne.play();
-                //musictrack = new Audio("content/sounds/music.ogg");
-                musictrack.play();
-                document.getElementById("idMusic").src = "content/screen02/Music.png";
-                document.getElementById("isMusicPlayed").value = 1;
-            } else {
-                //var beepOne = $("#beep-one")[0];
-                musictrack.pause();
-                document.getElementById("idMusic").src = "content/screen02/Music-off.png";
-                document.getElementById("isMusicPlayed").value = 0;
             }
-        }
-
-        function EnableDisableSound() {
-            var sound = document.getElementById("isSoundPlayed").value;
-            if (sound == 0) {
-                document.getElementById("idSound").src = "content/screen02/Sound.png";
-                sound = 1;
-            } else {
-                document.getElementById("idSound").src = "content/screen02/Sound-off.png";
-                sound = 0;
+            function EnableDisableMusic() {
+                var music = document.getElementById("isMusicPlayed").value;
+                if (music == 0) {
+                    //var beepOne = $("#beep-one")[0];
+                    //beepOne.play();
+                    //musictrack = new Audio("content/sounds/music.ogg");
+                    //musictrack.play();
+                    document.getElementById("idMusic").src = "content/screen02/Music.png";
+                    document.getElementById("isMusicPlayed").value = 1;
+                } else {
+                    //var beepOne = $("#beep-one")[0];
+                    //musictrack.pause();
+                    document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+                    document.getElementById("isMusicPlayed").value = 0;
+                }
             }
-            document.getElementById("isSoundPlayed").value = sound;
-        }
 
-        function GotoInfo() {
-            show_OnlyFormWithMenu("pnl_Info");
-        }
+            function EnableDisableSound() {
+                var sound = document.getElementById("isSoundPlayed").value;
+                if (sound == 0) {
+                    document.getElementById("idSound").src = "content/screen02/Sound.png";
+                    sound = 1;
+                } else {
+                    document.getElementById("idSound").src = "content/screen02/Sound-off.png";
+                    sound = 0;
+                }
+                document.getElementById("isSoundPlayed").value = sound;
+            }
 
-    </script>
+            function GotoInfo() {
+                show_OnlyFormWithMenu("pnl_Info");
+            }
+
+            </script>
     <!--Menue Actions-->
 
     <!--Categ 1 Levels-->
     <script>
         var images = new Array(2);
-        var sounds = new Array(2);
+            var sounds = new Array(2);
 
-        function GoHome() {
-            window.location.href = "categories.html";
-        }
-
-        function GotoPractice(practiceID) {
-            //window.location.href = "level1.html";
-            //var name = $(this).data('username');        
-            if (practiceID != undefined && practiceID != null) {
-                window.location = 'level1.html?practiceid=' + practiceID + '&userid=' + document.getElementById("userid").value;
+            function GoHome() {
+                window.location.href = "categories.html";
             }
-        }
 
-        var finishedid = getParameterByName('finishedid');
-        var UserId = getParameterByName('userid');
-        function getParameterByName(name, url) {
-            if (!url) {
-                url = window.location.href;
+            function GotoPractice(practiceID) {
+                //window.location.href = "level1.html";
+                //var name = $(this).data('username');        
+                if (practiceID != undefined && practiceID != null) {
+                    window.location = 'level1.html?practiceid=' + practiceID + '&userid=' + document.getElementById("userid").value;
+                }
             }
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
 
-        function LoadFinished() {
-            document.getElementById("userid").value = getParameterByName('userid');
-            //alert(document.getElementById("userid").value);
-            //alert(window.location.href);
-            GetActiveLevels(1);
-        }
+            var finishedid = getParameterByName('finishedid');
+            var UserId = getParameterByName('userid');
+            function getParameterByName(name, url) {
+                if (!url) {
+                    url = window.location.href;
+                }
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
 
-    </script>
+            function LoadFinished() {
+                document.getElementById("userid").value = getParameterByName('userid');
+                //alert(document.getElementById("userid").value);
+                //alert(window.location.href);
+                GetActiveLevels(1);
+            }
+
+            </script>
     <style>
         /* CSS responsive square grid */
         .grid-photo {
@@ -725,7 +754,7 @@
                 padding-bottom: 12.0%;
             }
 
-            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer, .pnlContainerCat3LevelsContainer {
                 background: url(content/screen01/Panel.png) no-repeat;
                 background-size: 100% 93%;
             }
@@ -747,7 +776,8 @@
                 Width: 80%;
                 height: 5%;
             }
-             .tblCat2LevelsHeader img {
+
+            .tblCat2LevelsHeader img {
                 margin-left: -30px;
                 margin-Top: -30px;
                 Width: 80%;
@@ -771,7 +801,7 @@
                 /*padding-bottom: 12.0%;*/
             }
 
-            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer, .pnlContainerCat3LevelsContainer {
                 background: url(content/screen01/Panel.png) no-repeat;
                 background-size: 95% 90%;
             }
@@ -811,7 +841,7 @@
                 /*padding-bottom: 30%;*/
             }
 
-            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer, .pnlContainerCat3LevelsContainer {
                 background: url(content/screen01/Panel.png) no-repeat;
                 background-size: 95% 85%;
             }
@@ -823,173 +853,171 @@
                 /*padding-bottom: 40%;*/
             }
 
-            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer , .pnlContainerCat3LevelsContainer{
+            .pnlContainerCat1LevelsContainer, .pnlContainerCat2LevelsContainer, .pnlContainerCat3LevelsContainer {
                 background: url(content/screen01/Panel.png) no-repeat;
                 background-size: 95% 85%;
             }
         }
-
-       
     </style>
     <!--Categ 1 Levels-->
 
     <!--Categ 1 Levels Practices-->
     <script>
         var imgURL = "";
-        var stepIndex = 0;
+            var stepIndex = 0;
 
-        function FadInOut() {
-            //alert("sdsdsd");
-            $(document).ready(function () {
+            function FadInOut() {
+                //alert("sdsdsd");
+                $(document).ready(function () {
 
-                $("#div_Started").fadeIn(3000);
-                $("#div_Started").fadeOut(3000);
-                $("#div_Started").setAttribute("Display", "none");
-                //$("#div-Excercise").fadeIn(3000);
-                //$("#div-Excercise").setAttribute("Display", "block");
-            });
-        }
-
-        function StartStage1LevelsView() {
-
-            var practiceid = document.getElementById('currentPracitceLevel').value;
-            var PracticeImageName = "content/level01/pic" + practiceid + ".png";
-            //Intialize(0, "content/level01/pic01.png", 6000);
-            
-            IntializeLevel1(0, PracticeImageName, 6000);
-
-            startTime = Date.now();
-            lastTime = Date.now();
-            maxTime = 60000;
-            maxRepeat = 1;
-            repeatCount = 1;
-            setTimeout(Level1_TimeOut, timeoutPeriod);
-
-        }
-
-        function IntializeLevel1(Type, URL, Time) {
-            imgURL = URL;
-            timeoutPeriod = Time;
-
-            stepIndex = 0;
-
-            if (Type == 0) {
-                //Random
-                var id = 0;
-                var exists = false;
-                for (index = 0; index < 5; index++) {
-                    exists = false;
-                    while (!exists) {
-                        id = Math.floor((Math.random() * 20) + 1);
-                        if (ids.indexOf(id) < 0) {
-                            ids[index] = id;
-                            exists = true;
-                        }
-                    }
-
-                    //alert(id);
-                }
+                    $("#div_Started").fadeIn(3000);
+                    $("#div_Started").fadeOut(3000);
+                    $("#div_Started").setAttribute("Display", "none");
+                    //$("#div-Excercise").fadeIn(3000);
+                    //$("#div-Excercise").setAttribute("Display", "block");
+                });
             }
 
-            for (i = 1; i <= cellCount; i++) {
-                document.getElementById(i).src = "";
-            }
-            document.getElementById(ids[stepIndex]).src = imgURL;
-        }
+            function StartStage1LevelsView() {
 
-        function Level1_UpdateCells(currentCellId) {
-            var nextCellIndex;
-            for (i = 0 ; i < ids.length ; i++) {
-                document.getElementById(ids[i]).src = "";
-                if (currentCellId == ids[i] && i < ids.length - 1) {
-                    nextCellIndex = i + 1;
-                    stepIndex = stepIndex + 1;
-                }
-                else if (currentCellId == ids[ids.length - 1]) {
-                    if (repeatCount != maxRepeat) {
-                        repeatCount = repeatCount + 1;
-                        stepIndex = 0;
-                        nextCellIndex = 0;
-                    }
-                    else {
-                        nextCellIndex = -1; //Move To Next Example.   
-                        stepIndex = -1;
-                    }
-                    break;
-                }
-            }
+                var practiceid = document.getElementById('currentPracitceLevel').value;
+                var PracticeImageName = "content/level01/pic" + practiceid + ".png";
+                //Intialize(0, "content/level01/pic01.png", 6000);
 
-            if (nextCellIndex != -1) {
-                document.getElementById(currentCellId).src = "";
-                document.getElementById(ids[nextCellIndex]).src = imgURL;
+                IntializeLevel1(0, PracticeImageName, 6000);
 
+                startTime = Date.now();
                 lastTime = Date.now();
+                maxTime = 60000;
+                maxRepeat = 1;
+                repeatCount = 1;
                 setTimeout(Level1_TimeOut, timeoutPeriod);
+
             }
-            else {
-                //Excersise Finished
-                var currentTime = Date.now();
-                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
-                    RegisterScore();
+            function IntializeLevel1(Type, URL, Time) {
+                imgURL = URL;
+                timeoutPeriod = Time;
 
-                    show_OnlyFormWithMenu("pnl_Cat1Levels");
-                    GetActiveLevels(1);
+                stepIndex = 0;
 
-                    //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
+                if (Type == 0) {
+                    //Random
+                    var id = 0;
+                    var exists = false;
+                    for (index = 0; index < 5; index++) {
+                        exists = false;
+                        while (!exists) {
+                            id = Math.floor((Math.random() * 20) + 1);
+                            if (ids.indexOf(id) < 0) {
+                                ids[index] = id;
+                                exists = true;
+                            }
+                        }
 
+                        //alert(id);
+                    }
+                }
+
+                for (i = 1; i <= cellCount; i++) {
+                    document.getElementById(i).src = "";
+                }
+                document.getElementById(ids[stepIndex]).src = imgURL;
+            }
+
+            function Level1_UpdateCells(currentCellId) {
+                var nextCellIndex;
+                for (i = 0 ; i < ids.length ; i++) {
+                    document.getElementById(ids[i]).src = "";
+                    if (currentCellId == ids[i] && i < ids.length - 1) {
+                        nextCellIndex = i + 1;
+                        stepIndex = stepIndex + 1;
+                    }
+                    else if (currentCellId == ids[ids.length - 1]) {
+                        if (repeatCount != maxRepeat) {
+                            repeatCount = repeatCount + 1;
+                            stepIndex = 0;
+                            nextCellIndex = 0;
+                        }
+                        else {
+                            nextCellIndex = -1; //Move To Next Example.   
+                            stepIndex = -1;
+                        }
+                        break;
+                    }
+                }
+
+                if (nextCellIndex != -1) {
+                    document.getElementById(currentCellId).src = "";
+                    document.getElementById(ids[nextCellIndex]).src = imgURL;
+
+                    lastTime = Date.now();
+                    setTimeout(Level1_TimeOut, timeoutPeriod);
                 }
                 else {
-                    RegisterScore();
+                    //Excersise Finished
+                    var currentTime = Date.now();
+                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
-                    show_OnlyFormWithMenu("pnl_Cat1Levels");
-                    GetActiveLevels(1);
+                        RegisterScore();
 
+                        show_OnlyFormWithMenu("pnl_Cat1Levels");
+                        GetActiveLevels(1);
+
+                        //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
+
+                    }
+                    else {
+                        RegisterScore();
+
+                        show_OnlyFormWithMenu("pnl_Cat1Levels");
+                        GetActiveLevels(1);
+
+                    }
+                }
+                return;
+            }
+
+            function Level12_ItemClicked(currentCellId) {
+
+                if (document.getElementById('currentStage').value == 1) {
+                    Level1_ItemClicked(currentCellId);
+                } else {
+                    //alert(document.getElementById('currentStage').value);
+
+                    Level2_ItemClicked(currentCellId);
+                }
+
+            }
+
+            function Level1_ItemClicked(currentCellId) {
+                if (!Level1_CheckClickedID(currentCellId))
+                    return;
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                Level1_UpdateCells(currentCellId);
+            }
+
+            function Level1_CheckClickedID(currentCellId) {
+                if (currentCellId == ids[stepIndex]) {
+                    return true;
+                }
+                else {
+                    return false;
                 }
             }
-            return;
-        }
 
-        function Level12_ItemClicked(currentCellId) {
-            
-            if (document.getElementById('currentStage').value == 1) {
-                Level1_ItemClicked(currentCellId);
-            } else {
-                //alert(document.getElementById('currentStage').value);
-                
-                Level2_ItemClicked(currentCellId);
-            }
-
-        }
-
-        function Level1_ItemClicked(currentCellId) {
-            if (!Level1_CheckClickedID(currentCellId))
+            function Level1_TimeOut() {
+                var currentTime = Date.now();
+                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                    lastTime = Date.now();
+                    Level1_UpdateCells(ids[stepIndex]);
+                }
                 return;
-
-            score = score + 1;
-            document.getElementById("score").value = score;
-            Level1_UpdateCells(currentCellId);
-        }
-
-        function Level1_CheckClickedID(currentCellId) {
-            if (currentCellId == ids[stepIndex]) {
-                return true;
             }
-            else {
-                return false;
-            }
-        }
 
-        function Level1_TimeOut() {
-            var currentTime = Date.now();
-            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                lastTime = Date.now();
-                Level1_UpdateCells(ids[stepIndex]);
-            }
-            return;
-        }
-
-    </script>
+            </script>
     <style>
         /* CSS responsive square grid */
         .grid-level {
@@ -997,38 +1025,40 @@
             margin: 0px;
         }
 
-        .grid-level:after {
-            border: none;
-            content: '';
-            display: block;
-            clear: both;
-        }
-        .grid-level li {
-            float: left;
-            border: none;
-            position: relative;
-            display: block;
-            float: left;
-            width: 20%;
-            padding-bottom: 20%;
-            list-style-type: none;
-        }
-        .grid-level .grid-level-box {
-            border: none;
-            position: absolute;
-            left: 3px;
-            right: 3px;
-            top: 3px;
-            bottom: 3px;
-            list-style-type: none;
-            text-align: center; 
-        }
-        
-        .grid-level .grid-level-box:before {
-            vertical-align: middle; 
-            height: 100%;
-        }
-        
+            .grid-level:after {
+                border: none;
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .grid-level li {
+                float: left;
+                border: none;
+                position: relative;
+                display: block;
+                float: left;
+                width: 20%;
+                padding-bottom: 20%;
+                list-style-type: none;
+            }
+
+            .grid-level .grid-level-box {
+                border: none;
+                position: absolute;
+                left: 3px;
+                right: 3px;
+                top: 3px;
+                bottom: 3px;
+                list-style-type: none;
+                text-align: center;
+            }
+
+                .grid-level .grid-level-box:before {
+                    vertical-align: middle;
+                    height: 100%;
+                }
+
         .grid-level-box img {
             border: none;
             text-align: center;
@@ -1079,188 +1109,187 @@
                 padding-bottom: 25%;
             }
         }
-
     </style>
     <!--Categ 1 Levels Practices-->
 
     <!--Categ 2 Levels Practices-->
     <script>
         var imgURL = "";
-        var maxTime = 0;
-        var maxRepeat = 0;
-        var stepIndex = 0;
-        //var score = 0;
-        var cellCount = 20;
-        var ids = new Array(5);
+            var maxTime = 0;
+            var maxRepeat = 0;
+            var stepIndex = 0;
+            //var score = 0;
+            var cellCount = 20;
+            var ids = new Array(5);
 
-        function StartStage2LevelsView() {
-            var practiceid = document.getElementById('currentPracitceLevel').value;
-            
-            var practiceType = practiceid;
-            if (practiceid == 1 ) {
-                practiceType = 1;
-            } else if (practiceid == 2) {
-                practiceType = 6;
-            } else if (practiceid == 4 || practiceid == 5) {
-                practiceType = 3;
-            } else if (practiceid == 6 ) {
-                practiceType = 4;
-            } else if (practiceid == 7) {
-                practiceType = 2;
-            } else if (practiceid == 8 ) {
-                practiceType = 5;
+            function StartStage2LevelsView() {
+                var practiceid = document.getElementById('currentPracitceLevel').value;
+
+                var practiceType = practiceid;
+                if (practiceid == 1) {
+                    practiceType = 1;
+                } else if (practiceid == 2) {
+                    practiceType = 6;
+                } else if (practiceid == 4 || practiceid == 5) {
+                    practiceType = 3;
+                } else if (practiceid == 6) {
+                    practiceType = 4;
+                } else if (practiceid == 7) {
+                    practiceType = 2;
+                } else if (practiceid == 8) {
+                    practiceType = 5;
+                }
+
+                if (practiceid == 1) {
+                    //document.getElementById('currentPracitceLevel').src = "content\leve02\pic01-bg.png"
+                } else {
+                    //document.getElementById('currentPracitceLevel').src = "content\leve02\bg.png";
+                }
+
+                var PracticeImageName = "content/level02/pic" + practiceid + ".png";
+
+                IntializeLevel2(practiceType, PracticeImageName, 6000);
+
+                startTime = Date.now();
+                lastTime = Date.now();
+                maxTime = 60000;
+                maxRepeat = 1;
+                repeatCount = 1;
+                setTimeout(TimeOut, timeoutPeriod);
             }
-            
-            if (practiceid == 1) {
-                document.getElementById('currentPracitceLevel').src = "content\leve02\pic01-bg.png"
-            } else {
-                document.getElementById('currentPracitceLevel').src = "content\leve02\bg.png";
-            }
-            
-            var PracticeImageName = "content/level02/pic" + practiceid + ".png";
 
-            IntializeLevel2(practiceType, PracticeImageName, 6000);
+            function IntializeLevel2(Type, URL, Time) {
+                imgURL = URL;
+                timeoutPeriod = Time;
 
-            startTime = Date.now();
-            lastTime = Date.now();
-            maxTime = 60000;
-            maxRepeat = 1;
-            repeatCount = 1;
-            setTimeout(TimeOut, timeoutPeriod);
-        }
+                stepIndex = 0;
 
-        function IntializeLevel2(Type, URL, Time) {
-            imgURL = URL;
-            timeoutPeriod = Time;
-
-            stepIndex = 0;
-           
-            if (Type == 0) {
-                //Random
-                var id = 0;
-                var exists = false;
-                for (index = 0; index < 5; index++) {
-                    exists = false;
-                    while (!exists) {
-                        id = Math.floor((Math.random() * 20) + 1);
-                        if (ids.indexOf(id) < 0) {
-                            ids[index] = id;
-                            exists = true;
+                if (Type == 0) {
+                    //Random
+                    var id = 0;
+                    var exists = false;
+                    for (index = 0; index < 5; index++) {
+                        exists = false;
+                        while (!exists) {
+                            id = Math.floor((Math.random() * 20) + 1);
+                            if (ids.indexOf(id) < 0) {
+                                ids[index] = id;
+                                exists = true;
+                            }
                         }
                     }
+
+                }
+                else if (Type == 1) {
+                    //UpForward
+                    ids = ["16", "17", "13", "9", "5"];
+                }
+                else if (Type == 2) {
+                    //DownForward
+                    ids = ["1", "7", "13", "19", "20"];
+                }
+                else if (Type == 3) {
+                    //Left to Right
+                    ids = ["11", "12", "13", "14", "15"];
+                }
+                else if (Type == 4) {
+                    //bottom to top
+                    ids = ["18", "13", "8", "3"];
+                }
+                else if (Type == 5) {
+                    //Half Circle
+                    ids = ["15", "9", "3", "7", "11"];
+                }
+                else if (Type == 6) {
+                    //UpForward
+                    ids = ["16", "17", "13", "9", "5"];
                 }
 
-            }
-            else if (Type == 1) {
-                //UpForward
-                ids = ["16", "17", "13", "9", "5"];
-            }
-            else if (Type == 2) {
-                //DownForward
-                ids = ["1", "7", "13", "19", "20"];
-            }
-            else if (Type == 3) {
-                //Left to Right
-                ids = ["11", "12", "13", "14", "15"];
-            }
-            else if (Type == 4) {
-                //bottom to top
-                ids = ["18", "13", "8", "3"];
-            }
-            else if (Type == 5) {
-                //Half Circle
-                ids = ["15", "9", "3", "7", "11"];
-            }
-            else if (Type == 6) {
-                //UpForward
-                ids = ["16", "17", "13", "9", "5"];
-            }
-
-            for (i = 1; i <= cellCount; i++) {
-                document.getElementById(i).src = "";
-            }
-
-            document.getElementById(ids[stepIndex]).src = imgURL;
-        }
-
-        function Level2_UpdateCells(currentCellId) {
-            var nextCellIndex;
-            for (i = 0 ; i < ids.length ; i++) {
-                document.getElementById(ids[i]).src = "";
-                if (currentCellId == ids[i] && i < ids.length - 1) {
-                    nextCellIndex = i + 1;
-                    stepIndex = stepIndex + 1;
+                for (i = 1; i <= cellCount; i++) {
+                    document.getElementById(i).src = "";
                 }
-                else if (currentCellId == ids[ids.length - 1]) {
-                    if (repeatCount != maxRepeat) {
-                        repeatCount = repeatCount + 1;
-                        stepIndex = 0;
-                        nextCellIndex = 0;
+
+                document.getElementById(ids[stepIndex]).src = imgURL;
+            }
+
+            function Level2_UpdateCells(currentCellId) {
+                var nextCellIndex;
+                for (i = 0 ; i < ids.length ; i++) {
+                    document.getElementById(ids[i]).src = "";
+                    if (currentCellId == ids[i] && i < ids.length - 1) {
+                        nextCellIndex = i + 1;
+                        stepIndex = stepIndex + 1;
                     }
-                    else {
-                        nextCellIndex = -1; //Move To Next Example.   
-                        stepIndex = -1;
+                    else if (currentCellId == ids[ids.length - 1]) {
+                        if (repeatCount != maxRepeat) {
+                            repeatCount = repeatCount + 1;
+                            stepIndex = 0;
+                            nextCellIndex = 0;
+                        }
+                        else {
+                            nextCellIndex = -1; //Move To Next Example.   
+                            stepIndex = -1;
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
 
-            if (nextCellIndex != -1) {
-                document.getElementById(currentCellId).src = "";
-                document.getElementById(ids[nextCellIndex]).src = imgURL;
-                lastTime = Date.now();
-                setTimeout(Level2_TimeOut, timeoutPeriod);
-            }
-            else {
-                //Excersise Finished
-                var currentTime = Date.now();
-                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
-
-                    RegisterScore();
-                    GetActiveLevels(2);
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-
-                    
+                if (nextCellIndex != -1) {
+                    document.getElementById(currentCellId).src = "";
+                    document.getElementById(ids[nextCellIndex]).src = imgURL;
+                    lastTime = Date.now();
+                    setTimeout(Level2_TimeOut, timeoutPeriod);
                 }
                 else {
-                    RegisterScore();
-                    GetActiveLevels(2);
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    
+                    //Excersise Finished
+                    var currentTime = Date.now();
+                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
+                        RegisterScore();
+                        GetActiveLevels(2);
+                        show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+
+                    }
+                    else {
+                        RegisterScore();
+                        GetActiveLevels(2);
+                        show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+
+                    }
+                }
+                return;
+            }
+
+            function Level2_ItemClicked(currentCellId) {
+                if (!Level2_CheckClickedID(currentCellId))
+                    return;
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                Level2_UpdateCells(currentCellId);
+            }
+
+            function Level2_CheckClickedID(currentCellId) {
+                if (currentCellId == ids[stepIndex]) {
+                    return true;
+                }
+                else {
+                    return false;
                 }
             }
-            return;
-        }
- 
-        function Level2_ItemClicked(currentCellId) {
-            if (!Level2_CheckClickedID(currentCellId))
+
+            function Level2_TimeOut() {
+                var currentTime = Date.now();
+                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                    lastTime = Date.now();
+                    Level2_UpdateCells(ids[stepIndex]);
+                }
                 return;
-            
-            score = score + 1;
-            document.getElementById("score").value = score;
-            Level2_UpdateCells(currentCellId);
-        }
+            }
 
-        function Level2_CheckClickedID(currentCellId) {
-            if (currentCellId == ids[stepIndex]) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        function Level2_TimeOut() {
-            var currentTime = Date.now();
-            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                lastTime = Date.now();
-                Level2_UpdateCells(ids[stepIndex]);
-            }
-            return;
-        }
-          
-    </script>
+            </script>
 
     <!--Categ 2 Levels Practices-->
 
@@ -1269,197 +1298,246 @@
     <script>
 
         var successmatch = 0;
-        var images5 = new Array(5);
-        var sourcecells = new Array(5);
-        var targetcells = new Array(5);
+            var images5 = new Array(5);
+            var sourcecells = new Array(5);
+            var targetcells = new Array(5);
 
-        function StartStage2LevelPuzzleView() {
+            function StartStage2LevelPuzzleView() {
 
-            IntializeLevelPuzzle(25000);
-            //startTime = Date.now();
-            //lastTime = Date.now();
-            //maxTime = 250000;
-            //maxRepeat = 5;
-            //repeatCount = 1;
-            //setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
-        }
-
-        function IntializeLevelPuzzle(Time) {
-            timeoutPeriod = Time;
-            maxRepeat = 2;
-            repeatCount = 1;
-            maxTime = maxRepeat * timeoutPeriod;
-            images5 = ["content/Puzzle/car_9.jpg", "content/Puzzle/car_3.jpg", "content/Puzzle/car_23.jpg", "content/Puzzle/car_20.jpg", "content/Puzzle/car_12.jpg"];
-            sourcecells = ["drag1", "drag2", "drag3", "drag4", "drag5"];
-            targetcells = ["img9", "img3", "img23", "img20", "img12"];
-            Level2PuzzleUpdateCells();
-            startTime = Date.now();
-            lastTime = Date.now();
-        }
-
-        function Level2PuzzleUpdateCells() {
-            for (i = 0 ; i <= images5.length - 1 ; i++) {
-                document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
-                document.getElementById(targetcells[i]).setAttribute("src", "");
+                IntializeLevelPuzzle(25000);
+                //startTime = Date.now();
+                //lastTime = Date.now();
+                //maxTime = 250000;
+                //maxRepeat = 5;
+                //repeatCount = 1;
+                //setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
             }
-            successmatch = 0;
-            repeatCount = repeatCount + 1;
-            lastTime = Date.now();
-            setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
-        }
 
-        function Level2PuzzleTimeOut() {
-            var currentTime = Date.now();
-            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
-                //TimeOut
+            function IntializeLevelPuzzle(Time) {
+                timeoutPeriod = Time;
+                maxRepeat = 2;
+                repeatCount = 1;
+                maxTime = maxRepeat * timeoutPeriod;
+                images5 = ["content/Puzzle/car_9.jpg", "content/Puzzle/car_3.jpg", "content/Puzzle/car_23.jpg", "content/Puzzle/car_20.jpg", "content/Puzzle/car_12.jpg"];
+                sourcecells = ["drag1", "drag2", "drag3", "drag4", "drag5"];
+                targetcells = ["img9", "img3", "img23", "img20", "img12"];
                 Level2PuzzleUpdateCells();
+                startTime = Date.now();
+                lastTime = Date.now();
             }
-            return;
-        }
 
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var currentTime = Date.now();
-            var sourcecellId;
-            var targetcellId;
-            var sourcecellIndex;
-            var targetcellIndex;
-
-            sourcecellId = ev.dataTransfer.getData("text");
-            for (i = 0; i <= sourcecells.length - 1; i++) {
-                if (sourcecells[i] == sourcecellId) {
-                    sourcecellIndex = i;
-                    break;
+            function Level2PuzzleUpdateCells() {
+                for (i = 0 ; i <= images5.length - 1 ; i++) {
+                    document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
+                    document.getElementById(targetcells[i]).setAttribute("src", "");
                 }
+                successmatch = 0;
+                repeatCount = repeatCount + 1;
+                lastTime = Date.now();
+                setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
             }
 
-            if (ev.target.hasChildNodes()) {
-                targetcellId = ev.target.childNodes[0].getAttribute("id");
-            }
-            else {
-                targetcellId = ev.target.getAttribute("id");
-            }
-            for (i = 0; i <= targetcells.length - 1; i++) {
-                if (targetcells[i] == targetcellId) {
-                    targetcellIndex = i;
-                    break;
+            function Level2PuzzleTimeOut() {
+                var currentTime = Date.now();
+                if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                    //TimeOut
+                    Level2PuzzleUpdateCells();
                 }
+                return;
             }
 
-            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
-                document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
-                document.getElementById(sourcecellId).setAttribute("src", "");
-                successmatch = successmatch + 1;
-                score = score + 1;
-                document.getElementById("score").value = score;
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
 
-                if (successmatch == images5.length) {
-                    if (repeatCount <= maxRepeat) {
-                        setTimeout(Level2PuzzleUpdateCells, 2000);
-                    }
-                    else {
-                        //Practice Finished
-                        score = document.getElementById("score").value;
-                        //document.getElementById("currentScore").value = score;
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
 
-                        RegisterScore();
-                        GetActiveLevels(2);
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
+            function drop(ev) {
+                ev.preventDefault();
+                var currentTime = Date.now();
+                var sourcecellId;
+                var targetcellId;
+                var sourcecellIndex;
+                var targetcellIndex;
 
-                        $(document).ready(function () {
-                            $("#divExcercise").fadeOut(3000);
-                            $("#divscore").fadeIn(6000);
-                            $("#divscore").fadeOut(6000);
-                            $("#divExcercise").fadeIn(9000);
-                        });
+                sourcecellId = ev.dataTransfer.getData("text");
+                for (i = 0; i <= sourcecells.length - 1; i++) {
+                    if (sourcecells[i] == sourcecellId) {
+                        sourcecellIndex = i;
+                        break;
                     }
                 }
+
+                if (ev.target.hasChildNodes()) {
+                    targetcellId = ev.target.childNodes[0].getAttribute("id");
+                }
+                else {
+                    targetcellId = ev.target.getAttribute("id");
+                }
+                for (i = 0; i <= targetcells.length - 1; i++) {
+                    if (targetcells[i] == targetcellId) {
+                        targetcellIndex = i;
+                        break;
+                    }
+                }
+
+                if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
+                    document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
+                    document.getElementById(sourcecellId).setAttribute("src", "");
+                    successmatch = successmatch + 1;
+                    score = score + 1;
+                    document.getElementById("score").value = score;
+
+                    if (successmatch == images5.length) {
+                        if (repeatCount <= maxRepeat) {
+                            setTimeout(Level2PuzzleUpdateCells, 2000);
+                        }
+                        else {
+                            //Practice Finished
+                            score = document.getElementById("score").value;
+                            //document.getElementById("currentScore").value = score;
+
+                            RegisterScore();
+                            GetActiveLevels(2);
+                            show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+                            $(document).ready(function () {
+                                $("#divExcercise").fadeOut(3000);
+                                $("#divscore").fadeIn(6000);
+                                $("#divscore").fadeOut(6000);
+                                $("#divExcercise").fadeIn(9000);
+                            });
+                        }
+                    }
+                }
             }
-        }
-    </script>
+            </script>
 
     <style>
         /* CSS responsive square grid */
-        .grid-puzzle {margin:0px;}
-        .grid-puzzle:after {content:''; display:block; clear:both;}
-        .grid-puzzle li {position: relative; display:block; float:left; width: 16.5%; padding-bottom: 20%;}
-        .grid-puzzle .grid-puzzle-box {position: absolute;left: 2px;right: 2px;top: 2px;bottom: 2px; background-color: transparent;}
-        .grid-puzzle-box .dragable-Image {-webkit-user-drag: auto; width: 100%; height:100%;}
-        .grid-puzzle img {width:100%;height:100%}
-        .grid-puzzle .img-dragable{background-color: green; -webkit-user-drag: auto;}
-        
+        .grid-puzzle {
+            margin: 0px;
+        }
+
+            .grid-puzzle:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .grid-puzzle li {
+                position: relative;
+                display: block;
+                float: left;
+                width: 16.5%;
+                padding-bottom: 20%;
+            }
+
+            .grid-puzzle .grid-puzzle-box {
+                position: absolute;
+                left: 2px;
+                right: 2px;
+                top: 2px;
+                bottom: 2px;
+                background-color: transparent;
+            }
+
+        .grid-puzzle-box .dragable-Image {
+            -webkit-user-drag: auto;
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-puzzle img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-puzzle .img-dragable {
+            background-color: green;
+            -webkit-user-drag: auto;
+        }
+
         @media only screen and (max-width : 2048px) {
-            
-        .grid-puzzle li {padding-bottom:5%;}
+
+            .grid-puzzle li {
+                padding-bottom: 5%;
+            }
         }
+
         @media only screen and (max-width : 1024px) {
-        .grid-puzzle li {padding-bottom: 8.0%;}
+            .grid-puzzle li {
+                padding-bottom: 8.0%;
+            }
         }
+
         @media only screen and (max-width : 768px) {
-        .grid-puzzle li {
-            width: 16%;
-            padding-bottom: 8.0%;}
+            .grid-puzzle li {
+                width: 16%;
+                padding-bottom: 8.0%;
+            }
         }
+
         @media only screen and (max-width : 480px) {
-        .grid-puzzle li {padding-bottom: 20%;}
+            .grid-puzzle li {
+                padding-bottom: 20%;
+            }
         }
+
         @media only screen and (max-width : 320px) {
-        .grid-puzzle li {padding-bottom: 25%;}
+            .grid-puzzle li {
+                padding-bottom: 25%;
+            }
         }
-        
-        #divExcercise{
+
+        #divExcercise {
             z-index: 0;
         }
-        
+
         #div_Started {
             z-index: 1;
-            position:fixed;
+            position: fixed;
             top: 50%;
             left: 50%;
-            width:30em;
-            height:18em;
-            margin-top: -9em; /*set to a negative number 1/2 of your height*/
-            margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            
-        }
-        #div_Started img{
-            position:fixed;
-            top: 50%;
-            left: 50%;
-            width:30em;
-            height:18em;
+            width: 30em;
+            height: 18em;
             margin-top: -9em; /*set to a negative number 1/2 of your height*/
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
+
+            #div_Started img {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 30em;
+                height: 18em;
+                margin-top: -9em; /*set to a negative number 1/2 of your height*/
+                margin-left: -15em; /*set to a negative number 1/2 of your width*/
+            }
+
         #divscore {
-            position:fixed;
+            position: fixed;
             top: 50%;
             left: 50%;
-            width:30em;
-            height:18em;
+            width: 30em;
+            height: 18em;
             margin-top: -9em; /*set to a negative number 1/2 of your height*/
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            
         }
-        #divscore input{
-            position:fixed;
-            top: 50%;
-            left: 50%;
-            width:30em;
-            height:18em;
-            margin-top: -9em; /*set to a negative number 1/2 of your height*/
-            margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            font-size: 48px;
-            color: brown;
-        }
+
+            #divscore input {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 30em;
+                height: 18em;
+                margin-top: -9em; /*set to a negative number 1/2 of your height*/
+                margin-left: -15em; /*set to a negative number 1/2 of your width*/
+                font-size: 48px;
+                color: brown;
+            }
     </style>
 
     <!--level 2 puzzle-->
@@ -1467,136 +1545,136 @@
     <!--Level 3 Practice-->
 
     <script>
-                 
-        function StartStage3LevelsView() {
-            IntializeLevel3(6000);
 
-            startTime = Date.now();
-            lastTime = Date.now();
-            maxTime = 60000;
-            maxRepeat = 5;
-            repeatCount = 1;
-            setTimeout(TimeOut, timeoutPeriod);
+            function StartStage3LevelsView() {
+                IntializeLevel3(6000);
+
+                startTime = Date.now();
+                lastTime = Date.now();
+                maxTime = 60000;
+                maxRepeat = 5;
+                repeatCount = 1;
+                setTimeout(TimeOut, timeoutPeriod);
 
 
-        }
-
-        function IntializeLevel3(Time) {
-            timeoutPeriod = Time;
-            stepIndex = 0;
-            ids = ["right", "left"];
-            practiceid =document.getElementById("currentPracitceLevel").value ;
-
-            if (practiceid == 1) {
-                images = ["content/level03/pic6.png", "content/level03/pic10.png"];
-            } else if (practiceid == 2) {
-                images = ["content/level03/banana.png", "content/level03/orange.png"];
-            } else if (practiceid == 3) {
-                images = ["content/level03/pic11.png", "content/level03/pic12.png"];
-            } else if (practiceid == 4) {
-                images = ["content/level03/pic4.png", "content/level03/pic5.png"];
-            } else if (practiceid == 5) {
-                images = ["content/level03/pic8.png", "content/level03/pic9.png"];
-            } else if (practiceid == 6) {
-                images = ["content/level03/pic14.png", "content/level03/pic15.png"];
-            } else if (practiceid == 7) {
-                images = ["content/level03/pic16.png", "content/level03/pic17.png"];
             }
 
-            sounds = ["content/sounds/banana.ogg", "content/sounds/orange.ogg"];
-            document.getElementById(ids[0]).src = images[0];
+            function IntializeLevel3(Time) {
+                timeoutPeriod = Time;
+                stepIndex = 0;
+                ids = ["right", "left"];
+                practiceid = document.getElementById("currentPracitceLevel").value;
 
-
-            document.getElementById(ids[1]).src = "";
-            
-            if (document.getElementById("isSoundPlayed").value == 1){
-                var audio = new Audio(sounds[0]);
-                audio.play();
-            }
-        }
-
-        function Level3_UpdateCells(currentCellId) {
-            var nextCellIndex;
-            for (i = 0 ; i < ids.length ; i++) {
-                if (currentCellId == ids[i] && i < ids.length - 1) {
-                    nextCellIndex = i + 1;
-                    stepIndex = stepIndex + 1;
+                if (practiceid == 1) {
+                    images = ["content/level03/pic6.png", "content/level03/pic10.png"];
+                } else if (practiceid == 2) {
+                    images = ["content/level03/banana.png", "content/level03/orange.png"];
+                } else if (practiceid == 3) {
+                    images = ["content/level03/pic11.png", "content/level03/pic12.png"];
+                } else if (practiceid == 4) {
+                    images = ["content/level03/pic4.png", "content/level03/pic5.png"];
+                } else if (practiceid == 5) {
+                    images = ["content/level03/pic8.png", "content/level03/pic9.png"];
+                } else if (practiceid == 6) {
+                    images = ["content/level03/pic14.png", "content/level03/pic15.png"];
+                } else if (practiceid == 7) {
+                    images = ["content/level03/pic16.png", "content/level03/pic17.png"];
                 }
-                else if (currentCellId == ids[ids.length - 1]) {
-                    if (repeatCount != maxRepeat) {
-                        repeatCount = repeatCount + 1;
-                        stepIndex = 0;
-                        nextCellIndex = 0;
-                    }
-                    else {
-                        nextCellIndex = -1; //Move To Next Example.   
-                        stepIndex = -1;
-                    }
-                    break;
-                }
-            }
-            if (nextCellIndex != -1) {
 
-                document.getElementById(currentCellId).src = "";
-                document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
-                
-                if (document.getElementById("isSoundPlayed").value == 1){
-                    var audio = new Audio(sounds[nextCellIndex]);
+                sounds = ["content/sounds/banana.ogg", "content/sounds/orange.ogg"];
+                document.getElementById(ids[0]).src = images[0];
+
+
+                document.getElementById(ids[1]).src = "";
+
+                if (document.getElementById("isSoundPlayed").value == 1) {
+                    var audio = new Audio(sounds[0]);
                     audio.play();
                 }
-                lastTime = Date.now();
-                setTimeout(TimeOut, timeoutPeriod);
             }
-            else {
-                //Excersise Finished
-                var currentTime = Date.now();
-                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
-                    RegisterScore();
 
-                    show_OnlyFormWithMenu("pnl_Cat3Levels");
-                    GetActiveLevels(3);
+            function Level3_UpdateCells(currentCellId) {
+                var nextCellIndex;
+                for (i = 0 ; i < ids.length ; i++) {
+                    if (currentCellId == ids[i] && i < ids.length - 1) {
+                        nextCellIndex = i + 1;
+                        stepIndex = stepIndex + 1;
+                    }
+                    else if (currentCellId == ids[ids.length - 1]) {
+                        if (repeatCount != maxRepeat) {
+                            repeatCount = repeatCount + 1;
+                            stepIndex = 0;
+                            nextCellIndex = 0;
+                        }
+                        else {
+                            nextCellIndex = -1; //Move To Next Example.   
+                            stepIndex = -1;
+                        }
+                        break;
+                    }
+                }
+                if (nextCellIndex != -1) {
+
+                    document.getElementById(currentCellId).src = "";
+                    document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+
+                    if (document.getElementById("isSoundPlayed").value == 1) {
+                        var audio = new Audio(sounds[nextCellIndex]);
+                        audio.play();
+                    }
+                    lastTime = Date.now();
+                    setTimeout(TimeOut, timeoutPeriod);
                 }
                 else {
-                    RegisterScore();
+                    //Excersise Finished
+                    var currentTime = Date.now();
+                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+                        RegisterScore();
 
-                    show_OnlyFormWithMenu("pnl_Cat3Levels");
-                    GetActiveLevels(3);
+                        show_OnlyFormWithMenu("pnl_Cat3Levels");
+                        GetActiveLevels(3);
+                    }
+                    else {
+                        RegisterScore();
+
+                        show_OnlyFormWithMenu("pnl_Cat3Levels");
+                        GetActiveLevels(3);
+                    }
+                }
+                return;
+            }
+
+
+            function Level3_Clicked(currentCellId) {
+                if (!Level3_CheckClickedID(currentCellId))
+                    return;
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                Level3_UpdateCells(currentCellId);
+            }
+
+            function Level3_CheckClickedID(currentCellId) {
+                if (currentCellId == ids[stepIndex]) {
+                    return true;
+                }
+                else {
+                    return false;
                 }
             }
-            return;
-        }
 
-
-        function Level3_Clicked(currentCellId) {
-            if (!Level3_CheckClickedID(currentCellId))
+            function Level3_TimeOut() {
+                var currentTime = Date.now();
+                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                    lastTime = Date.now();
+                    UpdateCells(ids[stepIndex]);
+                }
                 return;
-
-            score = score + 1;
-            document.getElementById("score").value = score;
-            Level3_UpdateCells(currentCellId);
-        }
-
-        function Level3_CheckClickedID(currentCellId) {
-            if (currentCellId == ids[stepIndex]) {
-                return true;
             }
-            else {
-                return false;
-            }
-        }
 
-        function Level3_TimeOut() {
-            var currentTime = Date.now();
-            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                lastTime = Date.now();
-                UpdateCells(ids[stepIndex]);
-            }
-            return;
-        }
-
-        //$(function () {
-        //    $('#title-area').text(loadPageVar('practice'));
-        //});
+            //$(function () {
+            //    $('#title-area').text(loadPageVar('practice'));
+            //});
 
     </script>
 
@@ -1646,7 +1724,7 @@
         @media only screen and (max-width : 1024px) {
             .level3-photo li {
                 width: 40%;
-                margin-left:10%;
+                margin-left: 10%;
                 padding-bottom: 0%;
             }
         }
@@ -1671,14 +1749,14 @@
                 padding-bottom: 150%;
             }
         }
-
     </style>
 
     <!--Level 3 Practice-->
 
 </head>
 <body onload="javascript:GameLoading();">
-    <div class="view">
+    <div class="view" id="divID">
+
         <!--<header>
                 <h1>Puzzle</h1>
         </header>-->
@@ -1699,13 +1777,12 @@
                         </div>
                     </td>
                     <td></td>
-                    <td valign="top" style="margin-top:20px;">
-                        <div align="right" id="divusername" style="border: 0px;
-                            margin-top:20px;margin-right:24px; color: #660033; font-size: x-large;">
+                    <td valign="top" style="margin-top: 20px;">
+                        <div align="right" id="divusername" style="border: 0px; margin-top: 20px; margin-right: 24px; color: #660033; font-size: x-large;">
                         </div>
                     </td>
                     <td width="40%" align="right" valign="Top" colspan="6">
-                        <div style="background-colo      vffft9/9--: lightGray;">
+                        <div id="div_Settings" style="background-color: transparent;">
                             <table style="height: 32px; width: 100%; align: right">
                                 <tr>
                                     <td>
@@ -1718,7 +1795,7 @@
                                             <img src="content/screen02/Settings.png" onclick="javascript:show_OnlyOneForm('pnl_LoginForm');" height="64" width="64" />
                                         </div>
                                     </td>
-                                    <td>
+                                    <!--<td>
                                         <div id="divMusic" style="border: 0px;">
                                             <img id="idMusic" src="content/screen02/Music.png" onclick="javascript:EnableDisableMusic();" height="64" width="64" />
                                         </div>
@@ -1729,7 +1806,7 @@
                                                 onclick="javascript:EnableDisableSound();"
                                                 height="64" width="64" />
                                         </div>
-                                    </td>
+                                    </td>-->
                                     <td>
                                         <div id="divInfo" style="border: 0px;">
                                             <img src="content/screen02/Info.png" onclick="javascript:GotoInfo();" height="64" width="64" />
@@ -1785,61 +1862,191 @@
             </div>
 
             <div id="pnlLevel3Practices" class="panel grid" data-title="" data-selected="true">
-                <div class="grid level3-photo" style="width: 100%; height:100%">
+                <div class="grid level3-photo" style="width: 100%; height: 100%">
                     <li>
-                        <div id="div1" class="grid-level3-box" style="border: 0px;text-align:center">
-                            <img id="left" src=""  onclick="javascript:Level3_Clicked(this.id);" />
+                        <div id="div1" class="grid-level3-box" style="border: 0px; text-align: center">
+                            <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div2" class="grid-level3-box" style="border: 0px;text-align:center">
-                            <img id="right" style="Height:auto%;" src="" onclick="javascript:Level3_Clicked(this.id);" />
+                        <div id="div2" class="grid-level3-box" style="border: 0px; text-align: center">
+                            <img id="right" style="height: auto%;" src="" onclick="javascript:Level3_Clicked(this.id);" />
                         </div>
                     </li>
                 </div>
             </div>
             <div id="pnl_level2_puzzle" class="panel grid" data-title="" data-selected="true">
-                <div class="grid grid-puzzle" style="width: 100%; height:100%;margin-top:-0%">
+                <div class="grid grid-puzzle" style="width: 100%; height: 100%; margin-top: -0%">
 
-                    <li><div id="div1" class="grid-puzzle-box"><img id="img1" src="content/Puzzle/car_1.jpg"/></div></li>
-                        <li><div id="div2p" class="grid-puzzle-box"><img id="img2" src="content/Puzzle/car_2.jpg"/></div></li>
-                        <li><div id="div3p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"><img id="img3" src=""/></div></li>
-                        <li><div id="div4p" class="grid-puzzle-box"><img id="img4" src="content/Puzzle/car_4.jpg"/></div></li>
-                        <li><div id="div5p" class="grid-puzzle-box"><img id="img5" src="content/Puzzle/car_5.jpg"/></div></li>
-                        <li style="width:10px;"><div class="grid-puzzle-box" style="background: #000000;"></div></li>
-                        <li style="left: 0px;"><div id="divdrag1" class="grid-puzzle-box" ><img id="drag1" class="dragable-Image" src="content/Puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
-                        
-                        <li><div id="div6p" class="grid-puzzle-box"><img id="img6" src="content/Puzzle/car_6.jpg"/></div></li>
-                        <li><div id="div7p" class="grid-puzzle-box"><img id="img7" src="content/Puzzle/car_7.jpg"/></div></li>
-                        <li><div id="div8p" class="grid-puzzle-box"><img id="img8" src="content/Puzzle/car_8.jpg"/></div></li>
-                        <li><div id="div9p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"><img id="img9" src=""/></div></li>
-                        <li><div id="div10p" class="grid-puzzle-box"><img id="img10" src="content/Puzzle/car_10.jpg" /></div></li>
-                        <li style="width:10px;"><div class="grid-puzzle-box" style="background: #000000;"></div></li>
-                        <li style="left: 0px;"><div id="divdrag2" class="grid-puzzle-box"><img id="drag2" class="dragable-Image" src="content/Puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
-                        
-                        <li><div id="div11p" class="grid-puzzle-box"><img id="img11" src="content/Puzzle/car_11.jpg"/></div></li>
-                        <li><div id="div12p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"><img id="img12" src=""/></div></li>
-                        <li><div id="div13p" class="grid-puzzle-box"><img id="img13" src="content/Puzzle/car_13.jpg"/></div></li>
-                        <li><div id="div14p" class="grid-puzzle-box"><img id="img14" src="content/Puzzle/car_14.jpg"/></div></li>
-                        <li><div id="div15p" class="grid-puzzle-box"><img id="img15" src="content/Puzzle/car_15.jpg"/></div></li>
-                        <li style="width:10px;"><div class="grid-puzzle-box" style="background: #000000;"></div></li>
-                        <li style="left: 0px;"><div id="divdrag3" class="grid-puzzle-box"><img id="drag3" class="dragable-Image" src="content/Puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
-                        
-                        <li><div id="div16p" class="grid-puzzle-box"><img id="img16" src="content/Puzzle/car_16.jpg"/></div></li>
-                        <li><div id="div17p" class="grid-puzzle-box"><img id="img17" src="content/Puzzle/car_17.jpg"/></div></li>
-                        <li><div id="div18p" class="grid-puzzle-box"><img id="img18" src="content/Puzzle/car_18.jpg"/></div></li>
-                        <li><div id="div19p" class="grid-puzzle-box"><img id="img19" src="content/Puzzle/car_19.jpg"/></div></li>
-                        <li><div id="div20p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"><img id="img20" src=""/></div></li>
-                        <li style="width:10px;"><div class="grid-puzzle-box" style="background: #000000;"></div></li>
-                        <li style="left: 0px;"><div id="divdrag4" class="grid-puzzle-box"><img id="drag4" class="dragable-Image" src="content/Puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
-                        
-                        <li><div id="div21p" class="grid-puzzle-box"><img id="img21" src="content/Puzzle/car_21.jpg"/></div></li>
-                        <li><div id="div22p" class="grid-puzzle-box"><img id="img22" src="content/Puzzle/car_22.jpg"/></div></li>
-                        <li><div id="div23p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"><img id="img23" src=""/></div></li>
-                        <li><div id="div24p" class="grid-puzzle-box"><img id="img24" src="content/Puzzle/car_24.jpg"/></div></li>
-                        <li><div id="div25p" class="grid-puzzle-box"><img id="img25" src="content/Puzzle/car_25.jpg"/></div></li>
-                        <li style="width:10px;"><div class="grid-puzzle-box" style="background: #000000;"></div></li>
-                        <li style="left: 0px;"><div id="divdrag5" class="grid-puzzle-box"><img id="drag5" class="dragable-Image" src="content/Puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);"/></div></li>
+                    <li>
+                        <div id="div1" class="grid-puzzle-box">
+                            <img id="img1" src="content/Puzzle/car_1.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2p" class="grid-puzzle-box">
+                            <img id="img2" src="content/Puzzle/car_2.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img3" src="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4p" class="grid-puzzle-box">
+                            <img id="img4" src="content/Puzzle/car_4.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5p" class="grid-puzzle-box">
+                            <img id="img5" src="content/Puzzle/car_5.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag1" class="grid-puzzle-box">
+                            <img id="drag1" class="dragable-Image" src="content/Puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div6p" class="grid-puzzle-box">
+                            <img id="img6" src="content/Puzzle/car_6.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div7p" class="grid-puzzle-box">
+                            <img id="img7" src="content/Puzzle/car_7.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div8p" class="grid-puzzle-box">
+                            <img id="img8" src="content/Puzzle/car_8.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div9p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img9" src="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div10p" class="grid-puzzle-box">
+                            <img id="img10" src="content/Puzzle/car_10.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag2" class="grid-puzzle-box">
+                            <img id="drag2" class="dragable-Image" src="content/Puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div11p" class="grid-puzzle-box">
+                            <img id="img11" src="content/Puzzle/car_11.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img12" src="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div13p" class="grid-puzzle-box">
+                            <img id="img13" src="content/Puzzle/car_13.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14p" class="grid-puzzle-box">
+                            <img id="img14" src="content/Puzzle/car_14.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15p" class="grid-puzzle-box">
+                            <img id="img15" src="content/Puzzle/car_15.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag3" class="grid-puzzle-box">
+                            <img id="drag3" class="dragable-Image" src="content/Puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16p" class="grid-puzzle-box">
+                            <img id="img16" src="content/Puzzle/car_16.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17p" class="grid-puzzle-box">
+                            <img id="img17" src="content/Puzzle/car_17.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18p" class="grid-puzzle-box">
+                            <img id="img18" src="content/Puzzle/car_18.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19p" class="grid-puzzle-box">
+                            <img id="img19" src="content/Puzzle/car_19.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img20" src="" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag4" class="grid-puzzle-box">
+                            <img id="drag4" class="dragable-Image" src="content/Puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div21p" class="grid-puzzle-box">
+                            <img id="img21" src="content/Puzzle/car_21.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div22p" class="grid-puzzle-box">
+                            <img id="img22" src="content/Puzzle/car_22.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div23p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                            <img id="img23" src="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div24p" class="grid-puzzle-box">
+                            <img id="img24" src="content/Puzzle/car_24.jpg" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div25p" class="grid-puzzle-box">
+                            <img id="img25" src="content/Puzzle/car_25.jpg" />
+                        </div>
+                    </li>
+                    <li style="width: 10px;">
+                        <div class="grid-puzzle-box" style="background: #000000;"></div>
+                    </li>
+                    <li style="left: 0px;">
+                        <div id="divdrag5" class="grid-puzzle-box">
+                            <img id="drag5" class="dragable-Image" src="content/Puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                        </div>
+                    </li>
 
                     <!--<li>
                         <div id="div1" class="grid-puzzle-box">
@@ -2137,21 +2344,20 @@
             </div>
 
             <div id="pnl_Cat3Levels" class="panel grid" data-title="" data-selected="true">
-                <table style="width: 100%; height: 80%; margin-top: 5%; ">
+                <table style="width: 100%; height: 80%; margin-top: 5%;">
                     <tr>
                         <td style="width: 25%" valign="center">
                             <div style="border: 0px; width: 100%;">
                                 <img src="content/screen02/third-level.png"
-                                    style="max-height: 100%;margin-top: -10%;  max-width: 100%; position: center" />
+                                    style="max-height: 100%; margin-top: -10%; max-width: 100%; position: center" />
                             </div>
                         </td>
                         <td width="2%"></td>
                         <td class="pnlContainerCat3LevelsContainer">
-                            <div style="margin-left: 5%;margin-top:-5%; width: 100%; height: 80%">
+                            <div style="margin-left: 5%; margin-top: -5%; width: 100%; height: 80%">
                                 <table style="width: 100%; height: 70%">
                                     <tr>
-                                        <td valign="Top" width="10%">
-                                        </td>
+                                        <td valign="Top" width="10%"></td>
                                         <td align="center" style="margin-top: -20%;">
                                             <div class="tblHeader" style="border: 0px; margin-top: -15%;">
                                                 <img src="content/screen03/third-level-label.png" style="max-width: 100%;" />
@@ -2203,8 +2409,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td align="Right" valign="center" style="margin-top:200%">
-                                            <img src="content/screen03/back.png"onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
+                                        <td align="Right" valign="center" style="margin-top: 200%">
+                                            <img src="content/screen03/back.png" onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
                                         </td>
                                         <td></td>
                                     </tr>
@@ -2217,10 +2423,10 @@
             </div>
 
             <div id="pnl_Cat2Levels" class="panel grid" data-title="" data-selected="true">
-                <table style="width: 100%; height: 70%;margin-top: 50px">
+                <table style="width: 100%; height: 70%; margin-top: 50px">
                     <tr>
-                        <td style="width: 25%" valign="center"> 
-                            <div style="border: 0px; width: 100%;margin-top:-20%">
+                        <td style="width: 25%" valign="center">
+                            <div style="border: 0px; width: 100%; margin-top: -20%">
                                 <img src="content/screen02/second-level.png"
                                     style="max-height: 100%; max-width: 100%; position: center" />
                             </div>
@@ -2232,7 +2438,7 @@
                                     <tr>
                                         <td valign="Center" width="10%"></td>
                                         <td align="center">
-                                            <div class="tblCat2LevelsHeader" style="border: 0px; margin-top:-25px;">
+                                            <div class="tblCat2LevelsHeader" style="border: 0px; margin-top: -25px;">
                                                 <img src="content/screen03/second-level-label.png" style="max-width: 100%;" />
                                             </div>
                                         </td>
@@ -2306,7 +2512,7 @@
             </div>
 
             <div id="pnl_Cat1Levels" class="panel grid" data-title="" data-selected="true">
-                <table style="width: 100%; height: 70%; margin-top: 50px">
+                <table style="width: 100%; height: 70%; margin-top: 50px;">
                     <tr>
                         <td style="width: 25%" valign="center">
                             <div id="divCategImage" style="border: 0px; width: 100%;">
@@ -2392,7 +2598,7 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td align="Right" valign="center" style="margin-top:-100%">
+                                        <td align="Right" valign="center" style="margin-top: -100%">
                                             <img class="btnCat1LevelsBack" style="margin-top: 0%" src="content/screen03/back.png" onclick="javascript:show_OnlyFormWithMenu('pnl_Categories');" />
                                         </td>
                                         <td></td>
@@ -2405,9 +2611,9 @@
                 </table>
             </div>
 
-            <div id="pnl_Categories" class="panel grid" data-title="" data-selected="true">
-                <div style="height: 80%; width:100%; margin-top: 50px; display: inline-block; vertical-align:central;text-align:center;">
-                    <table id="tblCategoriesContent" style="width: 100%; height:100%;">
+            <div id="pnl_Categories" class="panel grid" data-title="" data-selected="true" style="background: #E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%;">
+                <div style="height: 80%; width: 100%; margin-top: 50px; display: inline-block; vertical-align: central; text-align: center;">
+                    <table id="tblCategoriesContent" style="width: 100%; height: 100%;">
                         <tr>
                             <td width="15%" valign="Top">
                                 <div id="divFirst" class="Category" style="border: 0px;">
@@ -2416,7 +2622,7 @@
                             </td>
                             <td width="10%" valign="bottom">
                                 <div class="Category" style="border: 0px; margin-right: -5px; margin-left: -5px;">
-                                    <img src="content/screen02/link2.png" />
+                                    <!--<img src="content/screen02/link2.png" />-->
                                 </div>
                             </td>
                             <td width="15%" valign="bottom" style="margin-top: 50%;">
@@ -2426,7 +2632,7 @@
                             </td>
                             <td width="10%" valign="bottom">
                                 <div id="div111" class="Category" style="border: 0px; margin-right: -5px; margin-left: -5px">
-                                    <img src="content/screen02/link1.png" />
+                                    <!--<img src="content/screen02/link1.png" />-->
                                 </div>
                             </td>
                             <td width="15%" valign="Top">
@@ -2440,7 +2646,7 @@
                 </div>
             </div>
 
-            <div id="pnl_LoginForm" class="panel grid" data-title="" data-selected="true">
+            <div id="pnl_LoginForm" class="panel grid" data-title="" data-selected="true" style="background: #E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%;">
                 <table class="tblContent" style="width: 100%; height: 80%; margin-top: 100px;">
                     <tr>
                         <td style="width: 25%" valign="center">
@@ -2506,7 +2712,7 @@
                 </table>
             </div>
 
-            <div id="pnl_Splash" class="panel grid" data-title="" data-selected="true" style="background-color: gray;">
+            <div id="pnl_Splash" class="panel grid" data-title="" data-selected="true" style="background: #E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%;" >
                 <table width="100%" height="100%">
                     <tr>
                         <td class="test" align="center" valign="center">
