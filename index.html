@@ -17,10 +17,25 @@
 
     <script>
         $(document).ready(function () {
+            
         })
 
+
+
         function GameLoading() {
+            
+            var isClicked = 0;
+            //var lastClickTime = 0;
             $(document).ready(function () {
+
+                //document.addEventListener("deviceready", onDeviceReady, false);
+                //function onDeviceReady() {
+                //    document.addEventListener("backbutton", function (e) {
+
+                //        e.preventDefault();
+                //    }, false);
+                //}
+
                 //pnl_LoginForm
                 $('#div_pages > :not(#pnlSplash)').hide();
                 $('#pnlSplash').appendTo('#div_pages');
@@ -198,12 +213,24 @@
                 var json_string = xhr.responseText;
                 var json = JSON.parse(json_string);
                 var maxPractice = 1;
-
+                
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
                     if (json.error_msg[i].PracticeID == 1) {
+                        if (stageID == 3) {
+                            maxPractice = 20;
+                            document.getElementById("S3" + "L" + (maxPractice)).src = "content/screen03/" + (maxPractice) + "-a.png";
+                        } else if (stageID == 2) {
+                            maxPractice = 12;
+                            document.getElementById("S2" + "L" + (maxPractice)).src = "content/screen03/" + (maxPractice) + "-a.png";
+                        }
                         maxPractice++;
                     } else {
                         maxPractice = json.error_msg[i].PracticeID;
+                        if (stageID == 3) {
+                            maxPractice += 20;
+                        } else if (stageID == 2) {
+                            maxPractice += 11;
+                        }
                         if (maxPractice < 10) {
                             document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
@@ -215,6 +242,14 @@
                     }
                 }
 
+                if (json.error_msg.length == 0) {
+                    if (stageID == 3) {
+                        maxPractice = 20;
+                    } else if (stageID == 2) {
+                        maxPractice = 12;
+                    }
+                }
+                
                 if (maxPractice > 1) {
                     if (maxPractice < 10) {
                         document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
@@ -223,10 +258,8 @@
                     }
                 }
 
-
                 if (xhr.status == 200) {
                     //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
-
                     var json = JSON.parse(json_string);
                     intel.xdk.notification.alert(json.rows[0][0], "Name 1");
                 }
@@ -242,7 +275,7 @@
 
         function RegisterScore() {
             //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
-
+            
             var userId = document.getElementById('userid').value;
             var userScore = document.getElementById('score').value;
             var stageID = document.getElementById('currentStage').value;
@@ -730,7 +763,7 @@
             }
 
             .grid-photo img {
-                border: 0px;
+                border: none;
                 width: 100%;
                 height: 100%;
             }
@@ -1025,42 +1058,42 @@
             margin: 0px;
         }
 
-            .grid-level:after {
-                border: none;
-                content: '';
-                display: block;
-                clear: both;
-            }
+        .grid-level:after {
+            border: none;
+            content: '';
+            display: block;
+            clear: both;
+        }
 
-            .grid-level li {
-                float: left;
-                border: none;
-                position: relative;
-                display: block;
-                float: left;
-                width: 20%;
-                padding-bottom: 20%;
-                list-style-type: none;
-            }
+        .grid-level li {
+            float: left;
+            border: none;
+            position: relative;
+            display: block;
+            float: left;
+            width: 20%;
+            padding-bottom: 20%;
+            list-style-type: none;
+        }
 
-            .grid-level .grid-level-box {
-                border: none;
-                position: absolute;
-                left: 3px;
-                right: 3px;
-                top: 3px;
-                bottom: 3px;
-                list-style-type: none;
-                text-align: center;
-            }
+        .grid-level .grid-level-box {
+            border: none;
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            top: 3px;
+            bottom: 3px;
+            list-style-type: none;
+            text-align: center;
+        }
 
-                .grid-level .grid-level-box:before {
-                    vertical-align: middle;
-                    height: 100%;
-                }
+        .grid-level .grid-level-box:before {
+            border: none;
+            vertical-align: middle;
+            height: 100%;
+        }
 
         .grid-level-box img {
-            border: none;
             text-align: center;
             vertical-align: middle;
             height: 100%;
@@ -1068,8 +1101,7 @@
             max-width: 100%;
         }
 
-        .grid-level img {
-            border: none;
+        .grid-level img {            
             height: 100%;
             width: auto;
             max-width: 100%;
@@ -1421,28 +1453,28 @@
             margin: 0px;
         }
 
-            .grid-puzzle:after {
-                content: '';
-                display: block;
-                clear: both;
-            }
-
-            .grid-puzzle li {
-                position: relative;
-                display: block;
-                float: left;
-                width: 16.5%;
-                padding-bottom: 20%;
-            }
-
-            .grid-puzzle .grid-puzzle-box {
-                position: absolute;
-                left: 2px;
-                right: 2px;
-                top: 2px;
-                bottom: 2px;
-                background-color: transparent;
-            }
+        .grid-puzzle:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        
+        .grid-puzzle li {
+            position: relative;
+            display: block;
+            float: left;
+            width: 16.5%;
+            padding-bottom: 20%;
+        }
+        
+        .grid-puzzle .grid-puzzle-box {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            top: 2px;
+            bottom: 2px;
+            background-color: transparent;
+        }
 
         .grid-puzzle-box .dragable-Image {
             -webkit-user-drag: auto;
@@ -1456,6 +1488,7 @@
         }
 
         .grid-puzzle .img-dragable {
+            border:none;
             background-color: green;
             -webkit-user-drag: auto;
         }
@@ -1507,15 +1540,16 @@
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
 
-            #div_Started img {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 30em;
-                height: 18em;
-                margin-top: -9em; /*set to a negative number 1/2 of your height*/
-                margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            }
+        #div_Started img {
+            border:none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30em;
+            height: 18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        }
 
         #divscore {
             position: fixed;
@@ -1527,17 +1561,17 @@
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
 
-            #divscore input {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 30em;
-                height: 18em;
-                margin-top: -9em; /*set to a negative number 1/2 of your height*/
-                margin-left: -15em; /*set to a negative number 1/2 of your width*/
-                font-size: 48px;
-                color: brown;
-            }
+        #divscore input {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30em;
+            height: 18em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -15em; /*set to a negative number 1/2 of your width*/
+            font-size: 48px;
+            color: brown;
+        }
     </style>
 
     <!--level 2 puzzle-->
@@ -1709,7 +1743,7 @@
             }
 
             .level3-photo img {
-                border: 0px;
+                border: none;
                 width: 90%;
                 height: 90%;
             }
@@ -2370,38 +2404,38 @@
                                             <div class="grid grid-photo">
                                                 <li>
                                                     <div id="div1" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L01" src="content/screen03/1.png" onclick="javascript:GotoStage3Practice('01');" />
+                                                        <img id="S3L20" src="content/screen03/20.png" onclick="javascript:GotoStage3Practice('01');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div2" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L02" src="content/screen03/2.png" onclick="javascript:GotoStage3Practice('02');" />
+                                                        <img id="S3L21" src="content/screen03/21.png" onclick="javascript:GotoStage3Practice('02');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div3" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L03" src="content/screen03/3.png" onclick="javascript:GotoStage3Practice('03');" />
+                                                        <img id="S3L22" src="content/screen03/22.png" onclick="javascript:GotoStage3Practice('03');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div4" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L04" src="content/screen03/4.png" onclick="javascript:GotoStage3Practice('04');" />
+                                                        <img id="S3L23" src="content/screen03/23.png" onclick="javascript:GotoStage3Practice('04');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div5" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L05" src="content/screen03/5.png" onclick="javascript:GotoStage3Practice('05');" />
+                                                        <img id="S3L24" src="content/screen03/24.png" onclick="javascript:GotoStage3Practice('05');" />
                                                     </div>
                                                 </li>
 
                                                 <li>
                                                     <div id="div6" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L06" src="content/screen03/6.png" onclick="javascript:GotoStage3Practice('06');" />
+                                                        <img id="S3L25" src="content/screen03/25.png" onclick="javascript:GotoStage3Practice('06');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div7" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L07" src="content/screen03/7.png" onclick="javascript:GotoStage3Practice('07');" />
+                                                        <img id="S3L26" src="content/screen03/26.png" onclick="javascript:GotoStage3Practice('07');" />
                                                     </div>
                                                 </li>
                                             </div>
@@ -2449,43 +2483,43 @@
                                             <div class="grid grid-photo">
                                                 <li>
                                                     <div id="div1" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L01" src="content/screen03/1.png" onclick="javascript:GotoStage2Practice('1');" />
+                                                        <img id="S2L12" src="content/screen03/12.png" onclick="javascript:GotoStage2Practice('1');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div2" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L02" src="content/screen03/2.png" onclick="javascript:GotoStage2Practice('2');" />
+                                                        <img id="S2L13" src="content/screen03/13.png" onclick="javascript:GotoStage2Practice('2');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div3" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L03" src="content/screen03/3.png" onclick="javascript:GotoStage2PuzzlePractice('3');" />
+                                                        <img id="S2L14" src="content/screen03/14.png" onclick="javascript:GotoStage2PuzzlePractice('3');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div4" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L04" src="content/screen03/4.png" onclick="javascript:GotoStage2Practice('4');" />
+                                                        <img id="S2L15" src="content/screen03/15.png" onclick="javascript:GotoStage2Practice('4');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div5" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L05" src="content/screen03/5.png" onclick="javascript:GotoStage2Practice('5');" />
+                                                        <img id="S2L16" src="content/screen03/16.png" onclick="javascript:GotoStage2Practice('5');" />
                                                     </div>
                                                 </li>
 
                                                 <li>
                                                     <div id="div6" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L06" src="content/screen03/6.png" onclick="javascript:GotoStage2Practice('6');" />
+                                                        <img id="S2L17" src="content/screen03/17.png" onclick="javascript:GotoStage2Practice('6');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div7" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L07" src="content/screen03/7.png" onclick="javascript:GotoStage2Practice('7');" />
+                                                        <img id="S2L18" src="content/screen03/18.png" onclick="javascript:GotoStage2Practice('7');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div8" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L08" src="content/screen03/8.png" onclick="javascript:GotoStage2Practice('8');" />
+                                                        <img id="S2L19" src="content/screen03/19.png" onclick="javascript:GotoStage2Practice('8');" />
                                                     </div>
                                                 </li>
                                             </div>
