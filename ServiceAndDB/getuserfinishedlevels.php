@@ -20,17 +20,17 @@ $response = array("error" => FALSE);
         echo json_encode($response);
     } else {
         // create a new user
-        $user = $db->getUserFinishedLevels($userId,$StageID);
-        if ($user) {
+        $data = $db->getUserFinishedLevels($userId,$StageID);
+        if ($data) {
             // user stored successfully
             //$response["error"] = FALSE;
-            $response["error_msg"] = $user;
+            $response["error_msg"] = $data;
             
             echo json_encode($response);
         } else {
-            // user failed to store
+            // data failed to store
             //$response["error"] = TRUE;
-            $response["error_msg"] = "Error getting from db.";
+            $response["error_msg"] = array();// "Error getting from db.";
             echo json_encode($response);
         }
     }
