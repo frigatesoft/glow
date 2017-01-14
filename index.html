@@ -309,7 +309,6 @@
                 var json_string = xhr.responseText;
                 var json = JSON.parse(json_string);
                 var maxPractice = 1;
-
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
                     if (json.error_msg[i].PracticeID == 1) {
                         if (stageID == 3) {
@@ -318,22 +317,35 @@
                         } else if (stageID == 2) {
                             maxPractice = 12;
                             document.getElementById("S2" + "L" + (maxPractice)).src = "content/screen03/" + (maxPractice) + "-a.png";
+                        } else {
+
+                            maxPractice = 2;
+                            document.getElementById("S1" + "L0" + (maxPractice)).src = "content/screen03/" + (maxPractice) + "-a.png";
                         }
                         maxPractice++;
                     } else {
                         maxPractice = json.error_msg[i].PracticeID;
                         if (stageID == 3) {
                             maxPractice += 20;
-                        } else if (stageID == 2) {
-                            maxPractice += 11;
-                        }
-                        if (maxPractice < 10) {
-                            document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
-                            maxPractice++;
-                        }
-                        else {
                             document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
+                        } else if (stageID == 2) {
+                            maxPractice += 11;
+                            document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                            maxPractice++;
+                        } else {
+                            maxPractice += 1;
+                            if (maxPractice < 10) {
+                                document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                                maxPractice++;
+                            }
+                            else if (maxPractice <=11){
+                                document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
+                                maxPractice++;
+                            } else {
+                                document.getElementById("imgSecondLevelImage").src = "content/screen02/second-level.png";
+                                document.getElementById("S2L12").src = "content/screen03/12-a.png";
+                            }
                         }
                     }
                 }
@@ -345,7 +357,7 @@
                         maxPractice = 12;
                     }
                 }
-
+                
                 if (maxPractice > 1) {
                     if (maxPractice < 10) {
                         document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
@@ -353,6 +365,11 @@
                         document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                     }
                 }
+                
+                //if (stageID == 1 && maxPractice == 11) {
+                //    document.getElementById("imgSecondLevelImage").src = "content/screen02/second-level.png";
+                //}
+
 
                 if (xhr.status == 200) {
                     //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
@@ -425,11 +442,11 @@
             
             var strPath = "";
             if (result == 0) {
-                strPath = "content/Level01/error.png"
+                strPath = "content/level01/error.png"
             } else if (result == 1) {
-                strPath = "content/Level01/right.png"
+                strPath = "content/level01/right.png"
             } else if (result == 2) {
-                strPath = "content/Level01/wrong.png"
+                strPath = "content/level01/wrong.png"
             }
 
             logoImage.setAttribute("src", strPath);
@@ -4024,7 +4041,7 @@
                             </td>
                             <td width="15%" valign="bottom" style="margin-top: 50%;">
                                 <div id="divsecond" class="Category" style="border: 0px;">
-                                    <img src="content/screen02/second-level-lock.png" onclick="javascript:GotoStageLevelsForm(2);" />
+                                    <img id="imgSecondLevelImage" src="content/screen02/second-level-lock.png" onclick="javascript:GotoStageLevelsForm(2);" />
                                 </div>
                             </td>
                             <td width="10%" valign="bottom">
