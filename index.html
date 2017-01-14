@@ -20,6 +20,12 @@
 
         })
 
+        if (window.navigator.onLine) {
+        } else {
+            alert("الانترنت لايعمل: من فضلك تأكد من الاتصال بالانترنت اللاسلكي لديك.");
+            navigator.app.exitApp();
+        }
+
         function GameLoading() {
 
             var isClicked = 0;
