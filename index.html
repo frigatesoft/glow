@@ -333,6 +333,11 @@
                             maxPractice += 11;
                             document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
+                            if (maxPractice == 20) {
+                                document.getElementById("imgThirdLevelImage").src = "content/screen02/third-level.png";
+                                document.getElementById("S3L20").src = "content/screen03/20-a.png";
+                            }
+
                         } else {
                             maxPractice += 1;
                             if (maxPractice < 10) {
@@ -1308,6 +1313,9 @@
             } else {
                 document.getElementById("divusername").innerHTML = "";
             }
+            GetActiveLevels(1);
+            GetActiveLevels(2);
+            GetActiveLevels(3);
             ShowCategoriesForm();
         }
 
@@ -4031,7 +4039,7 @@
                         <tr>
                             <td width="15%" valign="Top">
                                 <div id="divFirst" class="Category" style="border: 0px;">
-                                    <img src="content/screen02/third-level-lock.png" onclick="javascript:GotoStageLevelsForm(3);" />
+                                    <img id="imgThirdLevelImage" src="content/screen02/third-level-lock.png" onclick="javascript:GotoStageLevelsForm(3);" />
                                 </div>
                             </td>
                             <td width="10%" valign="bottom">
