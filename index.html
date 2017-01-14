@@ -20,8 +20,7 @@
 
         })
 
-        if (window.navigator.onLine) {
-        } else {
+        if (!window.navigator.onLine) {
             alert("الانترنت لايعمل: من فضلك تأكد من الاتصال بالانترنت اللاسلكي لديك.");
             navigator.app.exitApp();
         }
