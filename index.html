@@ -17,13 +17,13 @@
 
     <script>
         $(document).ready(function () {
-            
+
         })
 
 
 
         function GameLoading() {
-            
+
             var isClicked = 0;
             //var lastClickTime = 0;
             $(document).ready(function () {
@@ -42,7 +42,7 @@
                 setTimeout(function () {
                     show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 3000);
+                }, 100);
             });
         }
 
@@ -56,14 +56,14 @@
                         document.getElementById("div_Settings").style.display = 'block';
                     } else {
                         document.getElementById("div_Settings").style.display = 'none';
-                        
+
                     }
 
                     document.getElementById("divID").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
                     document.getElementById("div_pages").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
-                    
+
                     //if (formName == "pnl_Splash" || formName == "pnl_LoginForm" || formName == "pnl_Categories" || formName == "pnl_Cat1Levels" || formName == "pnl_Cat2Levels" || formName == "pnl_Cat3Levels") {
-                        
+
                     //} else {
                     //    document.getElementById("divID").style.background = "";
                     //}
@@ -78,7 +78,7 @@
                 $('#' + formName + '').appendTo('#div_pages');
                 if (formName != "pnl_LoginForm") {
                     document.getElementById("pnl_Menu").style.display = 'block';
-                    if (formName == "pnl_Categories" ) {
+                    if (formName == "pnl_Categories") {
                         document.getElementById("div_Settings").style.display = 'block';
 
                         //document.getElementById("divID").style.background = "#E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%";
@@ -118,6 +118,20 @@
 
             show_OnlyFormWithMenu('pnlLevel1Practices');
             StartStage2LevelsView();
+        }
+
+        function GotoStarPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('page_level2_star');
+            level2star_start(levelid);
+        }
+
+        function GotoRectPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('page_level2_Rect');
+            level2Rect_start(levelid);
         }
 
         function GotoStage2PuzzlePractice(levelid) {
@@ -207,13 +221,13 @@
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/Autizam/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
+            xhr.open("POST", "http://localhost/Autizam/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
             //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
             xhr.onload = function () {
                 var json_string = xhr.responseText;
                 var json = JSON.parse(json_string);
                 var maxPractice = 1;
-                
+
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
                     if (json.error_msg[i].PracticeID == 1) {
                         if (stageID == 3) {
@@ -249,7 +263,7 @@
                         maxPractice = 12;
                     }
                 }
-                
+
                 if (maxPractice > 1) {
                     if (maxPractice < 10) {
                         document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
@@ -275,7 +289,7 @@
 
         function RegisterScore() {
             //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
-            
+
             var userId = document.getElementById('userid').value;
             var userScore = document.getElementById('score').value;
             var stageID = document.getElementById('currentStage').value;
@@ -294,7 +308,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/Autizam/setuserscore.php?id=" + userId + "&practice= "
+            xhr.open("POST", "http://localhost/Autizam/setuserscore.php?id=" + userId + "&practice= "
                 + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
             //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
 
@@ -444,160 +458,287 @@
     <!--level2_star-->
     <script>
         function allowDrop(ev) {
-          ev.preventDefault();
-      }
+            ev.preventDefault();
+        }
 
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
 
-            function drop(ev) {
-                ev.preventDefault();
-                var data = ev.dataTransfer.getData("text");
-                ev.target.appendChild(document.getElementById(data));
-            }
-            </script>
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
     <script>
         var timeoutPeriod = 12000;
-            var maxTime = 0;
-            var maxRepeat = 0;
-            var repeatCount = 0;
-            var score = 0;
-            var startTime = Date.now();
-            var lastTime = Date.now();
-            var emptyimageURL = "/www/lib/content/level02/empty_star.png";
-            var fullimageURL = "/www/lib/content/level02/full_star.png";
+        var maxTime = 0;
+        var maxRepeat = 0;
+        var repeatCount = 0;
+        var score = 0;
+        var startTime = Date.now();
+        var lastTime = Date.now();
+        var emptyimageURL = "content/level02/empty_star.png";
+        var fullimageURL = "content/level02/full_star.png";
 
+        function level2star_start(levelid) {
 
-            function Hide() {
-                $(document).ready(function () {
-                    $('#div_pages > :not(#page_Level2_Star2)').hide();
-                    $('#page_Level2_Star2').appendTo('#div_pages');
-                });
+            //$(document).ready(function () {
+            //    $('#div_pages > :not(#page_level2_star)').hide();
+            //    $('#page_level2_star').appendTo('#div_pages');
+            //});
+            initialize(levelid);
+        }
+
+        function initialize(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 4;
+            startTime = Date.now();
+            lastTime = Date.now();
+
+            if (levelid == 5) {
+                emptyimageURL = "content/level02/pic5.png";
+                fullimageURL = "content/level02/pic5.png";
+            } else if (levelid == 6) {
+                emptyimageURL = "content/level02/pic6.png";
+                fullimageURL = "content/level02/pic6.png";
+            } else if (levelid == 7) {
+                emptyimageURL = "content/level02/pic7.png";
+                fullimageURL = "content/level02/pic7.png";
+            } else if (levelid == 8) {
+                emptyimageURL = "content/level02/pic8.png";
+                fullimageURL = "content/level02/pic8.png";
             }
-            function level2star_start() {
+            Level2Star_UpdateCells();
+        }
 
-                $(document).ready(function () {
-                    $('#div_pages > :not(#page_level2_star)').hide();
-                    $('#page_level2_star').appendTo('#div_pages');
-                });
-                initialize();
+        function Level2Star_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_empty");
+            var fullImage = document.getElementById("img_full");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Star_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Star_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Star_UpdateCells();
             }
+            return;
+        }
 
-            function initialize() {
-                timeoutPeriod = 12000;
-                maxTime = 60000;
-                maxRepeat = 5;
-                startTime = Date.now();
-                lastTime = Date.now();
-                emptyimageURL = "/www/lib/content/level02/empty_star.png";
-                fullimageURL = "/www/lib/content/level02/full_star.png";
-                UpdateCells();
-            }
+        function allowDropStar(ev) {
+            ev.preventDefault();
+        }
 
-            function Level2Star_UpdateCells() {
-                var emptyImage = document.getElementById("img_empty");
-                var fullImage = document.getElementById("img_full");
-                emptyImage.setAttribute("src", emptyimageURL);
-                fullImage.setAttribute("src", fullimageURL);
+        function dragStar(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
 
-                repeatCount = repeatCount + 1;
-                lastTime = Date.now();
-                setTimeout(Level2Star_TimeOut, timeoutPeriod);
-            }
+        function dropStar(ev) {
 
-            function Level2Star_TimeOut() {
-                var currentTime = Date.now();
-                if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
-                    //TimeOut
-                    Level2Star_UpdateCells();
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_empty");
+                var fullimage = document.getElementById("img_full");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
                 }
-                return;
-            }
 
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Star_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
 
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function drop(ev) {
-                ev.preventDefault();
-                var currentTime = Date.now();
-                var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
-                if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                    var emptyimage = document.getElementById("img_empty");
-                    var fullimage = document.getElementById("img_full");
-
-                    emptyimage.setAttribute("src", fullimageURL);
-                    fullimage.setAttribute("src", emptyimageURL);
-
-                    score = score + 1;
-                    document.getElementById("score").value = score;
-                    if (repeatCount < maxRepeat) {
-                        setTimeout(UpdateCells, 2000);
-                    }
-                    else {
-                        //Practice Finished
-                        //alert(score);
-                        RegisterScore();
-
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels(4);
-                    }
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
                 }
             }
-            </script>
+        }
+    </script>
     <!--level2_star-->
+
+    <!-- Level 2 Rect Script -->
+    <script>
+
+        function level2Rect_start(levelid) {
+
+            //$(document).ready(function () {
+            //    $('#div_pages > :not(#page_level2_star)').hide();
+            //    $('#page_level2_star').appendTo('#div_pages');
+            //});
+            initializeRect(levelid);
+        }
+
+        function initializeRect(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 4;
+            startTime = Date.now();
+            lastTime = Date.now();
+
+            if (levelid == 5) {
+                emptyimageURL = "content/level02/pic5.png";
+                fullimageURL = "content/level02/pic5.png";
+            } else if (levelid == 6) {
+                emptyimageURL = "content/level02/pic6.png";
+                fullimageURL = "content/level02/pic6.png";
+            } else if (levelid == 7) {
+                emptyimageURL = "content/level02/pic7.png";
+                fullimageURL = "content/level02/pic7.png";
+            } else if (levelid == 8) {
+                emptyimageURL = "content/level02/pic8.png";
+                fullimageURL = "content/level02/pic8.png";
+            }
+            Level2Rect_UpdateCells();
+        }
+
+        function Level2Rect_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyRect");
+            var fullImage = document.getElementById("img_fullRect");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Rect_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Rect_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Rect_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropRect(ev) {
+            ev.preventDefault();
+        }
+
+        function dragRect(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropRect(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyRect");
+                var fullimage = document.getElementById("img_fullRect");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
+                }
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Rect_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+
 
     <!--Categories Form-->
     <script>
         var userID;
-            function RegisterUser() {
-                name = document.getElementById('txtName').value;
-                age = document.getElementById('txtAge').value;
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8080/Autizam/register.php?name=" + name + "&age= " + age, false);
-                xhr.onload = function () {
-                    //navigator.notification.alert("Message", "", "Caption");
-                    var json_string = xhr.responseText;
+        function RegisterUser() {
+            name = document.getElementById('txtName').value;
+            age = document.getElementById('txtAge').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
+            xhr.onload = function () {
+                //navigator.notification.alert("Message", "", "Caption");
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                userID = json.user.id;
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
                     var json = JSON.parse(json_string);
-                    userID = json.user.id;
-                    if (xhr.status == 200) {
-                        //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
-
-                        var json = JSON.parse(json_string);
-                        //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
-                    }
-                    else if (xhr.status == 404) {
-                        //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
-                    }
-                    else {
-                        //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
-                    }
+                    //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
                 }
-                xhr.send();
-
-                //GoTocontainerMenu();
-                //window.location.href = "categories.html?userid=" + userID;
-                document.getElementById("userid").value = userID;
-                document.getElementById('userid').value = userID;
-                if (userID > 0) {
-                    document.getElementById("divusername").innerHTML = "Welcome: " + name;
-                } else {
-                    document.getElementById("divusername").innerHTML = "";
+                else if (xhr.status == 404) {
+                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
                 }
-                ShowCategoriesForm();
+                else {
+                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                }
             }
+            xhr.send();
 
-            function ShowCategoriesForm() {
-                show_OnlyFormWithMenu("pnl_Categories");
-                //PlayMusic();
+            //GoTocontainerMenu();
+            //window.location.href = "categories.html?userid=" + userID;
+            document.getElementById("userid").value = userID;
+            document.getElementById('userid').value = userID;
+            if (userID > 0) {
+                document.getElementById("divusername").innerHTML = "Welcome: " + name;
+            } else {
+                document.getElementById("divusername").innerHTML = "";
             }
+            ShowCategoriesForm();
+        }
 
-            </script>
+        function ShowCategoriesForm() {
+            show_OnlyFormWithMenu("pnl_Categories");
+            //PlayMusic();
+        }
+
+    </script>
     <style>
         /* CSS responsive square grid */
         .Category img {
@@ -645,90 +786,90 @@
     <!--Menue Actions-->
     <script>
         var musictrack;
-            function PlayMusic() {
-                //musictrack = new Audio("content/sounds/music.ogg");
-                //musictrack.play();
+        function PlayMusic() {
+            //musictrack = new Audio("content/sounds/music.ogg");
+            //musictrack.play();
 
 
 
+            //var beepOne = $("#beep-one")[0];
+            //beepOne.play();
+        }
+        function EnableDisableMusic() {
+            var music = document.getElementById("isMusicPlayed").value;
+            if (music == 0) {
                 //var beepOne = $("#beep-one")[0];
                 //beepOne.play();
+                //musictrack = new Audio("content/sounds/music.ogg");
+                //musictrack.play();
+                document.getElementById("idMusic").src = "content/screen02/Music.png";
+                document.getElementById("isMusicPlayed").value = 1;
+            } else {
+                //var beepOne = $("#beep-one")[0];
+                //musictrack.pause();
+                document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+                document.getElementById("isMusicPlayed").value = 0;
             }
-            function EnableDisableMusic() {
-                var music = document.getElementById("isMusicPlayed").value;
-                if (music == 0) {
-                    //var beepOne = $("#beep-one")[0];
-                    //beepOne.play();
-                    //musictrack = new Audio("content/sounds/music.ogg");
-                    //musictrack.play();
-                    document.getElementById("idMusic").src = "content/screen02/Music.png";
-                    document.getElementById("isMusicPlayed").value = 1;
-                } else {
-                    //var beepOne = $("#beep-one")[0];
-                    //musictrack.pause();
-                    document.getElementById("idMusic").src = "content/screen02/Music-off.png";
-                    document.getElementById("isMusicPlayed").value = 0;
-                }
-            }
+        }
 
-            function EnableDisableSound() {
-                var sound = document.getElementById("isSoundPlayed").value;
-                if (sound == 0) {
-                    document.getElementById("idSound").src = "content/screen02/Sound.png";
-                    sound = 1;
-                } else {
-                    document.getElementById("idSound").src = "content/screen02/Sound-off.png";
-                    sound = 0;
-                }
-                document.getElementById("isSoundPlayed").value = sound;
+        function EnableDisableSound() {
+            var sound = document.getElementById("isSoundPlayed").value;
+            if (sound == 0) {
+                document.getElementById("idSound").src = "content/screen02/Sound.png";
+                sound = 1;
+            } else {
+                document.getElementById("idSound").src = "content/screen02/Sound-off.png";
+                sound = 0;
             }
+            document.getElementById("isSoundPlayed").value = sound;
+        }
 
-            function GotoInfo() {
-                show_OnlyFormWithMenu("pnl_Info");
-            }
+        function GotoInfo() {
+            show_OnlyFormWithMenu("pnl_Info");
+        }
 
-            </script>
+    </script>
     <!--Menue Actions-->
 
     <!--Categ 1 Levels-->
     <script>
         var images = new Array(2);
-            var sounds = new Array(2);
+        var sounds = new Array(2);
 
-            function GoHome() {
-                window.location.href = "categories.html";
+        function GoHome() {
+            window.location.href = "categories.html";
+        }
+
+        function GotoPractice(practiceID) {
+            //window.location.href = "level1.html";
+            //var name = $(this).data('username');        
+            if (practiceID != undefined && practiceID != null) {
+                window.location = 'level1.html?practiceid=' + practiceID + '&userid=' + document.getElementById("userid").value;
             }
+        }
 
-            function GotoPractice(practiceID) {
-                //window.location.href = "level1.html";
-                //var name = $(this).data('username');        
-                if (practiceID != undefined && practiceID != null) {
-                    window.location = 'level1.html?practiceid=' + practiceID + '&userid=' + document.getElementById("userid").value;
-                }
+        var finishedid = getParameterByName('finishedid');
+        var UserId = getParameterByName('userid');
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
             }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
 
-            var finishedid = getParameterByName('finishedid');
-            var UserId = getParameterByName('userid');
-            function getParameterByName(name, url) {
-                if (!url) {
-                    url = window.location.href;
-                }
-                name = name.replace(/[\[\]]/g, "\\$&");
-                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(url);
-                if (!results) return null;
-                if (!results[2]) return '';
-                return decodeURIComponent(results[2].replace(/\+/g, " "));
-            }
+        function LoadFinished() {
+            document.getElementById("userid").value = getParameterByName('userid');
+            //alert(document.getElementById("userid").value);
+            //alert(window.location.href);
+            GetActiveLevels(1);
+        }
 
-            function LoadFinished() {
-                document.getElementById("userid").value = getParameterByName('userid');
-                //alert(document.getElementById("userid").value);
-                //alert(window.location.href);
-                GetActiveLevels(1);
-            }
-
-            </script>
+    </script>
     <style>
         /* CSS responsive square grid */
         .grid-photo {
@@ -897,160 +1038,160 @@
     <!--Categ 1 Levels Practices-->
     <script>
         var imgURL = "";
-            var stepIndex = 0;
+        var stepIndex = 0;
 
-            function FadInOut() {
-                //alert("sdsdsd");
-                $(document).ready(function () {
+        function FadInOut() {
+            //alert("sdsdsd");
+            $(document).ready(function () {
 
-                    $("#div_Started").fadeIn(3000);
-                    $("#div_Started").fadeOut(3000);
-                    $("#div_Started").setAttribute("Display", "none");
-                    //$("#div-Excercise").fadeIn(3000);
-                    //$("#div-Excercise").setAttribute("Display", "block");
-                });
+                $("#div_Started").fadeIn(3000);
+                $("#div_Started").fadeOut(3000);
+                $("#div_Started").setAttribute("Display", "none");
+                //$("#div-Excercise").fadeIn(3000);
+                //$("#div-Excercise").setAttribute("Display", "block");
+            });
+        }
+
+        function StartStage1LevelsView() {
+
+            var practiceid = document.getElementById('currentPracitceLevel').value;
+            var PracticeImageName = "content/level01/pic" + practiceid + ".png";
+            //Intialize(0, "content/level01/pic01.png", 6000);
+
+            IntializeLevel1(0, PracticeImageName, 6000);
+
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 1;
+            repeatCount = 1;
+            setTimeout(Level1_TimeOut, timeoutPeriod);
+
+        }
+
+        function IntializeLevel1(Type, URL, Time) {
+            imgURL = URL;
+            timeoutPeriod = Time;
+
+            stepIndex = 0;
+
+            if (Type == 0) {
+                //Random
+                var id = 0;
+                var exists = false;
+                for (index = 0; index < 5; index++) {
+                    exists = false;
+                    while (!exists) {
+                        id = Math.floor((Math.random() * 20) + 1);
+                        if (ids.indexOf(id) < 0) {
+                            ids[index] = id;
+                            exists = true;
+                        }
+                    }
+
+                    //alert(id);
+                }
             }
 
-            function StartStage1LevelsView() {
-
-                var practiceid = document.getElementById('currentPracitceLevel').value;
-                var PracticeImageName = "content/level01/pic" + practiceid + ".png";
-                //Intialize(0, "content/level01/pic01.png", 6000);
-
-                IntializeLevel1(0, PracticeImageName, 6000);
-
-                startTime = Date.now();
-                lastTime = Date.now();
-                maxTime = 60000;
-                maxRepeat = 1;
-                repeatCount = 1;
-                setTimeout(Level1_TimeOut, timeoutPeriod);
-
+            for (i = 1; i <= cellCount; i++) {
+                document.getElementById(i).src = "";
             }
+            document.getElementById(ids[stepIndex]).src = imgURL;
+        }
 
-            function IntializeLevel1(Type, URL, Time) {
-                imgURL = URL;
-                timeoutPeriod = Time;
-
-                stepIndex = 0;
-
-                if (Type == 0) {
-                    //Random
-                    var id = 0;
-                    var exists = false;
-                    for (index = 0; index < 5; index++) {
-                        exists = false;
-                        while (!exists) {
-                            id = Math.floor((Math.random() * 20) + 1);
-                            if (ids.indexOf(id) < 0) {
-                                ids[index] = id;
-                                exists = true;
-                            }
-                        }
-
-                        //alert(id);
-                    }
+        function Level1_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                document.getElementById(ids[i]).src = "";
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
                 }
-
-                for (i = 1; i <= cellCount; i++) {
-                    document.getElementById(i).src = "";
-                }
-                document.getElementById(ids[stepIndex]).src = imgURL;
-            }
-
-            function Level1_UpdateCells(currentCellId) {
-                var nextCellIndex;
-                for (i = 0 ; i < ids.length ; i++) {
-                    document.getElementById(ids[i]).src = "";
-                    if (currentCellId == ids[i] && i < ids.length - 1) {
-                        nextCellIndex = i + 1;
-                        stepIndex = stepIndex + 1;
-                    }
-                    else if (currentCellId == ids[ids.length - 1]) {
-                        if (repeatCount != maxRepeat) {
-                            repeatCount = repeatCount + 1;
-                            stepIndex = 0;
-                            nextCellIndex = 0;
-                        }
-                        else {
-                            nextCellIndex = -1; //Move To Next Example.   
-                            stepIndex = -1;
-                        }
-                        break;
-                    }
-                }
-
-                if (nextCellIndex != -1) {
-                    document.getElementById(currentCellId).src = "";
-                    document.getElementById(ids[nextCellIndex]).src = imgURL;
-
-                    lastTime = Date.now();
-                    setTimeout(Level1_TimeOut, timeoutPeriod);
-                }
-                else {
-                    //Excersise Finished
-                    var currentTime = Date.now();
-                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
-
-                        RegisterScore();
-
-                        show_OnlyFormWithMenu("pnl_Cat1Levels");
-                        GetActiveLevels(1);
-
-                        //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
-
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
                     }
                     else {
-                        RegisterScore();
-
-                        show_OnlyFormWithMenu("pnl_Cat1Levels");
-                        GetActiveLevels(1);
-
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
                     }
+                    break;
                 }
-                return;
             }
 
-            function Level12_ItemClicked(currentCellId) {
+            if (nextCellIndex != -1) {
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = imgURL;
 
-                if (document.getElementById('currentStage').value == 1) {
-                    Level1_ItemClicked(currentCellId);
-                } else {
-                    //alert(document.getElementById('currentStage').value);
-
-                    Level2_ItemClicked(currentCellId);
-                }
-
+                lastTime = Date.now();
+                setTimeout(Level1_TimeOut, timeoutPeriod);
             }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
-            function Level1_ItemClicked(currentCellId) {
-                if (!Level1_CheckClickedID(currentCellId))
-                    return;
+                    RegisterScore();
 
-                score = score + 1;
-                document.getElementById("score").value = score;
-                Level1_UpdateCells(currentCellId);
-            }
+                    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                    GetActiveLevels(1);
 
-            function Level1_CheckClickedID(currentCellId) {
-                if (currentCellId == ids[stepIndex]) {
-                    return true;
+                    //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
+
                 }
                 else {
-                    return false;
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                    GetActiveLevels(1);
+
                 }
             }
+            return;
+        }
 
-            function Level1_TimeOut() {
-                var currentTime = Date.now();
-                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                    lastTime = Date.now();
-                    Level1_UpdateCells(ids[stepIndex]);
-                }
+        function Level12_ItemClicked(currentCellId) {
+
+            if (document.getElementById('currentStage').value == 1) {
+                Level1_ItemClicked(currentCellId);
+            } else {
+                //alert(document.getElementById('currentStage').value);
+
+                Level2_ItemClicked(currentCellId);
+            }
+
+        }
+
+        function Level1_ItemClicked(currentCellId) {
+            if (!Level1_CheckClickedID(currentCellId))
                 return;
-            }
 
-            </script>
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level1_UpdateCells(currentCellId);
+        }
+
+        function Level1_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level1_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                Level1_UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+
+    </script>
     <style>
         /* CSS responsive square grid */
         .grid-level {
@@ -1058,40 +1199,40 @@
             margin: 0px;
         }
 
-        .grid-level:after {
-            border: none;
-            content: '';
-            display: block;
-            clear: both;
-        }
+            .grid-level:after {
+                border: none;
+                content: '';
+                display: block;
+                clear: both;
+            }
 
-        .grid-level li {
-            float: left;
-            border: none;
-            position: relative;
-            display: block;
-            float: left;
-            width: 20%;
-            padding-bottom: 20%;
-            list-style-type: none;
-        }
+            .grid-level li {
+                float: left;
+                border: none;
+                position: relative;
+                display: block;
+                float: left;
+                width: 20%;
+                padding-bottom: 20%;
+                list-style-type: none;
+            }
 
-        .grid-level .grid-level-box {
-            border: none;
-            position: absolute;
-            left: 3px;
-            right: 3px;
-            top: 3px;
-            bottom: 3px;
-            list-style-type: none;
-            text-align: center;
-        }
+            .grid-level .grid-level-box {
+                border: none;
+                position: absolute;
+                left: 3px;
+                right: 3px;
+                top: 3px;
+                bottom: 3px;
+                list-style-type: none;
+                text-align: center;
+            }
 
-        .grid-level .grid-level-box:before {
-            border: none;
-            vertical-align: middle;
-            height: 100%;
-        }
+                .grid-level .grid-level-box:before {
+                    border: none;
+                    vertical-align: middle;
+                    height: 100%;
+                }
 
         .grid-level-box img {
             text-align: center;
@@ -1101,7 +1242,7 @@
             max-width: 100%;
         }
 
-        .grid-level img {            
+        .grid-level img {
             height: 100%;
             width: auto;
             max-width: 100%;
@@ -1147,181 +1288,181 @@
     <!--Categ 2 Levels Practices-->
     <script>
         var imgURL = "";
-            var maxTime = 0;
-            var maxRepeat = 0;
-            var stepIndex = 0;
-            //var score = 0;
-            var cellCount = 20;
-            var ids = new Array(5);
+        var maxTime = 0;
+        var maxRepeat = 0;
+        var stepIndex = 0;
+        //var score = 0;
+        var cellCount = 20;
+        var ids = new Array(5);
 
-            function StartStage2LevelsView() {
-                var practiceid = document.getElementById('currentPracitceLevel').value;
+        function StartStage2LevelsView() {
+            var practiceid = document.getElementById('currentPracitceLevel').value;
 
-                var practiceType = practiceid;
-                if (practiceid == 1) {
-                    practiceType = 1;
-                } else if (practiceid == 2) {
-                    practiceType = 6;
-                } else if (practiceid == 4 || practiceid == 5) {
-                    practiceType = 3;
-                } else if (practiceid == 6) {
-                    practiceType = 4;
-                } else if (practiceid == 7) {
-                    practiceType = 2;
-                } else if (practiceid == 8) {
-                    practiceType = 5;
-                }
-
-                if (practiceid == 1) {
-                    //document.getElementById('currentPracitceLevel').src = "content\leve02\pic01-bg.png"
-                } else {
-                    //document.getElementById('currentPracitceLevel').src = "content\leve02\bg.png";
-                }
-
-                var PracticeImageName = "content/level02/pic" + practiceid + ".png";
-
-                IntializeLevel2(practiceType, PracticeImageName, 6000);
-
-                startTime = Date.now();
-                lastTime = Date.now();
-                maxTime = 60000;
-                maxRepeat = 1;
-                repeatCount = 1;
-                setTimeout(TimeOut, timeoutPeriod);
+            var practiceType = practiceid;
+            if (practiceid == 1) {
+                practiceType = 1;
+            } else if (practiceid == 2) {
+                practiceType = 6;
+            } else if (practiceid == 4 || practiceid == 5) {
+                practiceType = 3;
+            } else if (practiceid == 6) {
+                practiceType = 4;
+            } else if (practiceid == 7) {
+                practiceType = 2;
+            } else if (practiceid == 8) {
+                practiceType = 5;
             }
 
-            function IntializeLevel2(Type, URL, Time) {
-                imgURL = URL;
-                timeoutPeriod = Time;
-
-                stepIndex = 0;
-
-                if (Type == 0) {
-                    //Random
-                    var id = 0;
-                    var exists = false;
-                    for (index = 0; index < 5; index++) {
-                        exists = false;
-                        while (!exists) {
-                            id = Math.floor((Math.random() * 20) + 1);
-                            if (ids.indexOf(id) < 0) {
-                                ids[index] = id;
-                                exists = true;
-                            }
-                        }
-                    }
-
-                }
-                else if (Type == 1) {
-                    //UpForward
-                    ids = ["16", "17", "13", "9", "5"];
-                }
-                else if (Type == 2) {
-                    //DownForward
-                    ids = ["1", "7", "13", "19", "20"];
-                }
-                else if (Type == 3) {
-                    //Left to Right
-                    ids = ["11", "12", "13", "14", "15"];
-                }
-                else if (Type == 4) {
-                    //bottom to top
-                    ids = ["18", "13", "8", "3"];
-                }
-                else if (Type == 5) {
-                    //Half Circle
-                    ids = ["15", "9", "3", "7", "11"];
-                }
-                else if (Type == 6) {
-                    //UpForward
-                    ids = ["16", "17", "13", "9", "5"];
-                }
-
-                for (i = 1; i <= cellCount; i++) {
-                    document.getElementById(i).src = "";
-                }
-
-                document.getElementById(ids[stepIndex]).src = imgURL;
+            if (practiceid == 1) {
+                //document.getElementById('currentPracitceLevel').src = "content\leve02\pic01-bg.png"
+            } else {
+                //document.getElementById('currentPracitceLevel').src = "content\leve02\bg.png";
             }
 
-            function Level2_UpdateCells(currentCellId) {
-                var nextCellIndex;
-                for (i = 0 ; i < ids.length ; i++) {
-                    document.getElementById(ids[i]).src = "";
-                    if (currentCellId == ids[i] && i < ids.length - 1) {
-                        nextCellIndex = i + 1;
-                        stepIndex = stepIndex + 1;
-                    }
-                    else if (currentCellId == ids[ids.length - 1]) {
-                        if (repeatCount != maxRepeat) {
-                            repeatCount = repeatCount + 1;
-                            stepIndex = 0;
-                            nextCellIndex = 0;
+            var PracticeImageName = "content/level02/pic" + practiceid + ".png";
+
+            IntializeLevel2(practiceType, PracticeImageName, 6000);
+
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 1;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
+        }
+
+        function IntializeLevel2(Type, URL, Time) {
+            imgURL = URL;
+            timeoutPeriod = Time;
+
+            stepIndex = 0;
+
+            if (Type == 0) {
+                //Random
+                var id = 0;
+                var exists = false;
+                for (index = 0; index < 5; index++) {
+                    exists = false;
+                    while (!exists) {
+                        id = Math.floor((Math.random() * 20) + 1);
+                        if (ids.indexOf(id) < 0) {
+                            ids[index] = id;
+                            exists = true;
                         }
-                        else {
-                            nextCellIndex = -1; //Move To Next Example.   
-                            stepIndex = -1;
-                        }
-                        break;
                     }
                 }
 
-                if (nextCellIndex != -1) {
-                    document.getElementById(currentCellId).src = "";
-                    document.getElementById(ids[nextCellIndex]).src = imgURL;
-                    lastTime = Date.now();
-                    setTimeout(Level2_TimeOut, timeoutPeriod);
+            }
+            else if (Type == 1) {
+                //UpForward
+                ids = ["16", "17", "13", "9", "5"];
+            }
+            else if (Type == 2) {
+                //DownForward
+                ids = ["1", "7", "13", "19", "20"];
+            }
+            else if (Type == 3) {
+                //Left to Right
+                ids = ["11", "12", "13", "14", "15"];
+            }
+            else if (Type == 4) {
+                //bottom to top
+                ids = ["18", "13", "8", "3"];
+            }
+            else if (Type == 5) {
+                //Half Circle
+                ids = ["15", "9", "3", "7", "11"];
+            }
+            else if (Type == 6) {
+                //UpForward
+                ids = ["16", "17", "13", "9", "5"];
+            }
+
+            for (i = 1; i <= cellCount; i++) {
+                document.getElementById(i).src = "";
+            }
+
+            document.getElementById(ids[stepIndex]).src = imgURL;
+        }
+
+        function Level2_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                document.getElementById(ids[i]).src = "";
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
                 }
-                else {
-                    //Excersise Finished
-                    var currentTime = Date.now();
-                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
-
-                        RegisterScore();
-                        GetActiveLevels(2);
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-
-
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
                     }
                     else {
-                        RegisterScore();
-                        GetActiveLevels(2);
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-
-
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
                     }
+                    break;
                 }
-                return;
             }
 
-            function Level2_ItemClicked(currentCellId) {
-                if (!Level2_CheckClickedID(currentCellId))
-                    return;
-
-                score = score + 1;
-                document.getElementById("score").value = score;
-                Level2_UpdateCells(currentCellId);
+            if (nextCellIndex != -1) {
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = imgURL;
+                lastTime = Date.now();
+                setTimeout(Level2_TimeOut, timeoutPeriod);
             }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
-            function Level2_CheckClickedID(currentCellId) {
-                if (currentCellId == ids[stepIndex]) {
-                    return true;
+                    RegisterScore();
+                    GetActiveLevels(2);
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+
                 }
                 else {
-                    return false;
+                    RegisterScore();
+                    GetActiveLevels(2);
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+
+
                 }
             }
+            return;
+        }
 
-            function Level2_TimeOut() {
-                var currentTime = Date.now();
-                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                    lastTime = Date.now();
-                    Level2_UpdateCells(ids[stepIndex]);
-                }
+        function Level2_ItemClicked(currentCellId) {
+            if (!Level2_CheckClickedID(currentCellId))
                 return;
-            }
 
-            </script>
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level2_UpdateCells(currentCellId);
+        }
+
+        function Level2_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level2_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                Level2_UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+
+    </script>
 
     <!--Categ 2 Levels Practices-->
 
@@ -1330,122 +1471,122 @@
     <script>
 
         var successmatch = 0;
-            var images5 = new Array(5);
-            var sourcecells = new Array(5);
-            var targetcells = new Array(5);
+        var images5 = new Array(5);
+        var sourcecells = new Array(5);
+        var targetcells = new Array(5);
 
-            function StartStage2LevelPuzzleView() {
+        function StartStage2LevelPuzzleView() {
 
-                IntializeLevelPuzzle(25000);
-                //startTime = Date.now();
-                //lastTime = Date.now();
-                //maxTime = 250000;
-                //maxRepeat = 5;
-                //repeatCount = 1;
-                //setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
+            IntializeLevelPuzzle(25000);
+            //startTime = Date.now();
+            //lastTime = Date.now();
+            //maxTime = 250000;
+            //maxRepeat = 5;
+            //repeatCount = 1;
+            //setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
+        }
+
+        function IntializeLevelPuzzle(Time) {
+            timeoutPeriod = Time;
+            maxRepeat = 2;
+            repeatCount = 1;
+            maxTime = maxRepeat * timeoutPeriod;
+            images5 = ["content/Puzzle/car_9.jpg", "content/Puzzle/car_3.jpg", "content/Puzzle/car_23.jpg", "content/Puzzle/car_20.jpg", "content/Puzzle/car_12.jpg"];
+            sourcecells = ["drag1", "drag2", "drag3", "drag4", "drag5"];
+            targetcells = ["img9", "img3", "img23", "img20", "img12"];
+            Level2PuzzleUpdateCells();
+            startTime = Date.now();
+            lastTime = Date.now();
+        }
+
+        function Level2PuzzleUpdateCells() {
+            for (i = 0 ; i <= images5.length - 1 ; i++) {
+                document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
+                document.getElementById(targetcells[i]).setAttribute("src", "");
             }
+            successmatch = 0;
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+            setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
+        }
 
-            function IntializeLevelPuzzle(Time) {
-                timeoutPeriod = Time;
-                maxRepeat = 2;
-                repeatCount = 1;
-                maxTime = maxRepeat * timeoutPeriod;
-                images5 = ["content/Puzzle/car_9.jpg", "content/Puzzle/car_3.jpg", "content/Puzzle/car_23.jpg", "content/Puzzle/car_20.jpg", "content/Puzzle/car_12.jpg"];
-                sourcecells = ["drag1", "drag2", "drag3", "drag4", "drag5"];
-                targetcells = ["img9", "img3", "img23", "img20", "img12"];
+        function Level2PuzzleTimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
                 Level2PuzzleUpdateCells();
-                startTime = Date.now();
-                lastTime = Date.now();
             }
+            return;
+        }
 
-            function Level2PuzzleUpdateCells() {
-                for (i = 0 ; i <= images5.length - 1 ; i++) {
-                    document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
-                    document.getElementById(targetcells[i]).setAttribute("src", "");
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var currentTime = Date.now();
+            var sourcecellId;
+            var targetcellId;
+            var sourcecellIndex;
+            var targetcellIndex;
+
+            sourcecellId = ev.dataTransfer.getData("text");
+            for (i = 0; i <= sourcecells.length - 1; i++) {
+                if (sourcecells[i] == sourcecellId) {
+                    sourcecellIndex = i;
+                    break;
                 }
-                successmatch = 0;
-                repeatCount = repeatCount + 1;
-                lastTime = Date.now();
-                setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
             }
 
-            function Level2PuzzleTimeOut() {
-                var currentTime = Date.now();
-                if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
-                    //TimeOut
-                    Level2PuzzleUpdateCells();
+            if (ev.target.hasChildNodes()) {
+                targetcellId = ev.target.childNodes[0].getAttribute("id");
+            }
+            else {
+                targetcellId = ev.target.getAttribute("id");
+            }
+            for (i = 0; i <= targetcells.length - 1; i++) {
+                if (targetcells[i] == targetcellId) {
+                    targetcellIndex = i;
+                    break;
                 }
-                return;
             }
 
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
+                document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
+                document.getElementById(sourcecellId).setAttribute("src", "");
+                successmatch = successmatch + 1;
+                score = score + 1;
+                document.getElementById("score").value = score;
 
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function drop(ev) {
-                ev.preventDefault();
-                var currentTime = Date.now();
-                var sourcecellId;
-                var targetcellId;
-                var sourcecellIndex;
-                var targetcellIndex;
-
-                sourcecellId = ev.dataTransfer.getData("text");
-                for (i = 0; i <= sourcecells.length - 1; i++) {
-                    if (sourcecells[i] == sourcecellId) {
-                        sourcecellIndex = i;
-                        break;
+                if (successmatch == images5.length) {
+                    if (repeatCount <= maxRepeat) {
+                        setTimeout(Level2PuzzleUpdateCells, 2000);
                     }
-                }
+                    else {
+                        //Practice Finished
+                        score = document.getElementById("score").value;
+                        //document.getElementById("currentScore").value = score;
 
-                if (ev.target.hasChildNodes()) {
-                    targetcellId = ev.target.childNodes[0].getAttribute("id");
-                }
-                else {
-                    targetcellId = ev.target.getAttribute("id");
-                }
-                for (i = 0; i <= targetcells.length - 1; i++) {
-                    if (targetcells[i] == targetcellId) {
-                        targetcellIndex = i;
-                        break;
-                    }
-                }
+                        RegisterScore();
+                        GetActiveLevels(2);
+                        show_OnlyFormWithMenu("pnl_Cat2Levels");
 
-                if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
-                    document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
-                    document.getElementById(sourcecellId).setAttribute("src", "");
-                    successmatch = successmatch + 1;
-                    score = score + 1;
-                    document.getElementById("score").value = score;
-
-                    if (successmatch == images5.length) {
-                        if (repeatCount <= maxRepeat) {
-                            setTimeout(Level2PuzzleUpdateCells, 2000);
-                        }
-                        else {
-                            //Practice Finished
-                            score = document.getElementById("score").value;
-                            //document.getElementById("currentScore").value = score;
-
-                            RegisterScore();
-                            GetActiveLevels(2);
-                            show_OnlyFormWithMenu("pnl_Cat2Levels");
-
-                            $(document).ready(function () {
-                                $("#divExcercise").fadeOut(3000);
-                                $("#divscore").fadeIn(6000);
-                                $("#divscore").fadeOut(6000);
-                                $("#divExcercise").fadeIn(9000);
-                            });
-                        }
+                        $(document).ready(function () {
+                            $("#divExcercise").fadeOut(3000);
+                            $("#divscore").fadeIn(6000);
+                            $("#divscore").fadeOut(6000);
+                            $("#divExcercise").fadeIn(9000);
+                        });
                     }
                 }
             }
-            </script>
+        }
+    </script>
 
     <style>
         /* CSS responsive square grid */
@@ -1453,28 +1594,28 @@
             margin: 0px;
         }
 
-        .grid-puzzle:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        
-        .grid-puzzle li {
-            position: relative;
-            display: block;
-            float: left;
-            width: 16.5%;
-            padding-bottom: 20%;
-        }
-        
-        .grid-puzzle .grid-puzzle-box {
-            position: absolute;
-            left: 2px;
-            right: 2px;
-            top: 2px;
-            bottom: 2px;
-            background-color: transparent;
-        }
+            .grid-puzzle:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .grid-puzzle li {
+                position: relative;
+                display: block;
+                float: left;
+                width: 16.5%;
+                padding-bottom: 20%;
+            }
+
+            .grid-puzzle .grid-puzzle-box {
+                position: absolute;
+                left: 2px;
+                right: 2px;
+                top: 2px;
+                bottom: 2px;
+                background-color: transparent;
+            }
 
         .grid-puzzle-box .dragable-Image {
             -webkit-user-drag: auto;
@@ -1488,7 +1629,7 @@
         }
 
         .grid-puzzle .img-dragable {
-            border:none;
+            border: none;
             background-color: green;
             -webkit-user-drag: auto;
         }
@@ -1540,16 +1681,16 @@
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
 
-        #div_Started img {
-            border:none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 30em;
-            height: 18em;
-            margin-top: -9em; /*set to a negative number 1/2 of your height*/
-            margin-left: -15em; /*set to a negative number 1/2 of your width*/
-        }
+            #div_Started img {
+                border: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 30em;
+                height: 18em;
+                margin-top: -9em; /*set to a negative number 1/2 of your height*/
+                margin-left: -15em; /*set to a negative number 1/2 of your width*/
+            }
 
         #divscore {
             position: fixed;
@@ -1561,17 +1702,17 @@
             margin-left: -15em; /*set to a negative number 1/2 of your width*/
         }
 
-        #divscore input {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 30em;
-            height: 18em;
-            margin-top: -9em; /*set to a negative number 1/2 of your height*/
-            margin-left: -15em; /*set to a negative number 1/2 of your width*/
-            font-size: 48px;
-            color: brown;
-        }
+            #divscore input {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 30em;
+                height: 18em;
+                margin-top: -9em; /*set to a negative number 1/2 of your height*/
+                margin-left: -15em; /*set to a negative number 1/2 of your width*/
+                font-size: 48px;
+                color: brown;
+            }
     </style>
 
     <!--level 2 puzzle-->
@@ -1580,135 +1721,135 @@
 
     <script>
 
-            function StartStage3LevelsView() {
-                IntializeLevel3(6000);
+        function StartStage3LevelsView() {
+            IntializeLevel3(6000);
 
-                startTime = Date.now();
-                lastTime = Date.now();
-                maxTime = 60000;
-                maxRepeat = 5;
-                repeatCount = 1;
-                setTimeout(TimeOut, timeoutPeriod);
+            startTime = Date.now();
+            lastTime = Date.now();
+            maxTime = 60000;
+            maxRepeat = 5;
+            repeatCount = 1;
+            setTimeout(TimeOut, timeoutPeriod);
 
 
+        }
+
+        function IntializeLevel3(Time) {
+            timeoutPeriod = Time;
+            stepIndex = 0;
+            ids = ["right", "left"];
+            practiceid = document.getElementById("currentPracitceLevel").value;
+
+            if (practiceid == 1) {
+                images = ["content/level03/pic6.png", "content/level03/pic10.png"];
+            } else if (practiceid == 2) {
+                images = ["content/level03/banana.png", "content/level03/orange.png"];
+            } else if (practiceid == 3) {
+                images = ["content/level03/pic11.png", "content/level03/pic12.png"];
+            } else if (practiceid == 4) {
+                images = ["content/level03/pic4.png", "content/level03/pic5.png"];
+            } else if (practiceid == 5) {
+                images = ["content/level03/pic8.png", "content/level03/pic9.png"];
+            } else if (practiceid == 6) {
+                images = ["content/level03/pic14.png", "content/level03/pic15.png"];
+            } else if (practiceid == 7) {
+                images = ["content/level03/pic16.png", "content/level03/pic17.png"];
             }
 
-            function IntializeLevel3(Time) {
-                timeoutPeriod = Time;
-                stepIndex = 0;
-                ids = ["right", "left"];
-                practiceid = document.getElementById("currentPracitceLevel").value;
-
-                if (practiceid == 1) {
-                    images = ["content/level03/pic6.png", "content/level03/pic10.png"];
-                } else if (practiceid == 2) {
-                    images = ["content/level03/banana.png", "content/level03/orange.png"];
-                } else if (practiceid == 3) {
-                    images = ["content/level03/pic11.png", "content/level03/pic12.png"];
-                } else if (practiceid == 4) {
-                    images = ["content/level03/pic4.png", "content/level03/pic5.png"];
-                } else if (practiceid == 5) {
-                    images = ["content/level03/pic8.png", "content/level03/pic9.png"];
-                } else if (practiceid == 6) {
-                    images = ["content/level03/pic14.png", "content/level03/pic15.png"];
-                } else if (practiceid == 7) {
-                    images = ["content/level03/pic16.png", "content/level03/pic17.png"];
-                }
-
-                sounds = ["content/sounds/banana.ogg", "content/sounds/orange.ogg"];
-                document.getElementById(ids[0]).src = images[0];
+            sounds = ["content/sounds/banana.ogg", "content/sounds/orange.ogg"];
+            document.getElementById(ids[0]).src = images[0];
 
 
-                document.getElementById(ids[1]).src = "";
+            document.getElementById(ids[1]).src = "";
 
-                if (document.getElementById("isSoundPlayed").value == 1) {
-                    var audio = new Audio(sounds[0]);
-                    audio.play();
-                }
+            if (document.getElementById("isSoundPlayed").value == 1) {
+                var audio = new Audio(sounds[0]);
+                audio.play();
             }
+        }
 
-            function Level3_UpdateCells(currentCellId) {
-                var nextCellIndex;
-                for (i = 0 ; i < ids.length ; i++) {
-                    if (currentCellId == ids[i] && i < ids.length - 1) {
-                        nextCellIndex = i + 1;
-                        stepIndex = stepIndex + 1;
-                    }
-                    else if (currentCellId == ids[ids.length - 1]) {
-                        if (repeatCount != maxRepeat) {
-                            repeatCount = repeatCount + 1;
-                            stepIndex = 0;
-                            nextCellIndex = 0;
-                        }
-                        else {
-                            nextCellIndex = -1; //Move To Next Example.   
-                            stepIndex = -1;
-                        }
-                        break;
-                    }
+        function Level3_UpdateCells(currentCellId) {
+            var nextCellIndex;
+            for (i = 0 ; i < ids.length ; i++) {
+                if (currentCellId == ids[i] && i < ids.length - 1) {
+                    nextCellIndex = i + 1;
+                    stepIndex = stepIndex + 1;
                 }
-                if (nextCellIndex != -1) {
-
-                    document.getElementById(currentCellId).src = "";
-                    document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
-
-                    if (document.getElementById("isSoundPlayed").value == 1) {
-                        var audio = new Audio(sounds[nextCellIndex]);
-                        audio.play();
-                    }
-                    lastTime = Date.now();
-                    setTimeout(TimeOut, timeoutPeriod);
-                }
-                else {
-                    //Excersise Finished
-                    var currentTime = Date.now();
-                    if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
-                        RegisterScore();
-
-                        show_OnlyFormWithMenu("pnl_Cat3Levels");
-                        GetActiveLevels(3);
+                else if (currentCellId == ids[ids.length - 1]) {
+                    if (repeatCount != maxRepeat) {
+                        repeatCount = repeatCount + 1;
+                        stepIndex = 0;
+                        nextCellIndex = 0;
                     }
                     else {
-                        RegisterScore();
-
-                        show_OnlyFormWithMenu("pnl_Cat3Levels");
-                        GetActiveLevels(3);
+                        nextCellIndex = -1; //Move To Next Example.   
+                        stepIndex = -1;
                     }
+                    break;
                 }
-                return;
             }
+            if (nextCellIndex != -1) {
 
+                document.getElementById(currentCellId).src = "";
+                document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
 
-            function Level3_Clicked(currentCellId) {
-                if (!Level3_CheckClickedID(currentCellId))
-                    return;
-
-                score = score + 1;
-                document.getElementById("score").value = score;
-                Level3_UpdateCells(currentCellId);
+                if (document.getElementById("isSoundPlayed").value == 1) {
+                    var audio = new Audio(sounds[nextCellIndex]);
+                    audio.play();
+                }
+                lastTime = Date.now();
+                setTimeout(TimeOut, timeoutPeriod);
             }
+            else {
+                //Excersise Finished
+                var currentTime = Date.now();
+                if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+                    RegisterScore();
 
-            function Level3_CheckClickedID(currentCellId) {
-                if (currentCellId == ids[stepIndex]) {
-                    return true;
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(3);
                 }
                 else {
-                    return false;
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(3);
                 }
             }
+            return;
+        }
 
-            function Level3_TimeOut() {
-                var currentTime = Date.now();
-                if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
-                    lastTime = Date.now();
-                    UpdateCells(ids[stepIndex]);
-                }
+
+        function Level3_Clicked(currentCellId) {
+            if (!Level3_CheckClickedID(currentCellId))
                 return;
-            }
 
-            //$(function () {
-            //    $('#title-area').text(loadPageVar('practice'));
-            //});
+            score = score + 1;
+            document.getElementById("score").value = score;
+            Level3_UpdateCells(currentCellId);
+        }
+
+        function Level3_CheckClickedID(currentCellId) {
+            if (currentCellId == ids[stepIndex]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Level3_TimeOut() {
+            var currentTime = Date.now();
+            if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                lastTime = Date.now();
+                UpdateCells(ids[stepIndex]);
+            }
+            return;
+        }
+
+        //$(function () {
+        //    $('#title-area').text(loadPageVar('practice'));
+        //});
 
     </script>
 
@@ -1871,22 +2012,76 @@
                 </table>
             </div>
 
+            <div id="page_level2_Rect" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2Rect_start();">
+                <div class="grid grid-photo" style="align-content: center; text-align: center; align-items: center">
+                    <table style="width:100%;Height:100%">
+                        <tr>
+                            <td Width="40%"></td>
+                            <td>
+                                <div>
+                                    <div id="div_emptyRect" ondrop="dropRect(event)"
+                                        ondragover="allowDropRect(event)" style="border: 1px solid #aaaaaa; width: 128px; height: 128px;display:block;">
+                                        <img id="img_emptyRect" src="" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td Width="30%"></td>
+                        </tr>
+
+                        <tr>
+                            <td Width="40%"></td>
+                            <td>
+
+                                <div>
+                                    <div id="div_movingarrowRect"
+                                        style="width: 128px; height: 128px; background-image: url(content/level02/Turn_sign.gif); background-repeat: repeat-x; transform: rotate(270deg); background-position: center;">
+                                    </div>
+                                </div>
+                            </td>
+                            <td Width="30%"></td>
+                        </tr>
+
+                        <tr>
+                            <td Width="40%"></td>
+                            <td>
+                                <div style="width: 128px; height: 128px; align-content: center">
+                                    <div id="div_fullRect">
+                                        <img id="img_fullRect" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragRect(event)" 
+                                            style="display:block;"/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td Width="30%"></td>
+                        </tr>
+                    </table>
+
+
+
+                </div>
+            </div>
+
+
             <div id="page_level2_star" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2star_start();">
-                <button onclick="javascript:Hide()">Close</button>
+                <!--<button onclick="javascript:Hide()">Close</button>-->
                 <div class="grid grid-photo">
-                    <li>
-                        <div id="div_empty" class="grid-photo-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
-                            <img id="img_empty" src="/www/lib/content/level02/empty_star.png" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_movingarrow" class="grid-photo-box" style="background-image: url(lib/content/level02/moving_arrow.gif); background-repeat: repeat-x; background-position: center;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="div_full" class="grid-photo-box">
-                            <img id="img_full" class="dragable-Image" src="/www/lib/content/level02/full_star.png" draggable="true" ondragstart="javascript:drag(event)" />
-                        </div>
-                    </li>
+                    <div style="width: 100%; height: 300px;">
+                        <li style="left: 0px;">
+                            <div id="div_full" class="grid-photo-box">
+                                <img id="img_full" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" />
+                            </div>
+                        </li>
+
+                        <li>
+                            <div id="div_movingarrow" class="grid-photo-box" style="background-image: url(content/level02/Turn_sign.gif); background-repeat: repeat-x; background-position: center;">
+                            </div>
+                        </li>
+
+                        <li style="right: 0px;">
+                            <div id="div_empty" class="grid-photo-box" ondrop="dropStar(event)" ondragover="allowDropStar(event)" style="border: 1px solid #aaaaaa;">
+                                <img id="img_empty" src="" />
+                            </div>
+                        </li>
+                    </div>
                 </div>
             </div>
             <div id="page_Level2_Star2" class="panel grid" data-title="Star" data-selected="true">
@@ -2503,13 +2698,13 @@
                                                 </li>
                                                 <li>
                                                     <div id="div5" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L16" src="content/screen03/16.png" onclick="javascript:GotoStage2Practice('5');" />
+                                                        <img id="S2L16" src="content/screen03/16.png" onclick="javascript:GotoStarPractice('5');" />
                                                     </div>
                                                 </li>
 
                                                 <li>
                                                     <div id="div6" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L17" src="content/screen03/17.png" onclick="javascript:GotoStage2Practice('6');" />
+                                                        <img id="S2L17" src="content/screen03/17.png" onclick="javascript:GotoRectPractice('6');" />
                                                     </div>
                                                 </li>
                                                 <li>
@@ -2746,7 +2941,7 @@
                 </table>
             </div>
 
-            <div id="pnl_Splash" class="panel grid" data-title="" data-selected="true" style="background: #E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%;" >
+            <div id="pnl_Splash" class="panel grid" data-title="" data-selected="true" style="background: #E3F5FD url('content/screen00/Bg.png') no-repeat 100% 100%;">
                 <table width="100%" height="100%">
                     <tr>
                         <td class="test" align="center" valign="center">
