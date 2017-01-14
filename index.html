@@ -120,13 +120,48 @@
             StartStage2LevelsView();
         }
 
+        function GotoCamelPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2CamelPractice');
+            level2Camel_start(levelid);
+        }
+
         function GotoStarPractice(levelid) {
             document.getElementById("currentStage").value = 2;
             document.getElementById("currentPracitceLevel").value = levelid;
-            show_OnlyFormWithMenu('page_level2_star');
-            level2star_start(levelid);
+            show_OnlyFormWithMenu('pnlLevel2StarPractice');
+            level2Star_start(levelid);
         }
 
+        function GotoPlanePractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2PlanePractice');
+            level2Plane_start(levelid);
+        }
+
+        function GotoBirdPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2BirdPractice');
+            level2Bird_start(levelid);
+        }
+
+        function GotoBallPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2BallPractice');
+            level2Ball_start(levelid);
+        }
+
+        function GotoFishPractice(levelid) {
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2FishPractice');
+            level2Fish_start(levelid);
+        }
+        
         function GotoRectPractice(levelid) {
             document.getElementById("currentStage").value = 2;
             document.getElementById("currentPracitceLevel").value = levelid;
@@ -149,11 +184,9 @@
 
             show_OnlyFormWithMenu('pnlLevel3Practices');
             StartStage3LevelsView();
-
         }
 
         var tryF = function () {
-
             // convert arguments to normal array
             var args = [].slice.call(arguments, 0, arguments.length);
 
@@ -455,7 +488,7 @@
         }
     </style>
 
-    <!--level2_star-->
+    <!--level2_Camel-->
     <script>
         function allowDrop(ev) {
             ev.preventDefault();
@@ -482,42 +515,28 @@
         var emptyimageURL = "content/level02/empty_star.png";
         var fullimageURL = "content/level02/full_star.png";
 
-        function level2star_start(levelid) {
-
-            //$(document).ready(function () {
-            //    $('#div_pages > :not(#page_level2_star)').hide();
-            //    $('#page_level2_star').appendTo('#div_pages');
-            //});
-            initialize(levelid);
+        function level2Camel_start(levelid) {
+            initializeCamel(levelid);
         }
 
-        function initialize(levelid) {
+        function initializeCamel(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 4;
+            maxRepeat = 5;
             startTime = Date.now();
             lastTime = Date.now();
-
-            if (levelid == 5) {
-                emptyimageURL = "content/level02/pic5.png";
-                fullimageURL = "content/level02/pic5.png";
-            } else if (levelid == 6) {
-                emptyimageURL = "content/level02/pic6.png";
-                fullimageURL = "content/level02/pic6.png";
-            } else if (levelid == 7) {
-                emptyimageURL = "content/level02/pic7.png";
-                fullimageURL = "content/level02/pic7.png";
-            } else if (levelid == 8) {
-                emptyimageURL = "content/level02/pic8.png";
-                fullimageURL = "content/level02/pic8.png";
-            }
-            Level2Star_UpdateCells();
+            repeatCount = 0;
+            
+            emptyimageURL = "content/level02/pic5.png";
+            fullimageURL = "content/level02/pic5.png";
+          
+            Level2Camel_UpdateCells();
         }
 
-        function Level2Star_UpdateCells() {
+        function Level2Camel_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_empty");
-            var fullImage = document.getElementById("img_full");
+            var emptyImage = document.getElementById("img_emptyCamel");
+            var fullImage = document.getElementById("img_fullCamel");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
@@ -526,36 +545,36 @@
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
 
-            setTimeout(Level2Star_TimeOut, timeoutPeriod);
+            setTimeout(Level2Camel_TimeOut, timeoutPeriod);
 
         }
 
-        function Level2Star_TimeOut() {
+        function Level2Camel_TimeOut() {
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
-                Level2Star_UpdateCells();
+                Level2Camel_UpdateCells();
             }
             return;
         }
 
-        function allowDropStar(ev) {
+        function allowDropCamel(ev) {
             ev.preventDefault();
         }
 
-        function dragStar(ev) {
+        function dragCamel(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
         }
 
-        function dropStar(ev) {
+        function dropCamel(ev) {
 
             ev.preventDefault();
             var currentTime = Date.now();
 
             var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
             if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                var emptyimage = document.getElementById("img_empty");
-                var fullimage = document.getElementById("img_full");
+                var emptyimage = document.getElementById("img_emptyCamel");
+                var fullimage = document.getElementById("img_fullCamel");
 
 
                 emptyimage.setAttribute("src", fullimageURL);
@@ -571,7 +590,7 @@
                 score = score + 1;
                 document.getElementById("score").value = score;
                 if (repeatCount < maxRepeat) {
-                    setTimeout(Level2Star_UpdateCells, 2000);
+                    setTimeout(Level2Camel_UpdateCells, 2000);
                 }
                 else {
                     //Practice Finished
@@ -584,7 +603,7 @@
             }
         }
     </script>
-    <!--level2_star-->
+    <!--level2_Camel-->
 
     <!-- Level 2 Rect Script -->
     <script>
@@ -601,23 +620,14 @@
         function initializeRect(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 4;
+            maxRepeat = 5;
             startTime = Date.now();
             lastTime = Date.now();
-
-            if (levelid == 5) {
-                emptyimageURL = "content/level02/pic5.png";
-                fullimageURL = "content/level02/pic5.png";
-            } else if (levelid == 6) {
-                emptyimageURL = "content/level02/pic6.png";
-                fullimageURL = "content/level02/pic6.png";
-            } else if (levelid == 7) {
-                emptyimageURL = "content/level02/pic7.png";
-                fullimageURL = "content/level02/pic7.png";
-            } else if (levelid == 8) {
-                emptyimageURL = "content/level02/pic8.png";
-                fullimageURL = "content/level02/pic8.png";
-            }
+            repeatCount = 0;
+                        
+            emptyimageURL = "content/level02/pic6.png";
+            fullimageURL = "content/level02/pic6.png";
+            
             Level2Rect_UpdateCells();
         }
 
@@ -691,6 +701,474 @@
             }
         }
     </script>
+    <!-- Level 2 Rect Script -->
+
+    <!-- Level 2 Plane Script -->
+    <script>
+
+        function level2Plane_start(levelid) {
+            initializePlane(levelid);
+        }
+
+        function initializePlane(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            repeatCount = 0;
+
+            emptyimageURL = "content/level02/pic1.png";
+            fullimageURL = "content/level02/pic1.png";
+            
+            Level2Plane_UpdateCells();
+        }
+
+        function Level2Plane_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyPlane");
+            var fullImage = document.getElementById("img_fullPlane");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Plane_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Plane_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Plane_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropPlane(ev) {
+            ev.preventDefault();
+        }
+
+        function dragPlane(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropPlane(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyPlane");
+                var fullimage = document.getElementById("img_fullPlane");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
+                }
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Plane_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+    <!-- Level 2 Plane Script -->
+
+     <!-- Level 2 Bird Script -->
+    <script>
+
+        function level2Bird_start(levelid) {
+            initializeBird(levelid);
+        }
+
+        function initializeBird(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            repeatCount = 0;
+
+            emptyimageURL = "content/level02/pic2.png";
+            fullimageURL = "content/level02/pic2.png";
+            
+            Level2Bird_UpdateCells();
+        }
+
+        function Level2Bird_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyBird");
+            var fullImage = document.getElementById("img_fullBird");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Bird_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Bird_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Bird_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropBird(ev) {
+            ev.preventDefault();
+        }
+
+        function dragBird(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropBird(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyBird");
+                var fullimage = document.getElementById("img_fullBird");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
+                }
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Bird_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+    <!-- Level 2 Bird Script -->
+
+     <!-- Level 2 Star Script -->
+    <script>
+
+        function level2Star_start(levelid) {
+            initializeStar(levelid);
+        }
+
+        function initializeStar(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            repeatCount = 0;
+
+            emptyimageURL = "content/level02/pic4.png";
+            fullimageURL = "content/level02/pic4.png";
+            
+            Level2Star_UpdateCells();
+        }
+
+        function Level2Star_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyStar");
+            var fullImage = document.getElementById("img_fullStar");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Star_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Star_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Star_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropStar(ev) {
+            ev.preventDefault();
+        }
+
+        function dragStar(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropStar(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyStar");
+                var fullimage = document.getElementById("img_fullStar");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
+                }
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Star_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+    <!-- Level 2 Star Script -->
+
+    <!-- Level 2 Ball Script -->
+    <script>
+
+        function level2Ball_start(levelid) {
+            initializeBall(levelid);
+        }
+
+        function initializeBall(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            repeatCount = 1;
+
+            emptyimageURL = "content/level02/pic7.png";
+            fullimageURL = "content/level02/pic7.png";
+
+            Level2Ball_UpdateCells();
+        }
+
+        function Level2Ball_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyBall");
+            var fullImage = document.getElementById("img_fullBall");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Ball_TimeOut, timeoutPeriod);
+
+        }
+
+        function Level2Ball_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Ball_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropBall(ev) {
+            ev.preventDefault();
+        }
+
+        function dragBall(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropBall(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyBall");
+                var fullimage = document.getElementById("img_fullBall");
+
+
+                emptyimage.setAttribute("src", fullimageURL);
+                fullimage.setAttribute("src", emptyimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    emptyimage.style.display = "none";
+                    setTimeout(function () {
+                        emptyimage.style.display = "block";
+                    }, 1000);
+                }
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Ball_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+    <!-- Level 2 Ball Script -->
+
+        <!-- Level 2 Fish Script -->
+    <script>
+
+        function level2Fish_start(levelid) {
+            initializeFish(levelid);
+        }
+        var fishbowl = "content/level02/fishbowl.png";
+        function initializeFish(levelid) {
+            timeoutPeriod = 12000;
+            maxTime = 60000;
+            maxRepeat = 5;
+            startTime = Date.now();
+            lastTime = Date.now();
+            repeatCount = 0;
+
+            emptyimageURL = "content/level02/pic9.png";
+            fullimageURL = "content/level02/pic8.png";
+            fishbowl
+            Level2Fish_UpdateCells();
+        }
+
+        function Level2Fish_UpdateCells() {
+
+            var emptyImage = document.getElementById("img_emptyFish");
+            var fullImage = document.getElementById("img_fullFish");
+            emptyImage.setAttribute("src", emptyimageURL);
+            fullImage.setAttribute("src", fullimageURL);
+            emptyImage.setAttribute("opacity", 0.7);
+            fullImage.setAttribute("opacity", 1);
+
+            repeatCount = repeatCount + 1;
+            lastTime = Date.now();
+
+            setTimeout(Level2Fish_TimeOut, timeoutPeriod);
+        }
+
+        function Level2Fish_TimeOut() {
+            var currentTime = Date.now();
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+                //TimeOut
+                Level2Fish_UpdateCells();
+            }
+            return;
+        }
+
+        function allowDropFish(ev) {
+            ev.preventDefault();
+        }
+
+        function dragFish(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropFish(ev) {
+
+            ev.preventDefault();
+            var currentTime = Date.now();
+
+            var currentFullimageURL = document.getElementById(ev.dataTransfer.getData("text")).getAttribute("src");
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                var emptyimage = document.getElementById("img_emptyFish");
+                var fullimage = document.getElementById("img_fullFish");
+
+
+                emptyimage.setAttribute("src",fishbowl);
+                fullimage.setAttribute("src",fullimageURL);
+
+                for (i = 0; i <= 3; i++) {
+                    //emptyimage.style.display = "none";
+                    emptyimage.setAttribute("src", fishbowl);
+                    setTimeout(function () {
+                        //emptyimage.style.display = "block";
+                        emptyimage.setAttribute("src", fishbowl);
+                    }, 1000);
+                }
+                emptyimage.setAttribute("src", emptyimageURL);
+
+                score = score + 1;
+                document.getElementById("score").value = score;
+                if (repeatCount < maxRepeat) {
+                    setTimeout(Level2Fish_UpdateCells, 2000);
+                }
+                else {
+                    //Practice Finished
+                    //alert(score);
+                    RegisterScore();
+
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels();
+                }
+            }
+        }
+    </script>
+    <!-- Level 2 Fish Script -->
 
 
     <!--Categories Form-->
@@ -2059,34 +2537,625 @@
 
                 </div>
             </div>
+                        
 
+            <div id="pnlLevel2BallPractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div_fullBall" class="grid-photo-box" style="height:90px;">
+                                <img id="img_fullBall" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragBall(event)" 
+                                    style="width:128px;height:90px;"/>
+                            </div>  
+                         
+                  
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                      <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                      
+                    </li>
+                    <li>
+                     <div id="div_movingarrowBall" class="grid-photo-box"  >
+                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(35deg);width:128px;height:50px; " />
+                            </div>    
+                    </li>
+                    <li>
+                       <div class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                           <div  class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div> 
+                         
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                             <!--sfasf-->
+                    </li>
+                    <li> 
+                         
+                    </li>
+                    <li>
+                       
+                    </li>
 
-            <div id="page_level2_star" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2star_start();">
-                <!--<button onclick="javascript:Hide()">Close</button>-->
-                <div class="grid grid-photo">
-                    <div style="width: 100%; height: 300px;">
-                        <li style="left: 0px;">
-                            <div id="div_full" class="grid-photo-box">
-                                <img id="img_full" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" />
+                    <li>
+                       
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                    </li>
+                    <li>
+                    </li>
+                    <li>
+                        <div id="div_emptyBall" class="grid-photo-box" ondrop="dropBall(event)" ondragover="allowDropBall(event)" 
+                            style="border:1px solid #aaaaaa;height:90px;margin-top:-90px;margin-right:0px">
+                                <img id="img_emptyBall" src="" style="margin-top:-0px;height:90px;" />
                             </div>
-                        </li>
-
-                        <li>
-                            <div id="div_movingarrow" class="grid-photo-box" style="background-image: url(content/level02/Turn_sign.gif); background-repeat: repeat-x; background-position: center;">
-                            </div>
-                        </li>
-
-                        <li style="right: 0px;">
-                            <div id="div_empty" class="grid-photo-box" ondrop="dropStar(event)" ondragover="allowDropStar(event)" style="border: 1px solid #aaaaaa;">
-                                <img id="img_empty" src="" />
-                            </div>
-                        </li>
-                    </div>
+                    </li>
                 </div>
             </div>
-            <div id="page_Level2_Star2" class="panel grid" data-title="Star" data-selected="true">
-                <div class="grid grid-photo">
-                    <button onclick="javascript:level2star_start()">Start</button>
+
+
+            <div id="pnlLevel2BirdPractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                    <div id="div_emptyBird" class="grid-photo-box" ondrop="dropBird(event)" ondragover="allowDropBird(event)" 
+                            style="border: 1px solid #aaaaaa;height:90px;">
+                                <img id="img_emptyBird" src="" style="height:90px;" />
+                            </div>
+                         
+                         
+                    </li>
+                    <li>
+                     
+                    </li>
+                    <li>
+                      
+                    </li>
+                    <li>
+                        <div id="div_movingarrowBird" class="grid-photo-box"  >
+                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div>
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                          
+                         
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                             <div id="div_fullBird" class="grid-photo-box" style="height:90px;">
+                                <img id="img_fullBird" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragBird(event)" 
+                                    style="width:128px;margin-top:-80px;height:90px;"/>
+                            </div>
+                    </li>
+                    <li>
+                         
+                    </li>
+                    <li>
+                          
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+
+            <div id="pnlLevel2PlanePractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                    
+                        <div id="div_emptyPlane" class="grid-photo-box" ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" 
+                            style="border: 1px solid #aaaaaa;">
+                                <img id="img_emptyPlane" src="" style="width: 128px" />
+                            </div>
+                         
+                    </li>
+                    <li>
+                     
+                    </li>
+                    <li>
+                      
+                    </li>
+                    <li>
+                        <div id="div_movingarrowPlane" class="grid-photo-box"  >
+                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div>
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                          
+                         
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                             <div id="div_fullPlane" class="grid-photo-box">
+                                <img id="img_fullPlane" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div>
+                    </li>
+                    <li>
+                         
+                    </li>
+                    <li>
+                          
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+            
+            <div id="pnlLevel2StarPractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_fullStar" class="grid-photo-box">
+                                <img id="img_fullStar" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
+                                    style="width:128px;"/>
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div7" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_movingarrowStar" class="grid-photo-box"  style="align-content:center;text-align:center">
+                            <img src="content/level02/Turn_sign.gif" style="width:100%;text-align:center;margin-top:50px" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div9" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_emptyStar" class="grid-photo-box" ondrop="dropStar(event)" ondragover="allowDropStar(event)" 
+                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
+                                <img id="img_emptyStar" src="" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div11" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div13" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+
+            <div id="pnlLevel2FishPractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_emptyFish" class="grid-photo-box" ondrop="dropFish(event)" ondragover="allowDropFish(event)" 
+                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
+                                <img id="img_emptyFish" src="" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div7" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_movingarrowFish" class="grid-photo-box"  style="align-content:center;text-align:center">
+                            <img src="content/level02/Turn_sign.gif" style="width:100%;transform:rotate(180deg); text-align:center;margin-top:50px" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div9" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        
+                        <div id="div_fullFish" class="grid-photo-box">
+                                <img id="img_fullFish" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragFish(event)" 
+                                    style="width:128px;"/>
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div11" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div13" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                </div>
+            </div>
+
+            <div id="pnlLevel2CamelPractice" class="panel grid" data-title="" data-selected="true">
+                <div class="grid grid-level" style="width: 100%; height: 100%;">
+                    <li>
+                        <div id="div1" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div2" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div3" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div4" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div5" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_fullCamel" class="grid-photo-box">
+                                <img id="img_fullCamel" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragCamel(event)" 
+                                    style="width:128px;"/>
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div7" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_movingarrowCamel" class="grid-photo-box"  style="align-content:center;text-align:center">
+                            <img src="content/level02/Turn_sign.gif" style="width:100%;text-align:center;margin-top:50px" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div9" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div_emptyCamel" class="grid-photo-box" ondrop="dropCamel(event)" ondragover="allowDropCamel(event)" 
+                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
+                                <img id="img_emptyCamel" src="" />
+                            </div>
+                    </li>
+                    <li>
+                        <div id="div11" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div12" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div13" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div14" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div15" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+
+                    <li>
+                        <div id="div16" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div17" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div18" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div19" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div20" class="grid-level-box" style="text-align: center;">
+                            <img  src="" onclick="" />
+                        </div>
+                    </li>
                 </div>
             </div>
 
@@ -2678,12 +3747,12 @@
                                             <div class="grid grid-photo">
                                                 <li>
                                                     <div id="div1" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L12" src="content/screen03/12.png" onclick="javascript:GotoStage2Practice('1');" />
+                                                        <img id="S2L12" src="content/screen03/12.png" onclick="javascript:GotoPlanePractice('1');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div2" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L13" src="content/screen03/13.png" onclick="javascript:GotoStage2Practice('2');" />
+                                                        <img id="S2L13" src="content/screen03/13.png" onclick="javascript:GotoBirdPractice('2');" />
                                                     </div>
                                                 </li>
                                                 <li>
@@ -2693,12 +3762,12 @@
                                                 </li>
                                                 <li>
                                                     <div id="div4" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L15" src="content/screen03/15.png" onclick="javascript:GotoStage2Practice('4');" />
+                                                        <img id="S2L15" src="content/screen03/15.png" onclick="javascript:GotoStarPractice('4');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div5" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L16" src="content/screen03/16.png" onclick="javascript:GotoStarPractice('5');" />
+                                                        <img id="S2L16" src="content/screen03/16.png" onclick="javascript:GotoCamelPractice('5');" />
                                                     </div>
                                                 </li>
 
@@ -2709,12 +3778,12 @@
                                                 </li>
                                                 <li>
                                                     <div id="div7" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L18" src="content/screen03/18.png" onclick="javascript:GotoStage2Practice('7');" />
+                                                        <img id="S2L18" src="content/screen03/18.png" onclick="javascript:GotoBallPractice('7');" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div8" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L19" src="content/screen03/19.png" onclick="javascript:GotoStage2Practice('8');" />
+                                                        <img id="S2L19" src="content/screen03/19.png" onclick="javascript:GotoFishPractice('8');" />
                                                     </div>
                                                 </li>
                                             </div>
