@@ -1658,7 +1658,7 @@
             var PracticeImageName = "content/level01/pic" + practiceid + ".png";
             //Intialize(0, "content/level01/pic01.png", 6000);
 
-            IntializeLevel1(0, PracticeImageName, 6000);
+            IntializeLevel1(0, PracticeImageName, 6000, practiceid);
 
             startTime = Date.now();
             lastTime = Date.now();
@@ -1669,11 +1669,28 @@
 
         }
 
-        function IntializeLevel1(Type, URL, Time) {
+        function IntializeLevel1(Type, URL, Time, practiceID) {
             imgURL = URL;
             timeoutPeriod = Time;
 
             stepIndex = 0;
+            var magnitude = 20;
+            alert("1");
+            if (practiceID <= 7) {
+                magnitude = 10;
+                alert("11");
+                for (i = cellCount-1; i <= magnitude; i--) {
+                    document.getElementById(i).src = "";
+                    document.getElementById(i).style.display = "none";
+                }
+            } else if (practiceid <= 9) {
+                magnitude = 10;
+                for (i = cellCount; i <= magnitude; i--) {
+                    document.getElementById(i).src = "";
+                    document.getElementById(i).style.display = "none";
+                }
+            }
+
 
             if (Type == 0) {
                 //Random
@@ -1682,7 +1699,7 @@
                 for (index = 0; index < 5; index++) {
                     exists = false;
                     while (!exists) {
-                        id = Math.floor((Math.random() * 20) + 1);
+                        id = Math.floor((Math.random() * magnitude) + 1);
                         if (ids.indexOf(id) < 0) {
                             ids[index] = id;
                             exists = true;
@@ -2866,7 +2883,45 @@
 
             <div id="pnlLevel2PlanePractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"><div id="div_emptyPlane" class="grid-photo-box" ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" 
+                            style="border: 1px solid #aaaaaa;">
+                                <img id="img_emptyPlane" src="" style="width: 128px" />
+                            </div ></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td><div id="div_movingarrowPlane" class="grid-photo-box"  >
+                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <div id="div_fullPlane" class="grid-photo-box">
+                                <img id="img_fullPlane" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <!--<li>
                         <div id="div1" class="grid-level-box" style="text-align: center;">
                             <img  src="" onclick="" />
                         </div>
@@ -2955,7 +3010,7 @@
                         <div id="div20" class="grid-level-box" style="text-align: center;">
                             <img  src="" onclick="" />
                         </div>
-                    </li>
+                    </li>-->
                 </div>
             </div>
             
@@ -3633,7 +3688,8 @@
                 </div>
             </div>
 
-            <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true" onclick="practice1ClickOutside()">
+            <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true" onclick="practice1ClickOutside()"
+                style="margin-top:-50px;">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <li>
                         <div id="div1" class="grid-level-box" style="text-align: center;">
@@ -4148,3 +4204,4 @@
     </div>
 </body>
 </html>
+-
