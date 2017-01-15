@@ -2078,7 +2078,7 @@
         function StartStage1LevelsView() {
 
             var practiceid = document.getElementById('currentPracitceLevel').value;
-            var PracticeImageName = "content/level01/pic" + practiceid + ".png";
+            var PracticeImageName = "content/level01/pic1-" + practiceid + ".png";
             //Intialize(0, "content/level01/pic01.png", 6000);
 
             IntializeLevel1(0, PracticeImageName, 6000, practiceid);
@@ -2097,8 +2097,9 @@
             timeoutPeriod = Time;
 
             stepIndex = 0;
-            var magnitude = 20;
+            var magnitude = 16;
             
+
             //if (practiceID <= 7) {
             //    magnitude = 10;
                 
@@ -2250,7 +2251,7 @@
                 position: relative;
                 display: block;
                 float: left;
-                width: 20%;
+                width:25%;
                 padding-bottom: 20%;
                 list-style-type: none;
             }
@@ -2277,47 +2278,47 @@
             text-align: center;
             vertical-align: middle;
             height: 100%;
-            width: auto;
+            width: 100%;
             max-width: 100%;
         }
 
         .grid-level img {
-            height: 100%;
-            width: auto;
+            height: auto;
+            width: 100%;
             max-width: 100%;
         }
 
         @media only screen and (max-width : 2048px) {
             .grid-level li {
-                width: 20%;
+                width: 25%;
                 padding-bottom: 5%;
             }
         }
 
         @media only screen and (max-width : 1024px) {
             .grid-level li {
-                width: 20%;
+                width: 25%;
                 padding-bottom: 11.2%;
             }
         }
 
         @media only screen and (max-width : 768px) {
             .grid-level li {
-                width: 20%;
+                width: 25%;
                 padding-bottom: 8.0%;
             }
         }
 
         @media only screen and (max-width : 480px) {
             .grid-level li {
-                width: 20%;
+                width:25%;
                 padding-bottom: 20%;
             }
         }
 
         @media only screen and (max-width : 320px) {
             .grid-level li {
-                width: 20%;
+                width:25%;
                 padding-bottom: 25%;
             }
         }
@@ -2331,7 +2332,7 @@
         var maxRepeat = 0;
         var stepIndex = 0;
         //var score = 0;
-        var cellCount = 20;
+        var cellCount = 16;
         var ids = new Array(5);
 
         function StartStage2LevelsView() {
@@ -3723,7 +3724,7 @@
             </div>
 
             <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true" onclick="practice1ClickOutside()"
-                style="margin-top:-50px;">
+                style="margin-top:0px;">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <li>
                         <div id="div1" class="grid-level-box" style="text-align: center;">
@@ -3807,7 +3808,7 @@
                             <img id="16" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                    <li>
+                    <!--<li>
                         <div id="div17" class="grid-level-box" style="text-align: center;">
                             <img id="17" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
@@ -3826,33 +3827,7 @@
                         <div id="div20" class="grid-level-box" style="text-align: center;">
                             <img id="20" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
-                    </li>
-                    <!--<li>
-                        <div id="div21" class="grid-level-box">
-                            <img id="21" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div22" class="grid-level-box">
-                            <img id="22" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div23" class="grid-level-box">
-                            <img id="23" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div24" class="grid-level-box">
-                            <img id="24" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div25" class="grid-level-box">
-                            <img id="25" src="" style="height: 100%; width: auto;" onclick="javascript:Level12_ItemClicked(this.id);" />
-                        </div>
                     </li>-->
-
                 </div>
             </div>
 
