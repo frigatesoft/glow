@@ -336,8 +336,6 @@
         }
 
         function GetActiveLevels(stageID) {
-            //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
-
             var userId = document.getElementById('userid').value;
             if (userId == 0) {
                 return;
@@ -346,7 +344,6 @@
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
             xhr.open("POST", "http://104.130.212.148/glow/getuserfinishedlevels.php?userid=" + userId + "&stage=" + stageID, false);
-            //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
             xhr.onload = function () {
                 var json_string = xhr.responseText;
                 var json = JSON.parse(json_string);
@@ -458,10 +455,9 @@
              
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/setuserscore.php?id=" + userId + "&practice= "
-            //    + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
+             //   + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
             xhr.open("POST", "http://104.130.212.148/glow/setuserscore.php?id=" + userId + "&practice= "
                 + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
-            //xhr.open("GET", "localhost:8080/autizam/setuserscore.php?id=2&practice=5&score=6&timing=444", false);
 
             xhr.onload = function () {
                 //navigator.notification.alert("Message", "", "Caption");
@@ -719,12 +715,13 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = PrevLeft;
-                                fullImage.style.top = PrevTop;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //}, 2000);
                         }
                     }
 
@@ -785,12 +782,15 @@
                     //Practice Finished
                     //alert(score);
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels(2);
-                        fullImage.style.left = 0;
-                        fullImage.style.top = 0;
-                    }, 2000);
+                    ShowReportForm();
+                    fullImage.style.left = PrevLeft;
+                    fullImage.style.top = PrevTop;
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    //    GetActiveLevels(2);
+                    //    fullImage.style.left = 0;
+                    //    fullImage.style.top = 0;
+                    //}, 2000);
                 }
             }
         }
@@ -870,12 +870,15 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -937,10 +940,11 @@
                     //Practice Finished
                     //alert(score);
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels(2);
-                    }, 2000);
+                    ShowReportForm();
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    //    GetActiveLevels(2);
+                    //}, 2000);
                 }
             }
         }
@@ -1028,12 +1032,15 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -1175,12 +1182,15 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -1242,6 +1252,7 @@
                     //Practice Finished
                     //alert(score);
                     RegisterScore();
+
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
                         GetActiveLevels(2);
@@ -1324,12 +1335,15 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -1471,12 +1485,15 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -1617,12 +1634,16 @@
                         }
                         else {
                             RegisterScore();
-                            setTimeout(function () {
-                                show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels(2);
-                                fullImage.style.left = 0;
-                                fullImage.style.top = 0;
-                            }, 2000);
+                            ShowReportForm();
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+
+                            //setTimeout(function () {
+                            //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                            //    GetActiveLevels(2);
+                            //    fullImage.style.left = 0;
+                            //    fullImage.style.top = 0;
+                            //}, 2000);
                         }
                     }
 
@@ -1687,10 +1708,13 @@
                     //Practice Finished
                     //alert(score);
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels(2);
-                    }, 2000);
+
+                    ShowReportForm();
+
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    //    GetActiveLevels(2);
+                    //}, 2000);
                 }
             }
         }
@@ -2174,23 +2198,81 @@
                 var currentTime = Date.now();
                 if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
+                    
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat1Levels");
-                       GetActiveLevels(1);
-                    }, 2000);
+
+                    ShowReportForm();
+
+                    
                     //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
 
                 }
                 else {
+                    
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat1Levels");
-                        GetActiveLevels(1);
-                    }, 2000);
+
+                    ShowReportForm();
+
+                    //BackToLevel();
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                    //    GetActiveLevels(1);
+                    //}, 2000);
                 }
             }
             return;
+        }
+
+        function ShowReportForm() {
+            var userId = document.getElementById('userid').value;
+            if (userId == 0) {
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            //xhr.open("POST", "http://localhost/Autizam/getuserreport.php?userid=" + userId, false);
+            xhr.open("POST", "http://104.130.212.148/glow/getuserreport.php?userid=" + userId, false);
+            xhr.onload = function () {
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                
+                var stageid = 0;
+                var levelid = 0
+                var score = 0;
+
+                var html = "<table width='100%' border='0'><tbody><tr>     <th scope='col'>الحالة</th>     <th scope='col'>النشاط</th>     <th scope='col'>المستوي</th></tr>";
+                //html += "<tr><td width='120px' align='right' valign='middle'>المستوي</td><td align='center' valign='middle'><div class='table-thing with-label widget uib_w_60 d-margins SelectWidth' data-uib='app_framework/select' data-ver='1'>";
+                for (i = 0; i < json.error_msg.length - 1; i++) {
+                    stageid = json.error_msg[i].stage;
+                    levelid = json.error_msg[i].PracticeID;
+                    score = json.error_msg[i].score;
+                    html += "<tr><td><input value='" + stageid + "'></td><td><input value='" + levelid + "'></td><td><input value='" + score + "'></td></tr>";
+                }
+                html += "</tbody></table>";
+                $(html).appendTo("#divreportcontainer");
+
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+                    var json = JSON.parse(json_string);
+                    intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                }
+                else if (xhr.status == 404) {
+                    intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                }
+                else {
+                    intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                }
+            }
+            xhr.send();
+
+            show_OnlyFormWithMenu("page_level_Report");
+            
+        }
+
+        function BackToLevel() {
+            setTimeout(function () {
+                show_OnlyFormWithMenu("pnl_Cat" + document.getElementById('currentStage').value + "Levels");
+                GetActiveLevels(document.getElementById('currentStage').value);
+            }, 2000);
         }
 
         function Level12_ItemClicked(currentCellId) {
@@ -2459,18 +2541,23 @@
                 if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
 
                     RegisterScore();
-                    setTimeout(function () {
-                        GetActiveLevels(2);
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    }, 2000);
+
+                    ShowReportForm();
+
+                    //setTimeout(function () {
+                    //    GetActiveLevels(2);
+                    //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    //}, 2000);
 
                 }
                 else {
                     RegisterScore();
-                    setTimeout(function () {
-                        GetActiveLevels(2);
-                        show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    }, 2000);
+                    ShowReportForm();
+
+                    //setTimeout(function () {
+                    //    GetActiveLevels(2);
+                    //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    //}, 2000);
 
                 }
             }
@@ -2619,10 +2706,13 @@
                                 //document.getElementById("currentScore").value = score;
 
                                 RegisterScore();
-                                setTimeout(function () {
-                                    GetActiveLevels(2);
-                                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                }, 2000);
+
+                                ShowReportForm();
+
+                                //setTimeout(function () {
+                                //    GetActiveLevels(2);
+                                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                //}, 2000);
                                 $(document).ready(function () {
                                     $("#divExcercise").fadeOut(3000);
                                     $("#divscore").fadeIn(6000);
@@ -2704,10 +2794,11 @@
                         //document.getElementById("currentScore").value = score;
 
                         RegisterScore();
-                        setTimeout(function () {
-                            GetActiveLevels(2);
-                            show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        }, 2000);
+                        ShowReportForm();
+                        //setTimeout(function () {
+                        //    GetActiveLevels(2);
+                        //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                        //}, 2000);
                         $(document).ready(function () {
                             $("#divExcercise").fadeOut(3000);
                             $("#divscore").fadeIn(6000);
@@ -2765,10 +2856,11 @@
                         //document.getElementById("currentScore").value = score;
 
                         RegisterScore();
-                        setTimeout(function () {
-                            GetActiveLevels(2);
-                            show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        }, 2000);
+                        ShowReportForm();
+                        //setTimeout(function () {
+                        //    GetActiveLevels(2);
+                        //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                        //}, 2000);
                         $(document).ready(function () {
                             $("#divExcercise").fadeOut(3000);
                             $("#divscore").fadeIn(6000);
@@ -3007,17 +3099,19 @@
                 var currentTime = Date.now();
                 if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat3Levels");
-                        GetActiveLevels(3);
-                    }, 2000);
+                    ShowReportForm();
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    //    GetActiveLevels(3);
+                    //}, 2000);
                 }
                 else {
                     RegisterScore();
-                    setTimeout(function () {
-                        show_OnlyFormWithMenu("pnl_Cat3Levels");
-                        GetActiveLevels(3);
-                    }, 2000);
+                    ShowReportForm();
+                    //setTimeout(function () {
+                    //    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    //    GetActiveLevels(3);
+                    //}, 2000);
                 }
             }
             return;
@@ -3219,6 +3313,16 @@
                     </tr>-->
                 </table>
             </div>
+
+
+            <div id="page_level_Report" class="panel grid" data-title="Star" data-selected="true" onload="javascript:LoadReport();">
+                <div id="divreportcontainer" style="align-content: center; text-align: center; align-items: center">
+                </div>
+                <div style="text-align: center; ">
+                    <img id="btnLoginBack1" style="width:64px;height:64px;"  src="content/screen03/back.png" onclick="javascript:BackToLevel();" />
+                </div>
+            </div>
+
 
             <div id="page_level2_Rect" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2Rect_start();">
                 <div class="grid grid-photo" style="align-content: center; text-align: center; align-items: center">
