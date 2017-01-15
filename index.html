@@ -10,12 +10,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+    
+    <!-- Include the jQuery library -->
+    <script src="lib/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
-    
+
+
     <script>
 
         if (!window.navigator.onLine) {
@@ -1500,7 +1507,7 @@
             lastTime = Date.now();
             repeatCount = 0;
 
-            emptyimageURL = "content/level02/pic9.png";
+            emptyimageURL = "content/level02/pic8.png";
             fullimageURL = "content/level02/pic8.png";
             fishbowl
             Level2Fish_UpdateCells();
@@ -2109,7 +2116,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat1Levels");
-                        س(1);
+                       GetActiveLevels(1);
                     }, 2000);
                     //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
 
