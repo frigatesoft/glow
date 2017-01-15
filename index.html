@@ -2917,14 +2917,27 @@
                 }
             }
             if (nextCellIndex != -1) {
-
-                document.getElementById(currentCellId).src = "";
-                document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
-
                 if (document.getElementById("isSoundPlayed").value == 1) {
-                    var audio = new Audio(sounds[nextCellIndex]);
-                    audio.play();
+                                    var audio = new Audio(sounds[nextCellIndex]);
+                                    audio.play();
                 }
+                
+
+                if (nextCellIndex == 1) {
+                    document.getElementById(currentCellId).src = images[0];
+                    document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+                } else {
+                    document.getElementById(currentCellId).src = "";
+                    document.getElementById(ids[nextCellIndex]).src = "";
+                    setTimeout(function () {
+                        document.getElementById(currentCellId).src = "";
+                        document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+                    }, 500);
+
+                    
+                }
+                
+                
                 lastTime = Date.now();
                 setTimeout(TimeOut, timeoutPeriod);
             }
