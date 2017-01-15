@@ -200,9 +200,27 @@
             document.getElementById("currentStage").value = 2;
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2BallPractice');
-            level2Ball_start(levelid);
+
+
+            
+            //"content/level02/pic2-4-r.png";
+            // "content/level02/pic2-4-l.png";
+            level2Ball_start(levelid,"content/level02/pic2-4-r.png","content/level02/pic2-4-l.png" );
             document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
+        function GotoDownPlanePractice(levelid, src) {
+            if (src.indexOf("-a.png") > 0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
+            } else {
+                return;
+            }
+            document.getElementById("currentStage").value = 2;
+            document.getElementById("currentPracitceLevel").value = levelid;
+            show_OnlyFormWithMenu('pnlLevel2BallPractice');
+
+            level2Ball_start(levelid,"content/level02/pic2-7-r.png","content/level02/pic2-7-l.png" );
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+        }
+        
 
         function GotoFishPractice(levelid, src) {
             if (src.indexOf("-a.png") > 0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
@@ -336,7 +354,7 @@
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
                     if (json.error_msg[i].PracticeID == 1) {
                         if (stageID == 3) {
-                            maxPractice = 20;
+                            maxPractice = 19;
                             document.getElementById("S3" + "L" + (maxPractice)).src = "content/screen03/" + (maxPractice) + "-a.png";
                         } else if (stageID == 2) {
                             maxPractice = 12;
@@ -350,16 +368,16 @@
                     } else {
                         maxPractice = json.error_msg[i].PracticeID;
                         if (stageID == 3) {
-                            maxPractice += 20;
+                            maxPractice += 19;
                             document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
                         } else if (stageID == 2) {
                             maxPractice += 11;
                             document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
-                            if (maxPractice == 20) {
+                            if (maxPractice == 19) {
                                 document.getElementById("imgThirdLevelImage").src = "content/screen02/third-level.png";
-                                document.getElementById("S3L20").src = "content/screen03/20-a.png";
+                                document.getElementById("S3L19").src = "content/screen03/19-a.png";
                             }
 
                         } else {
@@ -381,7 +399,7 @@
 
                 if (json.error_msg.length == 0) {
                     if (stageID == 3) {
-                        maxPractice = 20;
+                        maxPractice = 19;
                     } else if (stageID == 2) {
                         maxPractice = 12;
                     }
@@ -642,28 +660,28 @@
         function initializeCamel(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
             
-            emptyimageURL = "content/level02/pic5.png";
-            fullimageURL = "content/level02/pic5.png";
+            emptyimageURL = "content/level02/pic2-5-r.png";
+            fullimageURL = "content/level02/pic2-5-l.png";
           
             Level2Camel_UpdateCells();
         }
 
         function Level2Camel_UpdateCells() {
 
-            var emptyImage = document.getElementById("div_emptyCamel");
+            var emptyImage = document.getElementById("img_emptyCamel");
             var fullImage = document.getElementById("img_fullCamel");
-            emptyImage.setAttribute("src", "");
+            emptyImage.setAttribute("src",emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
 
             $("#img_fullCamel").draggable();
-            $("#img_emptyCamel").droppable({
+            $("#div_emptyCamel").droppable({
                 accept: "#img_fullCamel",
                 classes: {
                     "ui-droppable-active": "ui-state-active",
@@ -679,22 +697,24 @@
                         var emptyimage = document.getElementById("img_emptyCamel");
                         var fullimage = document.getElementById("img_fullCamel");
 
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
 
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
-                            ShowComicResult(1);
-                            fullImage.style.left = PrevLeft;
-                            fullImage.style.top = PrevTop;
+                            setTimeout(function () {
+                                ShowComicResult(1);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
+                            },500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
                         }
                         else {
@@ -702,6 +722,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
                             }, 2000);
                         }
                     }
@@ -766,6 +788,8 @@
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
                         GetActiveLevels(2);
+                        fullImage.style.left = 0;
+                        fullImage.style.top = 0;
                     }, 2000);
                 }
             }
@@ -788,7 +812,7 @@
         function initializeRect(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
@@ -849,6 +873,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -931,13 +957,13 @@
         function initializePlane(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
 
-            emptyimageURL = "content/level02/pic1.png";
-            fullimageURL = "content/level02/pic1.png";
+            emptyimageURL = "content/level02/pic2-1-r.png";
+            fullimageURL =  "content/level02/pic2-1-l.png";
             
             Level2Plane_UpdateCells();
         }
@@ -946,14 +972,25 @@
         function Level2Plane_UpdateCells() {
 
             var emptyImage = document.getElementById("div_emptyPlane");
+            var emptyImageX = document.getElementById("img_emptyPlane");
+
             var fullImage = document.getElementById("img_fullPlane");
-            emptyImage.setAttribute("src", "");
+
+            //emptyImage.setAttribute("src", "");
             fullImage.setAttribute("src", fullimageURL);
-            emptyImage.setAttribute("opacity", 0.7);
-            fullImage.setAttribute("opacity", 1);
+            emptyImageX.setAttribute("src", emptyimageURL);
+            //if (emptyImage.hasChildNodes()) {
+            //    alert(emptyImage.childNodes[0]);
+            //    emptyImage.childNodes[0].setAttribute("src", emptyimageURL);
+            //    alert("sss");
+            //} else {
+            //    alert("0");
+            //    emptyImage.setAttribute("src", emptyimageURL);
+            //}
+            //alert(fullimageURL);
 
             $("#img_fullPlane").draggable();
-            $("#img_emptyPlane").droppable({
+            $("#div_emptyPlane").droppable({
                 accept: "#img_fullPlane",
                 classes: {
                     "ui-droppable-active": "ui-state-active",
@@ -966,25 +1003,27 @@
 
                     var currentFullimageURL = document.getElementById("img_fullPlane").getAttribute("src");
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                        var emptyimage = document.getElementById("div_emptyPlane");
+                        var emptyimage = document.getElementById("img_emptyPlane");
                         var fullimage = document.getElementById("img_fullPlane");
                         
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
                        
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
-                            ShowComicResult(1);
-                            fullImage.style.left = PrevLeft;
-                            fullImage.style.top = PrevTop;
+                            setTimeout(function () {
+                                ShowComicResult(1);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
+                            }, 500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
                         }
                         else {
@@ -992,6 +1031,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -1074,20 +1115,20 @@
         function initializeBird(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
 
-            emptyimageURL = "content/level02/pic2.png";
-            fullimageURL = "content/level02/pic2.png";
+            emptyimageURL = "content/level02/pic2-6-r.png";
+            fullimageURL = "content/level02/pic2-6-l.png";
             
             Level2Bird_UpdateCells();
         }
 
         function Level2Bird_UpdateCells() {
 
-            var emptyImage = document.getElementById("div_emptyBird");
+            var emptyImage = document.getElementById("img_emptyBird");
             var fullImage = document.getElementById("img_fullBird");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
@@ -1096,7 +1137,7 @@
 
 
             $("#img_fullBird").draggable();
-            $("#img_emptyBird").droppable({
+            $("#div_emptyBird").droppable({
                 accept: "#img_fullBird",
                 classes: {
                     "ui-droppable-active": "ui-state-active",
@@ -1109,25 +1150,27 @@
 
                     var currentFullimageURL = document.getElementById("img_fullBird").getAttribute("src");
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                        var emptyimage = document.getElementById("div_emptyBird");
+                        var emptyimage = document.getElementById("img_emptyBird");
                         var fullimage = document.getElementById("img_fullBird");
 
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
 
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
-                            ShowComicResult(1);
-                            fullImage.style.left = PrevLeft;
-                            fullImage.style.top = PrevTop;
+                            setTimeout(function () {
+                                ShowComicResult(1);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
+                            },500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
                         }
                         else {
@@ -1135,6 +1178,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -1217,22 +1262,24 @@
         function initializeStar(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
 
-            emptyimageURL = "content/level02/pic4.png";
-            fullimageURL = "content/level02/pic4.png";
+            emptyimageURL = "content/level02/pic2-2-r.png";
+            fullimageURL = "content/level02/pic2-2-l.png";
             
             Level2Star_UpdateCells();
         }
 
         function Level2Star_UpdateCells() {
 
-            var emptyImage = document.getElementById("div_emptyStar");
+            var emptyImage = document.getElementById("img_emptyStar");
+            var emptyImageX = document.getElementById("img_emptyStar");
+
             var fullImage = document.getElementById("img_fullStar");
-            emptyImage.setAttribute("src", emptyimageURL);
+            emptyImageX.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
@@ -1252,25 +1299,27 @@
 
                     var currentFullimageURL = document.getElementById("img_fullStar").getAttribute("src");
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                        var emptyimage = document.getElementById("div_emptyStar");
+                        var emptyimage = document.getElementById("img_emptyStar");
                         var fullimage = document.getElementById("img_fullStar");
 
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
 
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
-                            ShowComicResult(1);
-                            fullImage.style.left = PrevLeft;
-                            fullImage.style.top = PrevTop;
+                            setTimeout(function () {
+                                ShowComicResult(1);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
+                            }, 500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
                         }
                         else {
@@ -1278,6 +1327,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -1352,11 +1403,11 @@
     <!-- Level 2 Ball Script -->
     <script>
 
-        function level2Ball_start(levelid) {
-            initializeBall(levelid);
+        function level2Ball_start(levelid, r, l) {
+            initializeBall(levelid, r, l);
         }
 
-        function initializeBall(levelid) {
+        function initializeBall(levelid, r, l) {
             timeoutPeriod = 12000;
             maxTime = 60000;
             maxRepeat = 5;
@@ -1364,15 +1415,15 @@
             lastTime = Date.now();
             repeatCount = 1;
 
-            emptyimageURL = "content/level02/pic7.png";
-            fullimageURL = "content/level02/pic7.png";
+            emptyimageURL =r;// "content/level02/pic2-4-r.png";
+            fullimageURL =l;// "content/level02/pic2-4-l.png";
 
             Level2Ball_UpdateCells();
         }
 
         function Level2Ball_UpdateCells() {
 
-            var emptyImage = document.getElementById("div_emptyBall");
+            var emptyImage = document.getElementById("img_emptyBall");
             var fullImage = document.getElementById("img_fullBall");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
@@ -1381,7 +1432,7 @@
 
 
             $("#img_fullBall").draggable();
-            $("#img_emptyBall").droppable({
+            $("#div_emptyBall").droppable({
                 accept: "#img_fullBall",
                 classes: {
                     "ui-droppable-active": "ui-state-active",
@@ -1394,32 +1445,37 @@
 
                     var currentFullimageURL = document.getElementById("img_fullBall").getAttribute("src");
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                        var emptyimage = document.getElementById("div_emptyBall");
+                        var emptyimage = document.getElementById("img_emptyBall");
                         var fullimage = document.getElementById("img_fullBall");
 
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
 
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
-                            ShowComicResult(1);
-                            fullImage.style.left = PrevLeft;
-                            fullImage.style.top = PrevTop;
+                            setTimeout(function () {
+                                ShowComicResult(1);
+                                fullImage.style.left = PrevLeft;
+                                fullImage.style.top = PrevTop;
+                                },500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
+
                         }
                         else {
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -1498,24 +1554,24 @@
         function level2Fish_start(levelid) {
             initializeFish(levelid);
         }
-        var fishbowl = "content/level02/fishbowl.png";
+        
         function initializeFish(levelid) {
             timeoutPeriod = 12000;
             maxTime = 60000;
-            maxRepeat = 5;
+            maxRepeat = 4;
             startTime = Date.now();
             lastTime = Date.now();
             repeatCount = 0;
 
-            emptyimageURL = "content/level02/pic8.png";
-            fullimageURL = "content/level02/pic8.png";
-            fishbowl
+            emptyimageURL = "content/level02/pic2-3-r.png";
+            fullimageURL = "content/level02/pic2-3-l.png";
+            
             Level2Fish_UpdateCells();
         }
 
         function Level2Fish_UpdateCells() {
 
-            var emptyImage = document.getElementById("div_emptyFish");
+            var emptyImage = document.getElementById("img_emptyFish");
             var fullImage = document.getElementById("img_fullFish");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
@@ -1523,7 +1579,7 @@
             fullImage.setAttribute("opacity", 1);
 
             $("#img_fullFish").draggable();
-            $("#img_emptyFish").droppable({
+            $("#div_emptyFish").droppable({
                 accept: "#img_fullFish",
                 classes: {
                     "ui-droppable-active": "ui-state-active",
@@ -1536,25 +1592,27 @@
 
                     var currentFullimageURL = document.getElementById("img_fullFish").getAttribute("src");
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
-                        var emptyimage = document.getElementById("div_emptyFish");
+                        var emptyimage = document.getElementById("img_emptyFish");
                         var fullimage = document.getElementById("img_fullFish");
 
-                        emptyimage.setAttribute("src", fullimageURL);
-                        fullimage.setAttribute("src", emptyimageURL);
+                        emptyimage.setAttribute("src", emptyimageURL);
+                        fullimage.setAttribute("src", fullimageURL);
 
                         for (i = 0; i <= 3; i++) {
                             emptyimage.style.display = "none";
                             setTimeout(function () {
                                 emptyimage.style.display = "block";
-                            }, 1000);
+                            }, 500);
                         }
 
                         score = score + 1;
                         document.getElementById("score").value = score;
                         if (repeatCount < maxRepeat) {
+                            setTimeout(function () {
                             ShowComicResult(1);
                             fullImage.style.left = PrevLeft;
                             fullImage.style.top = PrevTop;
+                                },500);
                             setTimeout(Level2Plane_UpdateCells, 2000);
                         }
                         else {
@@ -1562,6 +1620,8 @@
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
                                 GetActiveLevels(2);
+                                fullImage.style.left = 0;
+                                fullImage.style.top = 0;
                             }, 2000);
                         }
                     }
@@ -3193,7 +3253,7 @@
                                 <div style="width: 128px; height: 128px; align-content: center">
                                     <div id="div_fullRect">
                                         <img id="img_fullRect"   src=""
-                                            style="display:block;"/>
+                                            style="display:block;Height:128px;"/>
                                     </div>
                                 </div>
                             </td>
@@ -3212,7 +3272,7 @@
                         <tr>
                             <td width="20%"><div id="div_fullBall" class="grid-photo-box">
                                 <img id="img_fullBall"   src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
+                                    style="width:128px;Height:128px;margin-top:-50px"/>
                             </div> 
                             </td>
                             <td width="20%"></td>
@@ -3243,7 +3303,7 @@
                             <td></td>
                             <td> <div id="div_emptyBall" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
-                                    <img id="img_emptyBall" src="" style="width: 128px" />
+                                    <img id="img_emptyBall" src="" style="width: 128px;Height:128px;" />
                                 </div></td>
                         </tr>
                     </table>
@@ -3261,7 +3321,7 @@
                             <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
                             <td width="20%"><div id="div_emptyBird" class="grid-photo-box" 
                             style="border: 1px solid #aaaaaa;width:100%;height:100%;">
-                                <img id="img_emptyBird" src="" style="width: 128px" />
+                                <img id="img_emptyBird" src="" style="width: 128px;Height:128px;" />
                             </div ></td>
 
                         </tr>
@@ -3284,7 +3344,7 @@
                             <td> <div id="div_fullBird" class="grid-photo-box">
                                 <!--ondragstart="javascript:dragStar(event)" -->
                                 <img id="img_fullBird"   src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
+                                    style="width:128px;Height:128px;margin-top:-50px"/>
                             </div></td>
                             <td></td>
                             <td></td>
@@ -3303,11 +3363,10 @@
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%"></td>
-                            <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
-                            <td width="20%"><div id="div_emptyPlane" class="grid-photo-box" 
-                            style="border: 1px solid #aaaaaa;width:100%;height:100%;">
-                                <img id="img_emptyPlane" src="" style="width: 128px" />
-                            </div ></td>
+                            <td width="20%">
+                                <div id="div_emptyPlane" class="grid-photo-box" style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                                    <img id="img_emptyPlane" src="" style="width: 128px; height: 128px;" /></div>
+                            </td>
 
                         </tr>
                         <tr>
@@ -3326,11 +3385,10 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td> <div id="div_fullPlane" class="grid-photo-box">
-                                <!--ondragstart="javascript:dragStar(event)" -->
-                                <img id="img_fullPlane"  src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
-                            </div></td>
+                            <td>
+                                <div id="div_fullPlane" class="grid-photo-box"><img id="img_fullPlane" src="" draggable="true"
+                                        style="width: 128px; height: 128px; margin-top: -50px" /></div>
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -3356,7 +3414,7 @@
                         <tr>
                             <td><div id="div_fullStar" class="grid-photo-box">
                                 <img id="img_fullStar"  src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
+                                    style="width:128px;Height:128px;margin-top:-50px"/>
                             </div> </td>
                             <td><!--<div id="div_movingarrowBall" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
@@ -3364,7 +3422,7 @@
                             <td></td>
                             <td><div id="div_emptyStar" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
-                                    <img id="img_emptyStar" src="" style="width: 128px" />
+                                    <img id="img_emptyStar" src="" style="width: 128px;Height:128px;" />
                                 </div></td>
                         </tr>
                         <tr>
@@ -3402,7 +3460,7 @@
                             <td>
                                 <div id="div_emptyFish" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
-                                    <img id="img_emptyFish" src="" style="width: 128px" />
+                                    <img id="img_emptyFish" src="" style="width: 128px;Height:128px;" />
                                 </div>
                                 </td>
                             <td><!--<div id="div_movingarrowFish" class="grid-photo-box"  >
@@ -3411,7 +3469,7 @@
                             <td></td>
                             <td><div id="div_fullFish" class="grid-photo-box">
                                 <img id="img_fullFish" src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
+                                    style="width:128px;Height:128px;margin-top:-50px"/>
                             </div> </td>
                         </tr>
                         <tr>
@@ -3446,7 +3504,7 @@
                         <tr>
                             <td><div id="div_fullCamel" class="grid-photo-box">
                                 <img id="img_fullCamel"  src="" draggable="true" 
-                                    style="width:128px;margin-top:-50px"/>
+                                    style="width:128px;Height:128px;margin-top:-50px"/>
                             </div> </td>
                             <td><!--<div id="div_movingarrowCamel" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
@@ -3454,7 +3512,7 @@
                             <td></td>
                             <td><div id="div_emptyCamel" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
-                                    <img id="img_emptyCamel" src="" style="width: 128px" />
+                                    <img id="img_emptyCamel" src="" style="width: 128px;Height:128px;" />
                                 </div></td>
                         </tr>
                         <tr>
@@ -3824,41 +3882,46 @@
                                         <td class="liContainer" colspan="3" valign="center" align="center">
                                             <div class="grid grid-photo">
                                                 <li>
+                                                    <div id="div0" class="grid-photo-box" style="border: 0px;">
+                                                        <img id="S3L19" src="content/screen03/19.png" onclick="javascript:GotoStage3Practice('01', this.src);" />
+                                                    </div>
+                                                </li>
+                                                <li>
                                                     <div id="div1" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L20" src="content/screen03/20.png" onclick="javascript:GotoStage3Practice('01', this.src);" />
+                                                        <img id="S3L20" src="content/screen03/20.png" onclick="javascript:GotoStage3Practice('02', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div2" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L21" src="content/screen03/21.png" onclick="javascript:GotoStage3Practice('02', this.src);" />
+                                                        <img id="S3L21" src="content/screen03/21.png" onclick="javascript:GotoStage3Practice('03', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div3" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L22" src="content/screen03/22.png" onclick="javascript:GotoStage3Practice('03', this.src);" />
+                                                        <img id="S3L22" src="content/screen03/22.png" onclick="javascript:GotoStage3Practice('04', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div4" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L23" src="content/screen03/23.png" onclick="javascript:GotoStage3Practice('04', this.src);" />
+                                                        <img id="S3L23" src="content/screen03/23.png" onclick="javascript:GotoStage3Practice('05', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div5" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L24" src="content/screen03/24.png" onclick="javascript:GotoStage3Practice('05', this.src);" />
+                                                        <img id="S3L24" src="content/screen03/24.png" onclick="javascript:GotoStage3Practice('06', this.src);" />
                                                     </div>
                                                 </li>
 
                                                 <li>
                                                     <div id="div6" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S3L25" src="content/screen03/25.png" onclick="javascript:GotoStage3Practice('06', this.src);" />
+                                                        <img id="S3L25" src="content/screen03/25.png" onclick="javascript:GotoStage3Practice('07', this.src);" />
                                                     </div>
                                                 </li>
-                                                <li>
+                                                <!--<li>
                                                     <div id="div7" class="grid-photo-box" style="border: 0px;">
                                                         <img id="S3L26" src="content/screen03/26.png" onclick="javascript:GotoStage3Practice('07', this.src);" />
                                                     </div>
-                                                </li>
+                                                </li>-->
                                             </div>
                                         </td>
                                     </tr>
@@ -3909,17 +3972,17 @@
                                                 </li>
                                                 <li>
                                                     <div id="div2" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L13" src="content/screen03/13.png" onclick="javascript:GotoBirdPractice('2', this.src);" />
+                                                        <img id="S2L13" src="content/screen03/13.png" onclick="javascript:GotoStarPractice('2', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div3" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L14" src="content/screen03/14.png" onclick="javascript:GotoStage2PuzzlePractice('3', this.src);" />
+                                                        <img id="S2L14" src="content/screen03/14.png" onclick="javascript:GotoFishPractice('3', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div4" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L15" src="content/screen03/15.png" onclick="javascript:GotoStarPractice('4', this.src);" />
+                                                        <img id="S2L15" src="content/screen03/15.png" onclick="javascript:GotoBallPractice('4', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
@@ -3930,19 +3993,19 @@
 
                                                 <li>
                                                     <div id="div6" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L17" src="content/screen03/17.png" onclick="javascript:GotoRectPractice('6', this.src);" />
+                                                        <img id="S2L17" src="content/screen03/17.png" onclick="javascript:GotoBirdPractice('6', this.src);" />
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div id="div7" class="grid-photo-box" style="border: 0px;">
-                                                        <img id="S2L18" src="content/screen03/18.png" onclick="javascript:GotoBallPractice('7', this.src);" />
+                                                        <img id="S2L18" src="content/screen03/18.png" onclick="javascript:GotoDownPlanePractice('7', this.src);" />
                                                     </div>
                                                 </li>
-                                                <li>
+                                                <!--<li>
                                                     <div id="div8" class="grid-photo-box" style="border: 0px;">
                                                         <img id="S2L19" src="content/screen03/19.png" onclick="javascript:GotoFishPractice('8', this.src);" />
                                                     </div>
-                                                </li>
+                                                </li>-->
                                             </div>
                                         </td>
                                     </tr>
