@@ -60,6 +60,7 @@
                 $('#' + formName + '').appendTo('#div_pages');
                 if (formName != "pnl_LoginForm") {
                     document.getElementById("pnl_Menu").style.display = 'block';
+                    document.getElementById("divinstructions").innerHTML = "";
                     if (formName == "pnl_Categories") {
                         document.getElementById("div_Settings").style.display = 'block';
                     } else {
@@ -84,6 +85,7 @@
             $(document).ready(function () {
                 $('#div_pages > :not(#' + formName + ')').hide();
                 $('#' + formName + '').appendTo('#div_pages');
+                document.getElementById("divinstructions").innerHTML = "";
                 if (formName != "pnl_LoginForm") {
                     document.getElementById("pnl_Menu").style.display = 'block';
                     if (formName == "pnl_Categories" || formName == "pnl_Info") {
@@ -124,6 +126,7 @@
             StartStage1LevelsView();
             show_OnlyFormWithMenu('pnlLevel1Practices');
 
+            document.getElementById("divinstructions").innerHTML = "اضغط على الصورة في الاسفل";
         }
 
         function GotoStage2Practice(levelid, src) {
@@ -148,6 +151,8 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2CamelPractice');
             level2Camel_start(levelid);
+
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoStarPractice(levelid, src) {
@@ -159,6 +164,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2StarPractice');
             level2Star_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoPlanePractice(levelid, src) {
@@ -171,6 +177,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2PlanePractice');
             level2Plane_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoBirdPractice(levelid, src) {
@@ -182,6 +189,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2BirdPractice');
             level2Bird_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoBallPractice(levelid, src) {
@@ -193,6 +201,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2BallPractice');
             level2Ball_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoFishPractice(levelid, src) {
@@ -204,6 +213,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2FishPractice');
             level2Fish_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
         
         function GotoRectPractice(levelid, src) {
@@ -216,6 +226,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('page_level2_Rect');
             level2Rect_start(levelid);
+            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoStage2PuzzlePractice(levelid, src) {
@@ -229,6 +240,7 @@
 
             show_OnlyFormWithMenu('pnl_level2_puzzle');
             StartStage2LevelPuzzleView();
+            document.getElementById("divinstructions").innerHTML = "أكمل صورة السيارة من الجانب الايمن";
         }
 
         function GotoStage3Practice(levelid, src) {
@@ -242,6 +254,8 @@
 
             show_OnlyFormWithMenu('pnlLevel3Practices');
             StartStage3LevelsView();
+
+            document.getElementById("divinstructions").innerHTML = "اضغط على الصورة التي تظهر مباشرة";
         }
 
         var tryF = function () {
@@ -687,7 +701,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -751,7 +765,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -834,7 +848,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -899,7 +913,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -977,7 +991,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -1042,7 +1056,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -1120,7 +1134,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -1185,7 +1199,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -1263,7 +1277,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -1327,7 +1341,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -1405,7 +1419,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -1470,7 +1484,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -1547,7 +1561,7 @@
                             RegisterScore();
                             setTimeout(function () {
                                 show_OnlyFormWithMenu("pnl_Cat2Levels");
-                                GetActiveLevels();
+                                GetActiveLevels(2);
                             }, 2000);
                         }
                     }
@@ -1615,7 +1629,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat2Levels");
-                        GetActiveLevels();
+                        GetActiveLevels(2);
                     }, 2000);
                 }
             }
@@ -2102,7 +2116,7 @@
                     RegisterScore();
                     setTimeout(function () {
                         show_OnlyFormWithMenu("pnl_Cat1Levels");
-                        GetActiveLevels(1);
+                        س(1);
                     }, 2000);
                     //GotoStage1Practice(document.getElementById('currentPracitceLevel').value)
 
@@ -3072,6 +3086,10 @@
                         <div align="right" id="divusername" style="border: 0px; margin-top: 20px; margin-right: 24px; color: #660033; font-size: x-large;">
                         </div>
                     </td>
+                    <td valign="top" style="margin-top: 20px;">
+                        <div align="right" id="divinstructions" style="border: 0px; margin-top: 20px; margin-right: 24px; color: #660033; font-size: x-large;">
+                        </div>
+                    </td>
                     <td width="40%" align="right" valign="Top" colspan="6">
                         <div id="div_Settings" style="background-color: transparent;">
                             <table style="height: 32px; width: 100%; align: right">
@@ -3148,9 +3166,9 @@
                             <td>
 
                                 <div>
-                                    <div id="div_movingarrowRect"
+                                    <!--<div id="div_movingarrowRect"
                                         style="width: 128px; height: 128px; background-image: url(content/level02/Turn_sign.gif); background-repeat: repeat-x; transform: rotate(270deg); background-position: center;">
-                                    </div>
+                                    </div>-->
                                 </div>
                             </td>
                             <td Width="30%"></td>
@@ -3199,9 +3217,9 @@
                         <tr>
                             <td></td>
                             <td> </td>
-                            <td><div id="div_movingarrowBall" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowBall" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -3243,9 +3261,9 @@
                         <tr>
                             <td></td>
                             <td> </td>
-                            <td><div id="div_movingarrowBird" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowBird" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -3288,9 +3306,9 @@
                         <tr>
                             <td></td>
                             <td> </td>
-                            <td><div id="div_movingarrowPlane" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowPlane" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -3327,9 +3345,9 @@
                                 <img id="img_fullStar"  src="" draggable="true" 
                                     style="width:128px;margin-top:-50px"/>
                             </div> </td>
-                            <td><div id="div_movingarrowBall" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowBall" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td><div id="div_emptyStar" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
@@ -3374,9 +3392,9 @@
                                     <img id="img_emptyFish" src="" style="width: 128px" />
                                 </div>
                                 </td>
-                            <td><div id="div_movingarrowFish" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowFish" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td><div id="div_fullFish" class="grid-photo-box">
                                 <img id="img_fullFish" src="" draggable="true" 
@@ -3417,9 +3435,9 @@
                                 <img id="img_fullCamel"  src="" draggable="true" 
                                     style="width:128px;margin-top:-50px"/>
                             </div> </td>
-                            <td><div id="div_movingarrowCamel" class="grid-photo-box"  >
+                            <td><!--<div id="div_movingarrowCamel" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div></td>
+                            </div>--></td>
                             <td></td>
                             <td><div id="div_emptyCamel" class="grid-photo-box"
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
