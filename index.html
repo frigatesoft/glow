@@ -655,7 +655,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -802,7 +802,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -945,7 +945,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -1088,7 +1088,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -1231,7 +1231,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -1373,7 +1373,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -1515,7 +1515,7 @@
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
 
                     var currentTime = Date.now();
@@ -2445,7 +2445,7 @@
 
         function StartStage2LevelPuzzleView() {
 
-            IntializeLevelPuzzle(25000);
+            IntializeLevelPuzzle(30000);
             
         }
 
@@ -2468,6 +2468,7 @@
            
             for (i = 0 ; i <= images5.length - 1 ; i++) {
                 document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
+                document.getElementById(sourcecells[i]).style.display = "block";
                 document.getElementById(targetcells[i]).setAttribute("src", "");
             }
             successmatch = 0;
@@ -2487,60 +2488,54 @@
             //accept: "#" + sourcecells[_i],
             $("#" + sourcecells[_i]).draggable();
             $("#" + targetcells[_i]).droppable({
-                
-                
                 classes: {
                     "ui-droppable-active": "ui-state-active",
                     "ui-droppable-hover": "ui-state-hover"
                 },
-                drop: function (event, ui) {
+                drop: function (ev, ui) {
                     $(this)
-                    alert(sourcecells[_i] + ", " + targetcells[_i]);
+                    
                     var currentTime = Date.now();
                     var sourcecellId;
                     var targetcellId;
                     var sourcecellIndex;
                     var targetcellIndex;
-
-                    sourcecellId = sourcecells[_i];
+                   
+                    sourcecellId = ui.draggable.attr("id");
                     for (i = 0; i <= sourcecells.length - 1; i++) {
                         if (sourcecells[i] == sourcecellId) {
                             sourcecellIndex = i;
                             break;
                         }
                     }
-                    if (event.target.hasChildNodes()) {
-                        targetcellId = event.target.childNodes[0].getAttribute("id");
+                    if (ev.target.hasChildNodes()) {
+                        targetcellId = ev.target.childNodes[0].getAttribute("id");
                     }
                     else {
-                        targetcellId = event.target.getAttribute("id");
+                        targetcellId = ev.target.getAttribute("id");
                     }
 
-                    targetcellId = event.target.getAttribute("id");// targetcells[_i];// ev.target.getAttribute("id");
-                    alert(targetcellId);
+                    targetcellId = ev.target.getAttribute("id");// targetcells[_i];// ev.target.getAttribute("id");
                     for (i = 0; i <= targetcells.length - 1; i++) {
                         if (targetcells[i] == targetcellId) {
                             targetcellIndex = i;
                             break;
                         }
                     }
-                    alert(targetcellIndex);
                     if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
                         document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
-                        document.getElementById(sourcecellId).setAttribute("src", "");
 
                         document.getElementById(sourcecellId).style.left = 0;
                         document.getElementById(sourcecellId).style.top = 0;
-
+                        document.getElementById(sourcecellId).style.display = "none";
+                        document.getElementById(sourcecellId).setAttribute("src", "");
                         successmatch = successmatch + 1;
                         score = score + 1;
                         document.getElementById("score").value = score;
 
                         if (successmatch == images5.length) {
                             if (repeatCount <= maxRepeat) {
-                                alert("reset");
-                                
-
+                                ShowComicResult(1);
                                 setTimeout(Level2PuzzleUpdateCells, 2000);
                             }
                             else {
@@ -2562,8 +2557,6 @@
                             }
                         }
                     } else {
-                        alert("bad");
-
                         document.getElementById(sourcecellId).style.left = 0;
                         document.getElementById(sourcecellId).style.top = 0;
                     }
