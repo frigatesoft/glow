@@ -3,7 +3,6 @@
 <html>
 <head>
     <title>Glow</title>
-    <meta http-equiv="refresh" content="0; url=testdragdrop.html">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -12,11 +11,17 @@
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
     
+    <!-- Include the jQuery library -->
+    <script src="lib/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
 
     <script>
 
@@ -225,7 +230,6 @@
             show_OnlyFormWithMenu('pnl_level2_puzzle');
             StartStage2LevelPuzzleView();
         }
-
 
         function GotoStage3Practice(levelid, src) {
             if (src.indexOf("-a.png") > 0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
@@ -637,12 +641,59 @@
 
         function Level2Camel_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyCamel");
+            var emptyImage = document.getElementById("div_emptyCamel");
             var fullImage = document.getElementById("img_fullCamel");
-            emptyImage.setAttribute("src", emptyimageURL);
+            emptyImage.setAttribute("src", "");
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+            $("#img_fullCamel").draggable();
+            $("#img_emptyCamel").droppable({
+                accept: "#img_fullCamel",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullCamel").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("img_emptyCamel");
+                        var fullimage = document.getElementById("img_fullCamel");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -736,12 +787,61 @@
 
         function Level2Rect_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyRect");
+            var emptyImage = document.getElementById("div_emptyRect");
             var fullImage = document.getElementById("img_fullRect");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+
+            $("#img_fullRect").draggable();
+            $("#img_emptyRect").droppable({
+                accept: "#img_fullRect",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullRect").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyRect");
+                        var fullimage = document.getElementById("img_fullRect");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
+
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -828,20 +928,67 @@
             Level2Plane_UpdateCells();
         }
 
+        var PrevLeft=0, PrevTop=0;
         function Level2Plane_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyPlane");
+            var emptyImage = document.getElementById("div_emptyPlane");
             var fullImage = document.getElementById("img_fullPlane");
-            emptyImage.setAttribute("src", emptyimageURL);
+            emptyImage.setAttribute("src", "");
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+            $("#img_fullPlane").draggable();
+            $("#img_emptyPlane").droppable({
+                accept: "#img_fullPlane",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullPlane").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyPlane");
+                        var fullimage = document.getElementById("img_fullPlane");
+                        
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+                       
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
 
             setTimeout(Level2Plane_TimeOut, timeoutPeriod);
-
         }
 
         function Level2Plane_TimeOut() {
@@ -852,6 +999,8 @@
             }
             return;
         }
+
+        
 
         function allowDropPlane(ev) {
             ev.preventDefault();
@@ -924,12 +1073,61 @@
 
         function Level2Bird_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyBird");
+            var emptyImage = document.getElementById("div_emptyBird");
             var fullImage = document.getElementById("img_fullBird");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+
+            $("#img_fullBird").draggable();
+            $("#img_emptyBird").droppable({
+                accept: "#img_fullBird",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullBird").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyBird");
+                        var fullimage = document.getElementById("img_fullBird");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
+
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -1018,12 +1216,60 @@
 
         function Level2Star_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyStar");
+            var emptyImage = document.getElementById("div_emptyStar");
             var fullImage = document.getElementById("img_fullStar");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+
+            $("#img_fullStar").draggable();
+            $("#img_emptyStar").droppable({
+                accept: "#img_fullStar",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullStar").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyStar");
+                        var fullimage = document.getElementById("img_fullStar");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -1112,12 +1358,61 @@
 
         function Level2Ball_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyBall");
+            var emptyImage = document.getElementById("div_emptyBall");
             var fullImage = document.getElementById("img_fullBall");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+
+            $("#img_fullBall").draggable();
+            $("#img_emptyBall").droppable({
+                accept: "#img_fullBall",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullBall").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyBall");
+                        var fullimage = document.getElementById("img_fullBall");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
+
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -1206,12 +1501,60 @@
 
         function Level2Fish_UpdateCells() {
 
-            var emptyImage = document.getElementById("img_emptyFish");
+            var emptyImage = document.getElementById("div_emptyFish");
             var fullImage = document.getElementById("img_fullFish");
             emptyImage.setAttribute("src", emptyimageURL);
             fullImage.setAttribute("src", fullimageURL);
             emptyImage.setAttribute("opacity", 0.7);
             fullImage.setAttribute("opacity", 1);
+
+            $("#img_fullFish").draggable();
+            $("#img_emptyFish").droppable({
+                accept: "#img_fullFish",
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+
+                    var currentTime = Date.now();
+
+                    var currentFullimageURL = document.getElementById("img_fullFish").getAttribute("src");
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (currentFullimageURL == fullimageURL)) {
+                        var emptyimage = document.getElementById("div_emptyFish");
+                        var fullimage = document.getElementById("img_fullFish");
+
+                        emptyimage.setAttribute("src", fullimageURL);
+                        fullimage.setAttribute("src", emptyimageURL);
+
+                        for (i = 0; i <= 3; i++) {
+                            emptyimage.style.display = "none";
+                            setTimeout(function () {
+                                emptyimage.style.display = "block";
+                            }, 1000);
+                        }
+
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+                        if (repeatCount < maxRepeat) {
+                            ShowComicResult(1);
+                            fullImage.style.left = PrevLeft;
+                            fullImage.style.top = PrevTop;
+                            setTimeout(Level2Plane_UpdateCells, 2000);
+                        }
+                        else {
+                            RegisterScore();
+                            setTimeout(function () {
+                                show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                GetActiveLevels();
+                            }, 2000);
+                        }
+                    }
+
+                }
+            });
+
 
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
@@ -1263,6 +1606,7 @@
                 score = score + 1;
                 document.getElementById("score").value = score;
                 if (repeatCount < maxRepeat) {
+                    ShowComicResult(1);
                     setTimeout(Level2Fish_UpdateCells, 2000);
                 }
                 else {
@@ -2102,12 +2446,7 @@
         function StartStage2LevelPuzzleView() {
 
             IntializeLevelPuzzle(25000);
-            //startTime = Date.now();
-            //lastTime = Date.now();
-            //maxTime = 250000;
-            //maxRepeat = 5;
-            //repeatCount = 1;
-            //setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
+            
         }
 
         function IntializeLevelPuzzle(Time) {
@@ -2118,20 +2457,120 @@
             images5 = ["content/puzzle/car_9.jpg", "content/puzzle/car_3.jpg", "content/puzzle/car_23.jpg", "content/puzzle/car_20.jpg", "content/puzzle/car_12.jpg"];
             sourcecells = ["drag1", "drag2", "drag3", "drag4", "drag5"];
             targetcells = ["img9", "img3", "img23", "img20", "img12"];
+            
             Level2PuzzleUpdateCells();
             startTime = Date.now();
             lastTime = Date.now();
         }
 
         function Level2PuzzleUpdateCells() {
+
+           
             for (i = 0 ; i <= images5.length - 1 ; i++) {
                 document.getElementById(sourcecells[i]).setAttribute("src", images5[i]);
                 document.getElementById(targetcells[i]).setAttribute("src", "");
             }
             successmatch = 0;
+    
+            
+            for (_i = 0; _i <= targetcells.length - 1; _i++) {
+                
+                InitiateDragDropItems(_i);
+            }
+
             repeatCount = repeatCount + 1;
             lastTime = Date.now();
             setTimeout(Level2PuzzleTimeOut, timeoutPeriod);
+        }
+
+        function InitiateDragDropItems(_i) {
+            //accept: "#" + sourcecells[_i],
+            $("#" + sourcecells[_i]).draggable();
+            $("#" + targetcells[_i]).droppable({
+                
+                
+                classes: {
+                    "ui-droppable-active": "ui-state-active",
+                    "ui-droppable-hover": "ui-state-hover"
+                },
+                drop: function (event, ui) {
+                    $(this)
+                    alert(sourcecells[_i] + ", " + targetcells[_i]);
+                    var currentTime = Date.now();
+                    var sourcecellId;
+                    var targetcellId;
+                    var sourcecellIndex;
+                    var targetcellIndex;
+
+                    sourcecellId = sourcecells[_i];
+                    for (i = 0; i <= sourcecells.length - 1; i++) {
+                        if (sourcecells[i] == sourcecellId) {
+                            sourcecellIndex = i;
+                            break;
+                        }
+                    }
+                    if (event.target.hasChildNodes()) {
+                        targetcellId = event.target.childNodes[0].getAttribute("id");
+                    }
+                    else {
+                        targetcellId = event.target.getAttribute("id");
+                    }
+
+                    targetcellId = event.target.getAttribute("id");// targetcells[_i];// ev.target.getAttribute("id");
+                    alert(targetcellId);
+                    for (i = 0; i <= targetcells.length - 1; i++) {
+                        if (targetcells[i] == targetcellId) {
+                            targetcellIndex = i;
+                            break;
+                        }
+                    }
+                    alert(targetcellIndex);
+                    if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
+                        document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
+                        document.getElementById(sourcecellId).setAttribute("src", "");
+
+                        document.getElementById(sourcecellId).style.left = 0;
+                        document.getElementById(sourcecellId).style.top = 0;
+
+                        successmatch = successmatch + 1;
+                        score = score + 1;
+                        document.getElementById("score").value = score;
+
+                        if (successmatch == images5.length) {
+                            if (repeatCount <= maxRepeat) {
+                                alert("reset");
+                                
+
+                                setTimeout(Level2PuzzleUpdateCells, 2000);
+                            }
+                            else {
+                                //Practice Finished
+                                score = document.getElementById("score").value;
+                                //document.getElementById("currentScore").value = score;
+
+                                RegisterScore();
+                                setTimeout(function () {
+                                    GetActiveLevels(2);
+                                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                                }, 2000);
+                                $(document).ready(function () {
+                                    $("#divExcercise").fadeOut(3000);
+                                    $("#divscore").fadeIn(6000);
+                                    $("#divscore").fadeOut(6000);
+                                    $("#divExcercise").fadeIn(9000);
+                                });
+                            }
+                        }
+                    } else {
+                        alert("bad");
+
+                        document.getElementById(sourcecellId).style.left = 0;
+                        document.getElementById(sourcecellId).style.top = 0;
+                    }
+
+
+                }
+            });
         }
 
         function Level2PuzzleTimeOut() {
@@ -2149,6 +2588,67 @@
 
         function drag(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function cellDrop(ev) {
+            ev.preventDefault();
+            var currentTime = Date.now();
+            var sourcecellId;
+            var targetcellId;
+            var sourcecellIndex;
+            var targetcellIndex;
+
+            sourcecellId = ev.dataTransfer.getData("text");
+            for (i = 0; i <= sourcecells.length - 1; i++) {
+                if (sourcecells[i] == sourcecellId) {
+                    sourcecellIndex = i;
+                    break;
+                }
+            }
+
+            if (ev.target.hasChildNodes()) {
+                targetcellId = ev.target.childNodes[0].getAttribute("id");
+            }
+            else {
+                targetcellId = ev.target.getAttribute("id");
+            }
+            for (i = 0; i <= targetcells.length - 1; i++) {
+                if (targetcells[i] == targetcellId) {
+                    targetcellIndex = i;
+                    break;
+                }
+            }
+
+            if (((currentTime - lastTime) <= (timeoutPeriod - 100)) && (sourcecellIndex == targetcellIndex)) {
+                document.getElementById(targetcellId).setAttribute("src", images5[sourcecellIndex]);
+                document.getElementById(sourcecellId).setAttribute("src", "");
+                successmatch = successmatch + 1;
+                score = score + 1;
+                document.getElementById("score").value = score;
+
+                if (successmatch == images5.length) {
+                    if (repeatCount <= maxRepeat) {
+                        setTimeout(Level2PuzzleUpdateCells, 2000);
+                    }
+                    else {
+                        //Practice Finished
+                        score = document.getElementById("score").value;
+                        //document.getElementById("currentScore").value = score;
+
+                        RegisterScore();
+                        setTimeout(function () {
+                            GetActiveLevels(2);
+                            show_OnlyFormWithMenu("pnl_Cat2Levels");
+                        }, 2000);
+                        $(document).ready(function () {
+                            $("#divExcercise").fadeOut(3000);
+                            $("#divscore").fadeIn(6000);
+                            $("#divscore").fadeOut(6000);
+                            $("#divExcercise").fadeIn(9000);
+                        });
+                    }
+                }
+            }
         }
 
         function drop(ev) {
@@ -2211,6 +2711,7 @@
                 }
             }
         }
+
     </script>
 
     <style>
@@ -2242,12 +2743,7 @@
                 background-color: transparent;
             }
 
-        .grid-puzzle-box .dragable-Image {
-            -webkit-user-drag: auto;
-            width: 100%;
-            height: 100%;
-        }
-
+        
         .grid-puzzle img {
             width: 100%;
             height: 100%;
@@ -2646,8 +3142,7 @@
                             <td Width="40%"></td>
                             <td>
                                 <div>
-                                    <div id="div_emptyRect" ondrop="dropRect(event)"
-                                        ondragover="allowDropRect(event)" style="border: 1px solid #aaaaaa; width: 128px; height: 128px;display:block;">
+                                    <div id="div_emptyRect" style="border: 1px solid #aaaaaa; width: 128px; height: 128px;display:block;">
                                         <img id="img_emptyRect" src="" />
                                     </div>
                                 </div>
@@ -2673,7 +3168,7 @@
                             <td>
                                 <div style="width: 128px; height: 128px; align-content: center">
                                     <div id="div_fullRect">
-                                        <img id="img_fullRect" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragRect(event)" 
+                                        <img id="img_fullRect"   src=""
                                             style="display:block;"/>
                                     </div>
                                 </div>
@@ -2689,200 +3184,90 @@
             
             <div id="pnlLevel2BallPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
-                        <div id="div_fullBall" class="grid-photo-box" style="height:90px;">
-                                <img id="img_fullBall" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragBall(event)" 
-                                    style="width:128px;height:90px;"/>
-                            </div>  
-                         
-                  
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                      <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                      
-                    </li>
-                    <li>
-                     <div id="div_movingarrowBall" class="grid-photo-box"  >
-                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(35deg);width:128px;height:50px; " />
-                            </div>    
-                    </li>
-                    <li>
-                       <div class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                           <div  class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div> 
-                         
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                             <!--sfasf-->
-                    </li>
-                    <li> 
-                         
-                    </li>
-                    <li>
-                       
-                    </li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"><div id="div_fullBall" class="grid-photo-box">
+                                <img id="img_fullBall"   src="" draggable="true" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div> 
+                            </td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
 
-                    <li>
-                       
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                    </li>
-                    <li>
-                    </li>
-                    <li>
-                        <div id="div_emptyBall" class="grid-photo-box" ondrop="dropBall(event)" ondragover="allowDropBall(event)" 
-                            style="border:1px solid #aaaaaa;height:90px;margin-top:-90px;margin-right:0px">
-                                <img id="img_emptyBall" src="" style="margin-top:-0px;height:90px;" />
-                            </div>
-                    </li>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td><div id="div_movingarrowBall" class="grid-photo-box"  >
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td> <div id="div_emptyBall" class="grid-photo-box"
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                                    <img id="img_emptyBall" src="" style="width: 128px" />
+                                </div></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <div id="pnlLevel2BirdPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
-                        <div id="div1" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                    <div id="div_emptyBird" class="grid-photo-box" ondrop="dropBird(event)" ondragover="allowDropBird(event)" 
-                            style="border: 1px solid #aaaaaa;height:90px;">
-                                <img id="img_emptyBird" src="" style="height:90px;" />
-                            </div>
-                         
-                         
-                    </li>
-                    <li>
-                     
-                    </li>
-                    <li>
-                      
-                    </li>
-                    <li>
-                        <div id="div_movingarrowBird" class="grid-photo-box"  >
-                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div>
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                          
-                         
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                             <div id="div_fullBird" class="grid-photo-box" style="height:90px;">
-                                <img id="img_fullBird" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragBird(event)" 
-                                    style="width:128px;margin-top:-80px;height:90px;"/>
-                            </div>
-                    </li>
-                    <li>
-                         
-                    </li>
-                    <li>
-                          
-                    </li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
+                            <td width="20%"><div id="div_emptyBird" class="grid-photo-box" 
+                            style="border: 1px solid #aaaaaa;width:100%;height:100%;">
+                                <img id="img_emptyBird" src="" style="width: 128px" />
+                            </div ></td>
 
-                    <li>
-                        <div id="div16" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td><div id="div_movingarrowBird" class="grid-photo-box"  >
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <div id="div_fullBird" class="grid-photo-box">
+                                <!--ondragstart="javascript:dragStar(event)" -->
+                                <img id="img_fullBird"   src="" draggable="true" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -2894,8 +3279,9 @@
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%"></td>
-                            <td width="20%"><div id="div_emptyPlane" class="grid-photo-box" ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" 
-                            style="border: 1px solid #aaaaaa;">
+                            <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
+                            <td width="20%"><div id="div_emptyPlane" class="grid-photo-box" 
+                            style="border: 1px solid #aaaaaa;width:100%;height:100%;">
                                 <img id="img_emptyPlane" src="" style="width: 128px" />
                             </div ></td>
 
@@ -2910,14 +3296,15 @@
                             <td></td>
                             <td> </td>
                             <td><div id="div_movingarrowPlane" class="grid-photo-box"  >
-                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
                             </div></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td> <div id="div_fullPlane" class="grid-photo-box">
-                                <img id="img_fullPlane" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
+                                <!--ondragstart="javascript:dragStar(event)" -->
+                                <img id="img_fullPlane"  src="" draggable="true" 
                                     style="width:128px;margin-top:-50px"/>
                             </div></td>
                             <td></td>
@@ -2926,421 +3313,141 @@
                             <td></td>
                         </tr>
                     </table>
-                    <!--<li>
-                        <div id="div1" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div4" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                    
-                        <div id="div_emptyPlane" class="grid-photo-box" ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" 
-                            style="border: 1px solid #aaaaaa;">
-                                <img id="img_emptyPlane" src="" style="width: 128px" />
-                            </div>
-                         
-                    </li>
-                    <li>
                      
-                    </li>
-                    <li>
-                      
-                    </li>
-                    <li>
-                        <div id="div_movingarrowPlane" class="grid-photo-box"  >
-                            <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div>
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                          
-                         
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                             <div id="div_fullPlane" class="grid-photo-box">
-                                <img id="img_fullPlane" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
-                                    style="width:128px;margin-top:-50px"/>
-                            </div>
-                    </li>
-                    <li>
-                         
-                    </li>
-                    <li>
-                          
-                    </li>
-
-                    <li>
-                        <div id="div16" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>-->
                 </div>
             </div>
             
             <div id="pnlLevel2StarPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
-                        <div id="div1" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div4" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div5" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_fullStar" class="grid-photo-box">
-                                <img id="img_fullStar" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragStar(event)" 
-                                    style="width:128px;"/>
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div7" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_movingarrowStar" class="grid-photo-box"  style="align-content:center;text-align:center">
-                            <img src="content/level02/Turn_sign.gif" style="width:100%;text-align:center;margin-top:50px" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div9" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_emptyStar" class="grid-photo-box" ondrop="dropStar(event)" ondragover="allowDropStar(event)" 
-                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
-                                <img id="img_emptyStar" src="" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div11" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div12" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div13" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div14" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div15" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
 
-                    <li>
-                        <div id="div16" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+
+                        </tr>
+                        <tr>
+                            <td><div id="div_fullStar" class="grid-photo-box">
+                                <img id="img_fullStar"  src="" draggable="true" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div> </td>
+                            <td><div id="div_movingarrowBall" class="grid-photo-box"  >
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td><div id="div_emptyStar" class="grid-photo-box"
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                                    <img id="img_emptyStar" src="" style="width: 128px" />
+                                </div></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td> </td>
+                        </tr>
+                    </table>
+                     
                 </div>
             </div>
 
             <div id="pnlLevel2FishPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
-                        <div id="div1" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div4" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div5" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_emptyFish" class="grid-photo-box" ondrop="dropFish(event)" ondragover="allowDropFish(event)" 
-                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
-                                <img id="img_emptyFish" src="" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div7" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_movingarrowFish" class="grid-photo-box"  style="align-content:center;text-align:center">
-                            <img src="content/level02/Turn_sign.gif" style="width:100%;transform:rotate(180deg); text-align:center;margin-top:50px" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div9" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        
-                        <div id="div_fullFish" class="grid-photo-box">
-                                <img id="img_fullFish" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragFish(event)" 
-                                    style="width:128px;"/>
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div11" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div12" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div13" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div14" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div15" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
 
-                    <li>
-                        <div id="div16" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="div_emptyFish" class="grid-photo-box"
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                                    <img id="img_emptyFish" src="" style="width: 128px" />
+                                </div>
+                                </td>
+                            <td><div id="div_movingarrowFish" class="grid-photo-box"  >
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td><div id="div_fullFish" class="grid-photo-box">
+                                <img id="img_fullFish" src="" draggable="true" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div> </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td> </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <div id="pnlLevel2CamelPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <li>
-                        <div id="div1" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div4" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div5" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_fullCamel" class="grid-photo-box">
-                                <img id="img_fullCamel" class="dragable-Image" src="" draggable="true" ondragstart="javascript:dragCamel(event)" 
-                                    style="width:128px;"/>
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div7" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_movingarrowCamel" class="grid-photo-box"  style="align-content:center;text-align:center">
-                            <img src="content/level02/Turn_sign.gif" style="width:100%;text-align:center;margin-top:50px" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div9" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div_emptyCamel" class="grid-photo-box" ondrop="dropCamel(event)" ondragover="allowDropCamel(event)" 
-                            style="border: 1px solid #aaaaaa;width:128px;height:128px;">
-                                <img id="img_emptyCamel" src="" />
-                            </div>
-                    </li>
-                    <li>
-                        <div id="div11" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div12" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div13" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div14" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div15" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
+                    <table style="width:100%;height:100%;">
+                        <tr>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
+                            <td width="20%"></td>
 
-                    <li>
-                        <div id="div16" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-level-box" style="text-align: center;">
-                            <img  src="" onclick="" />
-                        </div>
-                    </li>
+                        </tr>
+                        <tr>
+                            <td><div id="div_fullCamel" class="grid-photo-box">
+                                <img id="img_fullCamel"  src="" draggable="true" 
+                                    style="width:128px;margin-top:-50px"/>
+                            </div> </td>
+                            <td><div id="div_movingarrowCamel" class="grid-photo-box"  >
+                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
+                            </div></td>
+                            <td></td>
+                            <td><div id="div_emptyCamel" class="grid-photo-box"
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                                    <img id="img_emptyCamel" src="" style="width: 128px" />
+                                </div></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td> </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -3362,7 +3469,7 @@
                 <div class="grid grid-puzzle" style="width: 100%; height: 100%; margin-top: -0%">
 
                     <li>
-                        <div id="div1" class="grid-puzzle-box">
+                        <div id="div1p" class="grid-puzzle-box">
                             <img id="img1" src="content/puzzle/car_1.jpg" />
                         </div>
                     </li>
@@ -3372,7 +3479,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div3p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                        <div id="div3p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
                             <img id="img3" src="" />
                         </div>
                     </li>
@@ -3391,7 +3498,7 @@
                     </li>
                     <li style="left: 0px;">
                         <div id="divdrag1" class="grid-puzzle-box">
-                            <img id="drag1" class="dragable-Image" src="content/puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                            <img id="drag1"  src="content/puzzle/car_9.jpg" />
                         </div>
                     </li>
 
@@ -3411,7 +3518,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div9p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                        <div id="div9p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
                             <img id="img9" src="" />
                         </div>
                     </li>
@@ -3425,7 +3532,7 @@
                     </li>
                     <li style="left: 0px;">
                         <div id="divdrag2" class="grid-puzzle-box">
-                            <img id="drag2" class="dragable-Image" src="content/puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                            <img id="drag2"  src="content/puzzle/car_3.jpg"   />
                         </div>
                     </li>
 
@@ -3435,7 +3542,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div12p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                        <div id="div12p" class="grid-puzzle-box"  style="border: 1px solid #aaaaaa;">
                             <img id="img12" src="" />
                         </div>
                     </li>
@@ -3459,7 +3566,7 @@
                     </li>
                     <li style="left: 0px;">
                         <div id="divdrag3" class="grid-puzzle-box">
-                            <img id="drag3" class="dragable-Image" src="content/puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                            <img id="drag3"  src="content/puzzle/car_23.jpg"   />
                         </div>
                     </li>
 
@@ -3484,7 +3591,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div20p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                        <div id="div20p" class="grid-puzzle-box"  style="border: 1px solid #aaaaaa;">
                             <img id="img20" src="" />
                         </div>
                     </li>
@@ -3493,7 +3600,7 @@
                     </li>
                     <li style="left: 0px;">
                         <div id="divdrag4" class="grid-puzzle-box">
-                            <img id="drag4" class="dragable-Image" src="content/puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                            <img id="drag4"  src="content/puzzle/car_20.jpg"   />
                         </div>
                     </li>
 
@@ -3508,7 +3615,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div23p" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;">
+                        <div id="div23p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
                             <img id="img23" src="" />
                         </div>
                     </li>
@@ -3527,169 +3634,9 @@
                     </li>
                     <li style="left: 0px;">
                         <div id="divdrag5" class="grid-puzzle-box">
-                            <img id="drag5" class="dragable-Image" src="content/puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);" />
+                            <img id="drag5"  src="content/puzzle/car_12.jpg"   />
                         </div>
                     </li>
-
-                    <!--<li>
-                        <div id="div1" class="grid-puzzle-box">
-                            <img id="p1" src="content/puzzle/car_1.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div2" class="grid-puzzle-box">
-                            <img id="p2" src="content/puzzle/car_2.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div3" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
-                    </li>
-                    <li>
-                        <div id="div4" class="grid-puzzle-box">
-                            <img id="p4" src="content/puzzle/car_4.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div5" class="grid-puzzle-box">
-                            <img id="p5" src="content/puzzle/car_5.jpg" />
-                        </div>
-                    </li>
-                    <li style="width: 10px;">
-                        <div class="grid-photo-box" style="background: #000000;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="divdrag1" class="grid-puzzle-box">
-                            <img id="drag1" class="dragable-Image" src="content/puzzle/car_9.jpg" draggable="true" ondragstart="javascript:drag(event);" />
-                        </div>
-                    </li>
-
-                    <li>
-                        <div id="div6" class="grid-puzzle-box">
-                            <img id="p6" src="content/puzzle/car_6.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div7" class="grid-puzzle-box">
-                            <img id="p7" src="content/puzzle/car_7.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div8" class="grid-puzzle-box">
-                            <img id="p8" src="content/puzzle/car_8.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div9" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
-                    </li>
-                    <li>
-                        <div id="div10" class="grid-puzzle-box">
-                            <img id="p10" src="content/puzzle/car_10.jpg" />
-                        </div>
-                    </li>
-                    <li style="width: 10px;">
-                        <div class="grid-puzzle-box" style="background: #000000;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="divdrag2" class="grid-puzzle-box">
-                            <img id="drag2" class="dragable-Image" src="content/puzzle/car_3.jpg" draggable="true" ondragstart="javascript:drag(event);" />
-                        </div>
-                    </li>
-
-                    <li>
-                        <div id="div11" class="grid-puzzle-box">
-                            <img id="p11" src="content/puzzle/car_11.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div12" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
-                    </li>
-                    <li>
-                        <div id="div13" class="grid-puzzle-box">
-                            <img id="p13" src="content/puzzle/car_13.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div14" class="grid-puzzle-box">
-                            <img id="p14" src="content/puzzle/car_14.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div15" class="grid-puzzle-box">
-                            <img id="p15" src="content/puzzle/car_15.jpg" />
-                        </div>
-                    </li>
-                    <li style="width: 10px;">
-                        <div class="grid-puzzle-box" style="background: #000000;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="divdrag3" class="grid-puzzle-box">
-                            <img id="drag3" class="dragable-Image" src="content/puzzle/car_23.jpg" draggable="true" ondragstart="javascript:drag(event);" />
-                        </div>
-                    </li>
-
-                    <li>
-                        <div id="div16" class="grid-puzzle-box">
-                            <img id="p16" src="content/puzzle/car_16.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div17" class="grid-puzzle-box">
-                            <img id="p17" src="content/puzzle/car_17.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div18" class="grid-puzzle-box">
-                            <img id="p18" src="content/puzzle/car_18.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div19" class="grid-puzzle-box">
-                            <img id="p19" src="content/puzzle/car_19.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div20" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
-                    </li>
-                    <li style="width: 10px;">
-                        <div class="grid-photo-box" style="background: #000000;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="divdrag4" class="grid-puzzle-box">
-                            <img id="drag4" class="dragable-Image" src="content/puzzle/car_20.jpg" draggable="true" ondragstart="javascript:drag(event);" />
-                        </div>
-                    </li>
-
-                    <li>
-                        <div id="div21" class="grid-puzzle-box">
-                            <img id="p21" src="content/puzzle/car_21.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div22" class="grid-puzzle-box">
-                            <img id="p22" src="content/puzzle/car_22.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div23" class="grid-puzzle-box" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px solid #aaaaaa;"></div>
-                    </li>
-                    <li>
-                        <div id="div24" class="grid-puzzle-box">
-                            <img id="p24" src="content/puzzle/car_24.jpg" />
-                        </div>
-                    </li>
-                    <li>
-                        <div id="div25" class="grid-puzzle-box">
-                            <img id="p25" src="content/puzzle/car_25.jpg" />
-                        </div>
-                    </li>
-                    <li style="width: 10px;">
-                        <div class="grid-puzzle-box" style="background: #000000;"></div>
-                    </li>
-                    <li style="left: 0px;">
-                        <div id="divdrag5" class="grid-puzzle-box">
-                            <img id="drag5" class="dragable-Image" src="content/puzzle/car_12.jpg" draggable="true" ondragstart="javascript:drag(event);" />
-                        </div>
-                    </li>-->
                 </div>
             </div>
 
