@@ -10,25 +10,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
-    
-    <!-- Include the jQuery library -->
-    <script src="lib/jquery-1.11.3.min.js"></script>
-    <!-- Include the jQuery Mobile library -->
-    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
 
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
-
+	<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
 
     <script>
 
-        if (!window.navigator.onLine) {
-            alert("الانترنت لايعمل: من فضلك تأكد من الاتصال بالانترنت اللاسلكي لديك.");
-            navigator.app.exitApp();
-        }
 
         function GameLoading() {
 
@@ -48,9 +38,13 @@
                 $('#div_pages > :not(#pnlSplash)').hide();
                 $('#pnlSplash').appendTo('#div_pages');
                 setTimeout(function () {
-                    show_OnlyOneForm("pnl_LoginForm");
+                    if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
+						RegisterUser();
+					} else {
+					show_OnlyOneForm("pnl_LoginForm");
+					}
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 100);
+                }, 5000);
             });
         }
 
@@ -1779,8 +1773,15 @@
     <script>
         var userID;
         function RegisterUser() {
-            name = document.getElementById('txtName').value;
-            age = document.getElementById('txtAge').value;
+            if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
+						// Code for localStorage/sessionStorage.
+						name = localStorage.getItem("glowname");
+						age = localStorage.getItem("glowage");
+					} else {
+						// Sorry! No Web Storage support..
+						name = document.getElementById('txtName').value;
+            			age = document.getElementById('txtAge').value;
+					}
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
             xhr.open("POST", "http://104.130.212.148/glow/register.php?name=" + name + "&age= " + age, false);
@@ -1795,12 +1796,25 @@
 
                     var json = JSON.parse(json_string);
                     //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+					
+					if (typeof(Storage) !== "undefined") {
+						// Code for localStorage/sessionStorage.
+						localStorage.setItem("glowname") = name;
+						localStorage.setItem("glowage") = age;
+					} else {
+						// Sorry! No Web Storage support..
+						
+					}
                 }
                 else if (xhr.status == 404) {
-                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                    intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
+					//alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
+            		navigator.app.exitApp();
                 }
                 else {
-                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                    intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
+					//alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
+            		navigator.app.exitApp();
                 }
             }
             xhr.send();
@@ -4402,4 +4416,3 @@
     </div>
 </body>
 </html>
--
