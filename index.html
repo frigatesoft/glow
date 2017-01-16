@@ -3075,12 +3075,19 @@
                 if (nextCellIndex == 1) {
                     document.getElementById(currentCellId).src = images[0];
                     document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+                    document.getElementById(currentCellId).style.display = "block";
+                    document.getElementById(ids[nextCellIndex]).style.display = "block";
                 } else {
                     document.getElementById(currentCellId).src = "";
                     document.getElementById(ids[nextCellIndex]).src = "";
+                    document.getElementById(currentCellId).style.display="none";
+                    document.getElementById(ids[nextCellIndex]).style.display = "none";
                     setTimeout(function () {
                         document.getElementById(currentCellId).src = "";
+                        document.getElementById(currentCellId).style.display = "none";
+
                         document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
+                        document.getElementById(ids[nextCellIndex]).style.display = "block";
                     }, 500);
 
                     
