@@ -50,7 +50,7 @@
                 setTimeout(function () {
                     show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 4000);
+                }, 100);
             });
         }
 
@@ -113,7 +113,7 @@
             GetActiveLevels(stageid);
             show_OnlyFormWithMenu("pnl_Cat" + stageid + "Levels");
         }
-
+        
         function GotoStage1Practice(levelid, src) {
             if (src.indexOf("-a.png") >0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
             }else {
@@ -451,6 +451,7 @@
             } else {
                 var audio = new Audio("content/sounds/tryagain.ogg");
                 audio.play();
+                
                 ShowComicResult(0);
             }
              
@@ -740,7 +741,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Camel_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -894,7 +904,17 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
+
                 Level2Rect_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1049,10 +1069,21 @@
         }
 
         function Level2Plane_TimeOut() {
+            
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Plane_UpdateCells();
+            } else if (repeatCount >= maxRepeat)
+            {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1202,7 +1233,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Bird_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1352,7 +1392,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Star_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1501,7 +1550,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Ball_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1647,7 +1705,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Fish_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -2084,7 +2151,7 @@
                 //$("#div-Excercise").setAttribute("Display", "block");
             });
         }
-
+        var imgPercent = 100;
         function StartStage1LevelsView() {
 
             var practiceid = document.getElementById('currentPracitceLevel').value;
@@ -2109,7 +2176,13 @@
             stepIndex = 0;
             var magnitude = 16;
             
-
+            if (practiceID >= 1 && practiceID <= 3) {
+                imgPercent = 100;
+            } else if (practiceID >= 4 && practiceID <= 7) {
+                imgPercent = 80;
+            } else if (practiceID >= 8 && practiceID <= 11) {
+                imgPercent = 60;
+            }
             //if (practiceID <= 7) {
             //    magnitude = 10;
                 
@@ -2146,7 +2219,10 @@
 
             for (i = 1; i <= cellCount; i++) {
                 document.getElementById(i).src = "";
-                document.getElementById(i).style.display= "none";
+                document.getElementById(i).style.display = "none";
+                document.getElementById(i).style.width = imgPercent + "%";
+                document.getElementById(i).style.height = imgPercent + "%";
+                
             }
             document.getElementById(ids[stepIndex]).src = imgURL;
             document.getElementById(ids[stepIndex]).style.display = "block";
@@ -2180,7 +2256,7 @@
 
                 document.getElementById(ids[nextCellIndex]).src = imgURL;
                 document.getElementById(ids[nextCellIndex]).style.display = "block";
-
+                
                 lastTime = Date.now();
                 setTimeout(Level1_TimeOut, timeoutPeriod);
             }
@@ -2297,8 +2373,18 @@
         function Level1_TimeOut() {
             var currentTime = Date.now();
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                
                 lastTime = Date.now();
+                ShowComicResult(0);
                 Level1_UpdateCells(ids[stepIndex]);
+            } else if (repeatCount > maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -2584,6 +2670,14 @@
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
                 lastTime = Date.now();
                 Level2_UpdateCells(ids[stepIndex]);
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -3143,7 +3237,16 @@
             var currentTime = Date.now();
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
                 lastTime = Date.now();
+                ShowComicResult(0);
                 UpdateCells(ids[stepIndex]);
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
