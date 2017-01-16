@@ -10,15 +10,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+    
+    <!-- Include the jQuery library -->
+    <script src="lib/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
 
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
 
-	<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
-   
+
     <script>
+
+        if (!window.navigator.onLine) {
+            alert("الانترنت لايعمل: من فضلك تأكد من الاتصال بالانترنت اللاسلكي لديك.");
+            navigator.app.exitApp();
+        }
 
         function GameLoading() {
 
@@ -38,13 +48,9 @@
                 $('#div_pages > :not(#pnlSplash)').hide();
                 $('#pnlSplash').appendTo('#div_pages');
                 setTimeout(function () {
-                    if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
-						RegisterUser();
-					} else {
-					show_OnlyOneForm("pnl_LoginForm");
-					}
+                    show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 6000);
+                }, 100);
             });
         }
 
@@ -107,7 +113,7 @@
             GetActiveLevels(stageid);
             show_OnlyFormWithMenu("pnl_Cat" + stageid + "Levels");
         }
-
+        
         function GotoStage1Practice(levelid, src) {
             if (src.indexOf("-a.png") >0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
             }else {
@@ -445,6 +451,7 @@
             } else {
                 var audio = new Audio("content/sounds/tryagain.ogg");
                 audio.play();
+                
                 ShowComicResult(0);
             }
              
@@ -734,7 +741,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Camel_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -888,7 +904,17 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
+
                 Level2Rect_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1043,10 +1069,21 @@
         }
 
         function Level2Plane_TimeOut() {
+            
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Plane_UpdateCells();
+            } else if (repeatCount >= maxRepeat)
+            {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1196,7 +1233,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Bird_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1346,7 +1392,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Star_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1495,7 +1550,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Ball_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1641,7 +1705,16 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                ShowComicResult(0);
                 Level2Fish_UpdateCells();
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -1706,15 +1779,8 @@
     <script>
         var userID;
         function RegisterUser() {
-            if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
-						// Code for localStorage/sessionStorage.
-						name = localStorage.getItem("glowname");
-						age = localStorage.getItem("glowage");
-					} else {
-						// Sorry! No Web Storage support..
-						name = document.getElementById('txtName').value;
-            			age = document.getElementById('txtAge').value;
-					}
+            name = document.getElementById('txtName').value;
+            age = document.getElementById('txtAge').value;
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
             xhr.open("POST", "http://104.130.212.148/glow/register.php?name=" + name + "&age= " + age, false);
@@ -1729,24 +1795,12 @@
 
                     var json = JSON.parse(json_string);
                     //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
-					if (typeof(Storage) !== "undefined") {
-						// Code for localStorage/sessionStorage.
-						localStorage.setItem("glowname") = name;
-						localStorage.setItem("glowage") = age;
-					} else {
-						// Sorry! No Web Storage support..
-						
-					}
                 }
                 else if (xhr.status == 404) {
                     //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
-					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
-            		navigator.app.exitApp();
                 }
                 else {
                     //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
-					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
-            		navigator.app.exitApp();
                 }
             }
             xhr.send();
@@ -2097,7 +2151,7 @@
                 //$("#div-Excercise").setAttribute("Display", "block");
             });
         }
-
+        var imgPercent = 100;
         function StartStage1LevelsView() {
 
             var practiceid = document.getElementById('currentPracitceLevel').value;
@@ -2122,7 +2176,13 @@
             stepIndex = 0;
             var magnitude = 16;
             
-
+            if (practiceID >= 1 && practiceID <= 3) {
+                imgPercent = 100;
+            } else if (practiceID >= 4 && practiceID <= 7) {
+                imgPercent = 80;
+            } else if (practiceID >= 8 && practiceID <= 11) {
+                imgPercent = 60;
+            }
             //if (practiceID <= 7) {
             //    magnitude = 10;
                 
@@ -2159,7 +2219,10 @@
 
             for (i = 1; i <= cellCount; i++) {
                 document.getElementById(i).src = "";
-                document.getElementById(i).style.display= "none";
+                document.getElementById(i).style.display = "none";
+                document.getElementById(i).style.width = imgPercent + "%";
+                document.getElementById(i).style.height = imgPercent + "%";
+                
             }
             document.getElementById(ids[stepIndex]).src = imgURL;
             document.getElementById(ids[stepIndex]).style.display = "block";
@@ -2193,7 +2256,7 @@
 
                 document.getElementById(ids[nextCellIndex]).src = imgURL;
                 document.getElementById(ids[nextCellIndex]).style.display = "block";
-
+                
                 lastTime = Date.now();
                 setTimeout(Level1_TimeOut, timeoutPeriod);
             }
@@ -2310,8 +2373,18 @@
         function Level1_TimeOut() {
             var currentTime = Date.now();
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
+                
                 lastTime = Date.now();
+                ShowComicResult(0);
                 Level1_UpdateCells(ids[stepIndex]);
+            } else if (repeatCount > maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -2597,6 +2670,14 @@
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
                 lastTime = Date.now();
                 Level2_UpdateCells(ids[stepIndex]);
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
@@ -3156,7 +3237,16 @@
             var currentTime = Date.now();
             if ((currentTime - lastTime) >= (timeoutPeriod - 100)) {
                 lastTime = Date.now();
+                ShowComicResult(0);
                 UpdateCells(ids[stepIndex]);
+            } else if (repeatCount >= maxRepeat) {
+                RegisterScore();
+                setTimeout(function () {
+                    show_OnlyFormWithMenu("pnl_Cat3Levels");
+                    GetActiveLevels(2);
+                    fullImage.style.left = 0;
+                    fullImage.style.top = 0;
+                }, 2000);
             }
             return;
         }
