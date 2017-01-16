@@ -3728,7 +3728,7 @@ textarea {
   -moz-user-select: text;
 }
 img {
-  border: none;
+  border: 0;
 }
 p {
   display: block;
