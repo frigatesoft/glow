@@ -60,7 +60,7 @@
                 $('#' + formName + '').appendTo('#div_pages');
                 if (formName != "pnl_LoginForm") {
                     document.getElementById("pnl_Menu").style.display = 'block';
-                    document.getElementById("divinstructions").innerHTML = "";
+                    //document.getElementById("divinstructions").innerHTML = "";
                     if (formName == "pnl_Categories") {
                         document.getElementById("div_Settings").style.display = 'block';
                     } else {
@@ -85,7 +85,7 @@
             $(document).ready(function () {
                 $('#div_pages > :not(#' + formName + ')').hide();
                 $('#' + formName + '').appendTo('#div_pages');
-                document.getElementById("divinstructions").innerHTML = "";
+                //document.getElementById("divinstructions").innerHTML = "";
                 if (formName != "pnl_LoginForm") {
                     document.getElementById("pnl_Menu").style.display = 'block';
                     if (formName == "pnl_Categories" || formName == "pnl_Info") {
@@ -126,7 +126,7 @@
             StartStage1LevelsView();
             show_OnlyFormWithMenu('pnlLevel1Practices');
 
-            document.getElementById("divinstructions").innerHTML = "اضغط على الصورة في الاسفل";
+            //document.getElementById("divinstructions").innerHTML = "اضغط على الصورة في الاسفل";
         }
 
         function GotoStage2Practice(levelid, src) {
@@ -152,7 +152,7 @@
             show_OnlyFormWithMenu('pnlLevel2CamelPractice');
             level2Camel_start(levelid);
 
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoStarPractice(levelid, src) {
@@ -164,7 +164,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2StarPractice');
             level2Star_start(levelid);
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoPlanePractice(levelid, src) {
@@ -177,7 +177,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2PlanePractice');
             level2Plane_start(levelid);
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoBirdPractice(levelid, src) {
@@ -189,7 +189,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2BirdPractice');
             level2Bird_start(levelid);
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoBallPractice(levelid, src) {
@@ -206,7 +206,7 @@
             //"content/level02/pic2-4-r.png";
             // "content/level02/pic2-4-l.png";
             level2Ball_start(levelid,"content/level02/pic2-4-r.png","content/level02/pic2-4-l.png" );
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
         function GotoDownPlanePractice(levelid, src) {
             if (src.indexOf("-a.png") > 0 || src.indexOf("/1.png") > 0 || src.indexOf("\1.png") > 0) {
@@ -218,7 +218,7 @@
             show_OnlyFormWithMenu('pnlLevel2BallPractice');
 
             level2Ball_start(levelid,"content/level02/pic2-7-r.png","content/level02/pic2-7-l.png" );
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
         
 
@@ -231,7 +231,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('pnlLevel2FishPractice');
             level2Fish_start(levelid);
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
         
         function GotoRectPractice(levelid, src) {
@@ -244,7 +244,7 @@
             document.getElementById("currentPracitceLevel").value = levelid;
             show_OnlyFormWithMenu('page_level2_Rect');
             level2Rect_start(levelid);
-            document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
+            //document.getElementById("divinstructions").innerHTML = "اسحب الصورة في المكان المناسب لها";
         }
 
         function GotoStage2PuzzlePractice(levelid, src) {
@@ -258,7 +258,7 @@
 
             show_OnlyFormWithMenu('pnl_level2_puzzle');
             StartStage2LevelPuzzleView();
-            document.getElementById("divinstructions").innerHTML = "أكمل صورة السيارة من الجانب الايمن";
+            //document.getElementById("divinstructions").innerHTML = "أكمل صورة السيارة من الجانب الايمن";
         }
 
         function GotoStage3Practice(levelid, src) {
@@ -273,7 +273,7 @@
             show_OnlyFormWithMenu('pnlLevel3Practices');
             StartStage3LevelsView();
 
-            document.getElementById("divinstructions").innerHTML = "اضغط على الصورة التي تظهر مباشرة";
+            //document.getElementById("divinstructions").innerHTML = "اضغط على الصورة التي تظهر مباشرة";
         }
 
         var tryF = function () {
@@ -349,6 +349,7 @@
                 var json = JSON.parse(json_string);
                 var maxPractice = 1;
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
+                    
                     if (json.error_msg[i].PracticeID == 1) {
                         if (stageID == 3) {
                             maxPractice = 19;
@@ -365,7 +366,7 @@
                     } else {
                         maxPractice = json.error_msg[i].PracticeID;
                         if (stageID == 3) {
-                            maxPractice += 19;
+                            maxPractice += 18;
                             document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                             maxPractice++;
                         } else if (stageID == 2) {
@@ -1906,7 +1907,7 @@
             .grid-photo li {
                 border: 0px;
                 position: relative;
-                display: block;
+                display:;
                 float: left;
                 width: 15%;
                 /*padding-bottom: 10%;*/
@@ -2145,8 +2146,10 @@
 
             for (i = 1; i <= cellCount; i++) {
                 document.getElementById(i).src = "";
+                document.getElementById(i).style.display= "none";
             }
             document.getElementById(ids[stepIndex]).src = imgURL;
+            document.getElementById(ids[stepIndex]).style.display = "block";
         }
 
         function Level1_UpdateCells(currentCellId) {
@@ -2173,7 +2176,10 @@
 
             if (nextCellIndex != -1) {
                 document.getElementById(currentCellId).src = "";
+                document.getElementById(currentCellId).style.display = "none";
+
                 document.getElementById(ids[nextCellIndex]).src = imgURL;
+                document.getElementById(ids[nextCellIndex]).style.display = "block";
 
                 lastTime = Date.now();
                 setTimeout(Level1_TimeOut, timeoutPeriod);
@@ -2257,7 +2263,7 @@
             setTimeout(function () {
                 show_OnlyFormWithMenu("pnl_Cat" + document.getElementById('currentStage').value + "Levels");
                 GetActiveLevels(document.getElementById('currentStage').value);
-            }, 2000);
+            }, 1000);
         }
 
         function Level12_ItemClicked(currentCellId) {
@@ -2310,17 +2316,17 @@
                 content: '';
                 display: block;
                 clear: both;
+                padding:0,-10px,0,-10px;
             }
 
             .grid-level li {
                 float: left;
-                border: none;
+                border:none;
                 position: relative;
                 display: block;
-                float: left;
                 width:25%;
-                padding-bottom: 20%;
-                list-style-type: none;
+                padding-bottom: 12%;
+
             }
 
             .grid-level .grid-level-box {
@@ -2330,29 +2336,35 @@
                 right: 3px;
                 top: 3px;
                 bottom: 3px;
-                list-style-type: none;
-                text-align: center;
+                
             }
 
-                .grid-level .grid-level-box:before {
-                    border: none;
-                    vertical-align: middle;
-                    height: 100%;
-                }
+            .grid-level .grid-level-box:before {
+                border: none;
+                vertical-align: middle;
+                width: 30vw;
+                height: 30vh;
+                
+            }
 
         .grid-level-box img {
             border-style:none;
             text-align: center;
-            vertical-align: middle;
-            height: 100%;
-            width: 100%;
-            max-width: 100%;
+            vertical-align:central;
+            width:30vw;
+            height:30vh;
+            
+            
         }
 
         .grid-level img {
-            height: auto;
-            width: 100%;
-            max-width: 100%;
+            /*height: 100%;*/
+            border-style:none;
+            text-align: center;
+            vertical-align:central;
+            width:100%;
+            height:100%;
+             
         }
 
         @media only screen and (max-width : 2048px) {
@@ -2372,7 +2384,7 @@
         @media only screen and (max-width : 768px) {
             .grid-level li {
                 width: 25%;
-                padding-bottom: 8.0%;
+                padding-bottom: 10.0%;
             }
         }
 
@@ -3225,12 +3237,12 @@
         <input type="hidden" id="currentStage" value="1" />
         <input type="hidden" id="currentPracitceLevel" value="1" />
 
-        <div id="pnl_Menu" style="display: none; height: 100px; vertical-align: top; background-color: transparent;">
+        <div id="pnl_Menu" style="display: none; height: 64px; vertical-align: top; background-color: transparent;">
             <table style="width: 100%;">
                 <tr>
                     <td width="50" valign="center">
                         <div id="divLogo" style="border: 0px; background-color: transparent; ">
-                            <img id="imgLogo" src="content/screen01/caracter.png" height="86" width="86" style="display:none;" />
+                            <img id="imgLogo" src="content/screen01/caracter.png" height="64" width="64" style="display:none;" />
                         </div>
                     </td>
                     <td></td>
@@ -3238,10 +3250,10 @@
                         <div align="right" id="divusername" style="border: 0px; margin-top: 20px; margin-right: 24px; color: #660033; font-size: x-large;">
                         </div>
                     </td>
-                    <td valign="top" style="margin-top: 20px;">
+                    <!--<td valign="top" style="margin-top: 20px;">
                         <div align="right" id="divinstructions" style="border: 0px; margin-top: 20px; margin-right: 24px; color: #660033; font-size: x-large;">
                         </div>
-                    </td>
+                    </td>-->
                     <td width="40%" align="right" valign="Top" colspan="6">
                         <div id="div_Settings" style="background-color: transparent;">
                             <table style="height: 32px; width: 100%; align: right">
@@ -3365,9 +3377,9 @@
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <table style="width:100%;height:100%;">
                         <tr>
-                            <td width="20%"><div id="div_fullBall" class="grid-photo-box">
+                            <td width="20%"><div id="div_fullBall" >
                                 <img id="img_fullBall"   src="" draggable="true" 
-                                    style="width:200px;Height:200px;margin-top:-50px"/>
+                                    style="width:100px;Height:100px;"/>
                             </div> 
                             </td>
                             <td width="20%"></td>
@@ -3394,7 +3406,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td> <div id="div_emptyBall" class="grid-photo-box"
+                            <td> <div id="div_emptyBall"  
                                     style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
                                     <img id="img_emptyBall" src=""  style="width:200px;height:200px;" />
                                 </div></td>
@@ -3411,9 +3423,9 @@
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
-                            <td width="20%"><div id="div_emptyBird" class="grid-photo-box" 
+                            <td width="20%"><div id="div_emptyBird" 
                             style="border: 1px solid #aaaaaa;width:100%;height:100%;">
-                                <img id="img_emptyBird" src=""  style="width:200px;height:200px;" />
+                                <img id="img_emptyBird" src=""  style="width:150px;height:150px;" />
                             </div ></td>
 
                         </tr>
@@ -3430,10 +3442,10 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td> <div id="div_fullBird" class="grid-photo-box">
+                            <td> <div id="div_fullBird"  >
                                 <!--ondragstart="javascript:dragStar(event)" -->
                                 <img id="img_fullBird"   src="" draggable="true" 
-                                    style=" margin-top:-50px;width:200px;height:200px;"/>
+                                    style=" width:150px;height:150px;"/>
                             </div></td>
                             <td></td>
                             <td></td>
@@ -3446,27 +3458,30 @@
             <div id="pnlLevel2PlanePractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <table style="width:100%;height:100%;">
-                        <tr>
+                        <tr style="height:25%;">
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%"></td>
-                            <td width="20%">
-                                <div id="div_emptyPlane" class="grid-photo-box" style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
-                                    <img id="img_emptyPlane" src=""  style="width:200px;height:200px;" /></div>
+                            <td width="20%" height="25%">
+                                <div id="div_emptyPlane" style="border: 1px solid #aaaaaa;width:150px;height:150px;">
+                                    <img id="img_emptyPlane" src="" style="width:150px;height:150px;"/></div>
                             </td>
 
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <div id="div_fullPlane" style="width:120px;height:120px;">
+                                    <img id="img_fullPlane" src="" draggable="true" style="width: 100%; height: 100%;" />
+                                </div>
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         
-                        <tr>
-                            <td>
-                                <div id="div_fullPlane"  ><img id="img_fullPlane" src="" draggable="true" 
-                                        style=" margin-top: -50px;width:200px;height:200px;"/></div>
+                        <tr style="height:25%;">
+                            <td  >
+                                
                             </td>
                             <td></td>
                             <td></td>
@@ -3493,7 +3508,7 @@
                             <td>
                                 <div id="div_fullStar" class="grid-photo-box">
                                     <img id="img_fullStar" src="" draggable="true"
-                                        style="width: 200px; height: 200px; margin-top: -50px" />
+                                        style="width: 200px; height: 200px" />
                                 </div>
                             </td>
                             <td>
@@ -3545,7 +3560,7 @@
                             <td></td>
                             <td><div id="div_fullFish"  >
                                 <img id="img_fullFish" src="" draggable="true" 
-                                    style="margin-top:-50px;width:200px;height:200px;"/>
+                                    style="width:100px;height:100px;"/>
                             </div> </td>
                         </tr>
                         <tr>
@@ -3562,28 +3577,27 @@
             <div id="pnlLevel2CamelPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
                     <table style="width:100%;height:100%;">
-                        <tr>
+                        <tr height="25%">
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%"></td>
 
                         </tr>
-                        <tr>
-                            <td><div id="div_fullCamel" class="grid-photo-box">
+                        <tr height="25%">
+                            <td><div id="div_fullCamel"  >
                                 <img id="img_fullCamel"  src="" draggable="true" 
-                                    style="margin-top:-50px;width:200px;height:200px;"/>
+                                    style="width:200px;height:200px;"/>
                             </div> </td>
                             <td><!--<div id="div_movingarrowCamel" class="grid-photo-box"  >
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
                             </div>--></td>
                             <td></td>
-                            <td><div id="div_emptyCamel" class="grid-photo-box"
-                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
+                            <td width="25%"><div id="div_emptyCamel" style="border: 1px solid #aaaaaa;">
                                     <img id="img_emptyCamel" src=""  style="width:200px;height:200px;"/>
                                 </div></td>
                         </tr>
-                        <tr>
+                        <tr height="25%">
                             <td></td>
                             <td></td>
                             <td></td>
