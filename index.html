@@ -44,7 +44,7 @@
 					show_OnlyOneForm("pnl_LoginForm");
 					}
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 5000);
+                }, 4000);
             });
         }
 
@@ -1799,21 +1799,21 @@
 					
 					if (typeof(Storage) !== "undefined") {
 						// Code for localStorage/sessionStorage.
-						localStorage.setItem("glowname") = name;
-						localStorage.setItem("glowage") = age;
+						localStorage.setItem("glowname",document.getElementById('txtName').value);
+						localStorage.setItem("glowage",document.getElementById('txtAge').value);
 					} else {
 						// Sorry! No Web Storage support..
 						
 					}
                 }
                 else if (xhr.status == 404) {
-                    intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
-					//alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
+                    //intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
+					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
             		navigator.app.exitApp();
                 }
                 else {
-                    intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
-					//alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
+                    //intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
+					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
             		navigator.app.exitApp();
                 }
             }
@@ -3428,12 +3428,12 @@
             <div id="pnl_Info" class="panel grid" data-title="" data-selected="true">
                 <table class="tblContent" style="width: 100%; height: 95%;">
                     <tr>
-                        <td style="width: 20%" valign="center"></td>
+                        <td style="width: 10%" valign="center"></td>
 
                         <td style="background: url('content/screen03/about.png') no-repeat; background-size: 100% 100%;">
                             <!--<img src="content/screen03/about.png" />-->
                         </td>
-                        <td style="width: 20%" valign="center"></td>
+                        <td style="width: 10%" valign="center"></td>
                     </tr>
                     <!--<tr style="height:20%">
                         <td></td>
@@ -3985,7 +3985,7 @@
                             <img id="12" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                    <li>
+                   <li>
                         <div id="div13" class="grid-level-box" style="text-align: center;">
                             <img id="13" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
@@ -4006,7 +4006,7 @@
                             <img id="16" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                    <!--<li>
+                    <!-- <li>
                         <div id="div17" class="grid-level-box" style="text-align: center;">
                             <img id="17" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
