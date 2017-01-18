@@ -12,15 +12,36 @@
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
     
+<<<<<<< HEAD
+=======
+    <!-- Include the jQuery library -->
+    <script src="lib/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+
+>>>>>>> origin/master
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
+<<<<<<< HEAD
     
     <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
 
     <script>
 
+=======
+
+
+    <script>
+
+        if (!window.navigator.onLine) {
+            alert("الانترنت لايعمل: من فضلك تأكد من الاتصال بالانترنت اللاسلكي لديك.");
+            navigator.app.exitApp();
+        }
+
+>>>>>>> origin/master
         function GameLoading() {
 
             var isClicked = 0;
@@ -41,7 +62,7 @@
                 setTimeout(function () {
                     show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
-                }, 4000);
+                }, 100);
             });
         }
 
@@ -3440,7 +3461,7 @@
                             <td Width="40%"></td>
                             <td>
                                 <div>
-                                    <div id="div_emptyRect" style="border: 0; width: 128px; height: 128px;display:block;">
+                                    <div id="div_emptyRect" style="border: 1px solid #aaaaaa; width: 128px; height: 128px;display:block;">
                                         <img id="img_emptyRect" src=""  style="width:200px;height:200px;"/>
                                     </div>
                                 </div>
@@ -3514,7 +3535,7 @@
                             <td></td>
                             <td></td>
                             <td> <div id="div_emptyBall"  
-                                    style="border: 0; width: 100%; height: 100%;">
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
                                     <img id="img_emptyBall" src=""  style="width:200px;height:200px;" />
                                 </div></td>
                         </tr>
@@ -3531,7 +3552,7 @@
                             <td width="20%"></td>
                             <!--ondrop="dropPlane(event)" ondragover="allowDropPlane(event)" -->
                             <td width="20%"><div id="div_emptyBird" 
-                            style="border: 0;width:100%;height:100%;">
+                            style="border: 1px solid #aaaaaa;width:100%;height:100%;">
                                 <img id="img_emptyBird" src=""  style="width:150px;height:150px;" />
                             </div ></td>
 
@@ -3570,7 +3591,7 @@
                             <td width="20%"></td>
                             <td width="20%"></td>
                             <td width="20%" height="25%">
-                                <div id="div_emptyPlane" style="border: 0;width:150px;height:150px;">
+                                <div id="div_emptyPlane" style="border: 1px solid #aaaaaa;width:150px;height:150px;">
                                     <img id="img_emptyPlane" src="" style="width:150px;height:150px;"/></div>
                             </td>
 
@@ -3626,7 +3647,7 @@
                             <td></td>
                             <td>
                                 <div id="div_emptyStar" class="grid-photo-box"
-                                    style="border: 0; width: 100%; height: 100%;">
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
                                     <img id="img_emptyStar" src="" style="width: 200px; height: 200px;" />
                                 </div>
                             </td>
@@ -3657,7 +3678,7 @@
                         <tr>
                             <td>
                                 <div id="div_emptyFish" 
-                                    style="border: 0; width: 100%; height: 100%;">
+                                    style="border: 1px solid #aaaaaa; width: 100%; height: 100%;">
                                     <img id="img_emptyFish" src=""   style="width:200px;height:200px;"/>
                                 </div>
                                 </td>
@@ -3700,7 +3721,7 @@
                                     <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
                             </div>--></td>
                             <td></td>
-                            <td width="25%"><div id="div_emptyCamel" style="border: 0;">
+                            <td width="25%"><div id="div_emptyCamel" style="border: 1px solid #aaaaaa;">
                                     <img id="img_emptyCamel" src=""  style="width:200px;height:200px;"/>
                                 </div></td>
                         </tr>
