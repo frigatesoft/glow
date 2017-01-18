@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--HTML5 doctype-->
 <html>
@@ -10,15 +11,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
-
+    
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
 
     <script>
-
 
         function GameLoading() {
 
@@ -38,11 +39,7 @@
                 $('#div_pages > :not(#pnlSplash)').hide();
                 $('#pnlSplash').appendTo('#div_pages');
                 setTimeout(function () {
-                    if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
-						RegisterUser();
-					} else {
-					show_OnlyOneForm("pnl_LoginForm");
-					}
+                    show_OnlyOneForm("pnl_LoginForm");
                     //show_OnlyFormWithMenu('pnl_Cat1Levels');
                 }, 4000);
             });
@@ -733,12 +730,14 @@
 
         function Level2Camel_TimeOut() {
             var currentTime = Date.now();
-            if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
+            if (((currentTime - lastTime) > (timeoutPeriod - 100)) ) {
                 //TimeOut
+                
                 ShowComicResult(0);
                 Level2Camel_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -902,7 +901,7 @@
 
                 Level2Rect_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1067,11 +1066,12 @@
             var currentTime = Date.now();
             if (((currentTime - lastTime) > (timeoutPeriod - 100)) && (repeatCount < maxRepeat)) {
                 //TimeOut
+                //alert("still" +repeatCount);
                 ShowComicResult(0);
                 Level2Plane_UpdateCells();
-            } else if (repeatCount >= maxRepeat)
-            {
-                RegisterScore();
+            } else if (repeatCount > maxRepeat){
+                //alert(repeatCount);
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1230,7 +1230,7 @@
                 ShowComicResult(0);
                 Level2Bird_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1389,7 +1389,7 @@
                 ShowComicResult(0);
                 Level2Star_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1547,7 +1547,7 @@
                 ShowComicResult(0);
                 Level2Ball_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1702,7 +1702,7 @@
                 ShowComicResult(0);
                 Level2Fish_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -1773,15 +1773,8 @@
     <script>
         var userID;
         function RegisterUser() {
-            if (typeof(Storage) !== "undefined" && localStorage.getItem("glowname")) {
-						// Code for localStorage/sessionStorage.
-						name = localStorage.getItem("glowname");
-						age = localStorage.getItem("glowage");
-					} else {
-						// Sorry! No Web Storage support..
-						name = document.getElementById('txtName').value;
-            			age = document.getElementById('txtAge').value;
-					}
+            name = document.getElementById('txtName').value;
+            age = document.getElementById('txtAge').value;
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
             xhr.open("POST", "http://104.130.212.148/glow/register.php?name=" + name + "&age= " + age, false);
@@ -1796,25 +1789,12 @@
 
                     var json = JSON.parse(json_string);
                     //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
-					
-					if (typeof(Storage) !== "undefined") {
-						// Code for localStorage/sessionStorage.
-						localStorage.setItem("glowname",document.getElementById('txtName').value);
-						localStorage.setItem("glowage",document.getElementById('txtAge').value);
-					} else {
-						// Sorry! No Web Storage support..
-						
-					}
                 }
                 else if (xhr.status == 404) {
-                    //intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
-					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
-            		navigator.app.exitApp();
+                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
                 }
                 else {
-                    //intel.xdk.notification.alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.","error");
-					alert("لا يمكن الاتصال بالانترنت الان، من فضلك تاكد من انك متصل بالانترنت اولا.");
-            		navigator.app.exitApp();
+                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
                 }
             }
             xhr.send();
@@ -2188,7 +2168,7 @@
             timeoutPeriod = Time;
 
             stepIndex = 0;
-            var magnitude = 16s;
+            var magnitude = 16;
             
             if (practiceID >= 1 && practiceID <= 3) {
                 imgPercent = 100;
@@ -2392,7 +2372,7 @@
                 ShowComicResult(0);
                 Level1_UpdateCells(ids[stepIndex]);
             } else if (repeatCount > maxRepeat) {
-                RegisterScore();
+                //RegisterScore();
                 setTimeout(function () {
                     show_OnlyFormWithMenu("pnl_Cat2Levels");
                     GetActiveLevels(2);
@@ -3182,20 +3162,21 @@
 
                 if (nextCellIndex == 1) {
                     document.getElementById(currentCellId).src = images[0];
+                    //document.getElementById(currentCellId).style.display = "block";
+
                     document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
-                    document.getElementById(currentCellId).style.display = "block";
-                    document.getElementById(ids[nextCellIndex]).style.display = "block";
+                    //document.getElementById(ids[nextCellIndex]).style.display = "block";
                 } else {
                     document.getElementById(currentCellId).src = "";
                     document.getElementById(ids[nextCellIndex]).src = "";
-                    document.getElementById(currentCellId).style.display="none";
-                    document.getElementById(ids[nextCellIndex]).style.display = "none";
+                    //document.getElementById(currentCellId).style.display="none";
+                    //document.getElementById(ids[nextCellIndex]).style.display = "none";
                     setTimeout(function () {
                         document.getElementById(currentCellId).src = "";
-                        document.getElementById(currentCellId).style.display = "none";
+                        //document.getElementById(currentCellId).style.display = "none";
 
                         document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
-                        document.getElementById(ids[nextCellIndex]).style.display = "block";
+                        //document.getElementById(ids[nextCellIndex]).style.display = "block";
                     }, 500);
 
                     
@@ -3209,6 +3190,8 @@
                 //Excersise Finished
                 var currentTime = Date.now();
                 if (((currentTime - startTime) <= maxTime) && (score == (repeatCount * ids.length))) {
+                    score = score / 2;
+                    document.getElementById('score').value = score;
                     RegisterScore();
                     //ShowReportForm();
                     setTimeout(function () {
@@ -3302,7 +3285,7 @@
             }
 
             .level3-photo img {
-                border: 0;
+                border: none;
                 width: 90%;
                 height: 90%;
             }
@@ -3428,12 +3411,12 @@
             <div id="pnl_Info" class="panel grid" data-title="" data-selected="true">
                 <table class="tblContent" style="width: 100%; height: 95%;">
                     <tr>
-                        <td style="width: 10%" valign="center"></td>
+                        <td style="width: 20%" valign="center"></td>
 
                         <td style="background: url('content/screen03/about.png') no-repeat; background-size: 100% 100%;">
                             <!--<img src="content/screen03/about.png" />-->
                         </td>
-                        <td style="width: 10%" valign="center"></td>
+                        <td style="width: 20%" valign="center"></td>
                     </tr>
                     <!--<tr style="height:20%">
                         <td></td>
@@ -3735,12 +3718,12 @@
             <div id="pnlLevel3Practices" class="panel grid" data-title="" data-selected="true">
                 <div class="grid level3-photo" style="width: 100%; height: 100%">
                     <li>
-                        <div id="div1" class="grid-level3-box" style="border: 0; text-align: center">
+                        <div id="div1" class="grid-level3-box" style="border: 0px; text-align: center">
                             <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" />
                         </div>
                     </li>
                     <li>
-                        <div id="div2" class="grid-level3-box" style="border: 0; text-align: center">
+                        <div id="div2" class="grid-level3-box" style="border: 0px; text-align: center">
                             <img id="right" style="height: auto%;" src="" onclick="javascript:Level3_Clicked(this.id);" />
                         </div>
                     </li>
@@ -3760,7 +3743,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div3p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
+                        <div id="div3p" class="grid-puzzle-box"   style="border: 0;">
                             <img id="img3" src="" />
                         </div>
                     </li>
@@ -3799,7 +3782,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div9p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
+                        <div id="div9p" class="grid-puzzle-box"   style="border: 0;">
                             <img id="img9" src="" />
                         </div>
                     </li>
@@ -3823,7 +3806,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div12p" class="grid-puzzle-box"  style="border: 1px solid #aaaaaa;">
+                        <div id="div12p" class="grid-puzzle-box"  style="border: 0;">
                             <img id="img12" src="" />
                         </div>
                     </li>
@@ -3872,7 +3855,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div20p" class="grid-puzzle-box"  style="border: 1px solid #aaaaaa;">
+                        <div id="div20p" class="grid-puzzle-box"  style="border: 0;">
                             <img id="img20" src="" />
                         </div>
                     </li>
@@ -3896,7 +3879,7 @@
                         </div>
                     </li>
                     <li>
-                        <div id="div23p" class="grid-puzzle-box"   style="border: 1px solid #aaaaaa;">
+                        <div id="div23p" class="grid-puzzle-box"   style="border: 0;">
                             <img id="img23" src="" />
                         </div>
                     </li>
@@ -3985,7 +3968,7 @@
                             <img id="12" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                  <li>
+                    <li>
                         <div id="div13" class="grid-level-box" style="text-align: center;">
                             <img id="13" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
@@ -4006,7 +3989,7 @@
                             <img id="16" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
                     </li>
-                    <!--  <li>
+                    <!--<li>
                         <div id="div17" class="grid-level-box" style="text-align: center;">
                             <img id="17" src="" onclick="javascript:Level12_ItemClicked(this.id);" />
                         </div>
