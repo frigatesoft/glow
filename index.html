@@ -276,7 +276,37 @@
                 }
             }
         }
- 
+
+        //var musictrack;
+        //function Starting() {
+        //    musictrack = new Audio("content/sounds/music.ogg");
+        //    musictrack.play();
+
+        //    //var beepOne = $("#beep-one")[0];
+        //    //beepOne.play();
+        //}
+        //function EnableDisableMusic() {
+
+        //    alert(document.getElementById("idMusic").src);
+        //    alert(music);
+            
+        //    idMusic
+        //    var music = document.getElementById("isMusicPlayed").value;
+            
+        //    if (music == 0) {
+        //        musictrack = new Audio("content/sounds/music.ogg");
+        //        musictrack.play();
+        //        document.getElementById("idMusic").src = "content/screen02/Music.png";
+        //        music = 1;
+        //    } else {
+        //        //var beepOne = $("#beep-one")[0];
+        //        musictrack.pause();
+        //        document.getElementById("idMusic").src = "content/screen02/Music-off.png";
+        //        music = 0;
+        //    }
+        //    document.getElementById("isMusicPlayed").value = music;
+        //}
+
         function EnableDisableSound() {
             var sound = document.getElementById("isSoundPlayed").value;
             if (sound == 0) {
@@ -290,10 +320,6 @@
         }
 
         function GetActiveLevels(stageID) {
-
-            GetLocalActiveLevels(stageID);
-            return;
-
             var userId = document.getElementById('userid').value;
             if (userId == 0) {
                 return;
@@ -307,7 +333,7 @@
                 var json = JSON.parse(json_string);
                 var maxPractice = 1;
                 for (var i = 0 ; i < json.error_msg.length ; i++) {
-
+                    
                     if (json.error_msg[i].PracticeID == 1) {
                         if (stageID == 3) {
                             maxPractice = 19;
@@ -342,7 +368,7 @@
                                 document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                                 maxPractice++;
                             }
-                            else if (maxPractice <= 11) {
+                            else if (maxPractice <=11){
                                 document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                                 maxPractice++;
                             } else {
@@ -360,7 +386,7 @@
                         maxPractice = 12;
                     }
                 }
-
+                
                 if (maxPractice > 1) {
                     if (maxPractice < 10) {
                         document.getElementById("S" + stageID + "L0" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
@@ -368,7 +394,7 @@
                         document.getElementById("S" + stageID + "L" + maxPractice).src = "content/screen03/" + maxPractice + "-a.png";
                     }
                 }
-
+                
                 //if (stageID == 1 && maxPractice == 11) {
                 //    document.getElementById("imgSecondLevelImage").src = "content/screen02/second-level.png";
                 //}
@@ -390,11 +416,6 @@
         }
 
         function RegisterScore() {
-
-            RegisterLocalScore();
-            return;
-
-
             //localhost:8080/Autizam/setuserscore.php?id=23&practice=34&score=3&timeing=3.4
 
             var userId = document.getElementById('userid').value;
@@ -421,7 +442,7 @@
             }
             var xhr = new XMLHttpRequest();
             //xhr.open("POST", "http://localhost/Autizam/setuserscore.php?id=" + userId + "&practice= "
-            //   + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
+             //   + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
             xhr.open("POST", "http://104.130.212.148/glow/setuserscore.php?id=" + userId + "&practice= "
                 + practiceid + "&score=" + userScore + "&timing=" + timeoutPeriod + "&stage=" + stageID, false);
 
@@ -443,53 +464,6 @@
                 }
             }
             xhr.send();
-        }
-
-        var userID;
-        function RegisterUser() {
-            registeOrLoginUser();
-            ShowCategoriesForm();
-            return;
-
-            name = document.getElementById('txtName').value;
-            age = document.getElementById('txtAge').value;
-            var xhr = new XMLHttpRequest();
-            //xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
-            xhr.open("POST", "http://104.130.212.148/glow/register.php?name=" + name + "&age= " + age, false);
-
-            xhr.onload = function () {
-                //navigator.notification.alert("Message", "", "Caption");
-                var json_string = xhr.responseText;
-                var json = JSON.parse(json_string);
-                userID = json.user.id;
-                if (xhr.status == 200) {
-                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
-
-                    var json = JSON.parse(json_string);
-                    //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
-                }
-                else if (xhr.status == 404) {
-                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
-                }
-                else {
-                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
-                }
-            }
-            xhr.send();
-
-            //GoTocontainerMenu();
-            //window.location.href = "categories.html?userid=" + userID;
-            document.getElementById("userid").value = userID;
-            document.getElementById('userid').value = userID;
-            if (userID > 0) {
-                document.getElementById("divusername").innerHTML = "مرحبا: " + name;
-            } else {
-                document.getElementById("divusername").innerHTML = "";
-            }
-            //GetActiveLevels(1);
-            //GetActiveLevels(2);
-            //GetActiveLevels(3);
-            ShowCategoriesForm();
         }
 
         function ShowComicResult(result) {
@@ -515,241 +489,6 @@
             setTimeout(function () {
                 logoImage.style.display = "none";
             }, 1000);
-        }
-
-    </script>
-
-    <script>
-
-        //provide database name and version number
-        var request = indexedDB.open("qnimate", 1);
-        var db = null;
-
-        request.onupgradeneeded = function () {
-            //alert("starting");
-
-            db = request.result;
-            //alert(uname + "saving");
-
-            //create object store and define key property of the objects on that store i.e., primary index. Here "ID" is the key  
-            var store = db.createObjectStore("qnimate_store", { keyPath: "ID", autoIncrement: false });
-            //define other properties of the objects of that store i.e., define other columns.
-            store.createIndex("name", "name", { unique: true });
-            store.createIndex("age", "age", { unique: false });
-
-
-            ///// For First Use only
-            //var write_transition = db.transaction("qnimate_score", "readwrite");
-            //var store = write_transition.objectStore("qnimate_score");
-            //var delete_all_rows = store.clear();
-            //var delete_all_rows = store.delete();
-            //delete_all_rows.onsuccess = function (event) {
-            //    //alert("Deleted all rows");
-            //}
-
-
-            //create object store and define key property of the objects on that store i.e., primary index. Here "ID" is the key  
-            var scoretable = db.createObjectStore("qnimate_score", { keyPath: "ID", autoIncrement: false });
-            //define other properties of the objects of that store i.e., define other columns.
-            scoretable.createIndex("userid", "userid", { unique: false });
-            scoretable.createIndex("username", "username", { unique: false });
-            scoretable.createIndex("stageid", "stageid", { unique: false });
-            scoretable.createIndex("practiceid", "practiceid", { unique: false });
-            scoretable.createIndex("score", "score", { unique: false });
-        }
-
-        request.onsuccess = function () {
-            //database connection established
-            //alert("database connection established");
-            db = request.result;
-        }
-
-        request.onerror = function () {
-            alert("An error occured while connecting to database");
-        }
-
-        function registeOrLoginUser() {
-            name = document.getElementById('txtName').value;
-            age = document.getElementById('txtAge').value;
-
-            ////alert(name + "saving");
-
-            //var write_transition = db.transaction("qnimate_score", "readwrite");
-            //var store = write_transition.objectStore("qnimate_score");
-            //var delete_all_rows = store.clear();
-
-            //delete_all_rows.onsuccess = function (event) {
-            //    alert("Deleted all rows");
-            //}
-
-            var read_transition = db.transaction("qnimate_store", "readonly");
-            var store = read_transition.objectStore("qnimate_store");
-            var row = store.get(name);
-            row.onsuccess = function (evt) {
-                if (typeof row.result === "undefined") {
-                    var object1 = { name: name, age: age, ID: name };
-                    var write_transition = db.transaction("qnimate_store", "readwrite");
-                    var store = write_transition.objectStore("qnimate_store");
-                    store.put(object1);
-                    //alert(name + "new user saved");
-                } else {
-                    //alert("welcome: " + row.result.name);
-                }
-            }
-            row.onerror = function (evt) {
-                var object1 = { name: name, age: age, ID: name };
-                var write_transition = db.transaction("qnimate_store", "readwrite");
-                var store = write_transition.objectStore("qnimate_store");
-                store.put(object1);
-                alert(name + "new user saved from error");
-            }
-
-            document.getElementById("userid").value = name;
-            document.getElementById('userid').value = name;
-            if (name != "") {
-                document.getElementById("divusername").innerHTML = "مرحبا: " + name;
-            } else {
-                document.getElementById("divusername").innerHTML = "";
-            }
-
-            GetLocalActiveLevels();
-            ShowCategoriesForm();
-
-        }
-
-        function GetAllUserScoreData() {
-            var read_transition = db.transaction("qnimate_score", "readonly");
-            var store = read_transition.objectStore("qnimate_score");
-            var rows = store.openCursor()
-            rows.onsuccess = function (evt) {
-                var cursor = evt.target.result;
-                if (cursor) {
-                    console.log("Name is: " + cursor.value.username);
-                    console.log("ID is: " + cursor.key);
-                    console.log("score is: " + cursor.value.score);
-                    cursor.continue();
-                }
-            }
-        }
-
-        function GetLocalActiveLevels(StageX) {
-
-            document.getElementById("S1L01").src = "content/screen03/1.png";
-
-            var read_transition = db.transaction("qnimate_score", "readonly");
-            var store = read_transition.objectStore("qnimate_score");
-            var rows = store.openCursor()
-            var cindex = 1;
-            rows.onsuccess = function (evt) {
-                var cursor = evt.target.result;
-                if (cursor) {
-                    //alert(cursor.toString());
-                    //alert("stage: " + cursor.value.stageid + "   p: " + cursor.value.practiceid);
-                    if (cursor.value.stageid == "1") {
-                        if (cursor.value.practiceid == "01") {
-                        } else {
-                            var strFirst = cursor.value.practiceid.substring(0, 1);
-                            var strSecond = cursor.value.practiceid.substring(1, 2);
-
-                            var pid = "";
-                            if (strFirst == "0") {
-                                pid = strSecond;
-                            } else {
-                                pid = cursor.value.practiceid;
-                            }
-
-                            //alert("S" + cursor.value.stageid + "L" + cursor.value.practiceid + "   pid:" + pid);
-                            document.getElementById("S" + cursor.value.stageid + "L" + cursor.value.practiceid).src = "content/screen03/" + (pid) + "-a.png";
-                            
-                            if (cursor.value.practiceid == "11") {
-                                //alert("11");
-                                document.getElementById("imgSecondLevelImage").src = "content/screen02/second-level.png";
-                                document.getElementById("S2L12").src = "content/screen03/12-a.png";
-                                alert("12");
-                            }
-
-                        }
-                    } else if (cursor.value.stageid == "2") {
-                        //alert("lelve : " + cursor.value.practiceid);
-                        var pid = parseInt(cursor.value.practiceid)+11;
-                        document.getElementById("S" + cursor.value.stageid + "L" + pid).src = "content/screen03/" + (pid) + "-a.png";
-
-                        if (pid >=18) {
-                            document.getElementById("imgThirdLevelImage").src = "content/screen02/third-level.png";
-                            document.getElementById("S3L19").src = "content/screen03/19-a.png";
-                        }
-
-                    } else if (cursor.value.stageid == "3") {
-                        var pid = parseInt(cursor.value.practiceid) + 18;
-                        document.getElementById("S" + cursor.value.stageid + "L" + pid).src = "content/screen03/" + (pid) + "-a.png";
-                    }
-                    //}
-                    cindex += 1;
-                    cursor.continue();
-                    //if (cindex >= 11) { alert("_" + cursor.value.practiceid +  "__" + cindex); }
-                } 
-
-                if (cindex == 1) { return; }
-                var strLevelID = "0";
-                if (cindex >= 10) { strLevelID = ""; }
-                var pid = strLevelID + (cindex);    
-
-                if (cindex > 18) {
-                    document.getElementById("S3L" + pid).src = "content/screen03/" + cindex + "-a.png";
-                } else if (cindex > 12) {
-                    document.getElementById("S2L" + pid).src = "content/screen03/" + cindex + "-a.png";
-                } else {
-                    document.getElementById("S1L" + pid).src = "content/screen03/" + cindex + "-a.png";
-                }
-            }
-        }
-
-        function RegisterLocalScore() {
-            var userId = document.getElementById('userid').value;
-            var userScore = document.getElementById('score').value;
-            var stageID = document.getElementById('currentStage').value;
-            var practiceid = document.getElementById('currentPracitceLevel').value;
-            var username = document.getElementById('txtName').value
-            //alert(userId);
-            //alert(userScore);
-            //alert(stageID);
-            //alert(practiceid);
-            //alert(username);
-            var scoreid = "u" + (userId) + "s" + (stageID) + "p" + (practiceid);
-            alert(scoreid);
-
-            var read_transition = db.transaction("qnimate_score", "readonly");
-            var store = read_transition.objectStore("qnimate_score");
-            var row = store.get(scoreid);
-            row.onsuccess = function (evt) {
-                
-                if (typeof row.result === "undefined") {
-                    alert("new ");
-                    var object1 = { ID: (scoreid), userid: (userId), username: (username), stageid: (stageID), practiceid: (practiceid), score: (userScore) };
-                    var write_transition = db.transaction("qnimate_score", "readwrite");
-                    var store = write_transition.objectStore("qnimate_score");
-                    store.put(object1);
-                    alert("new saved");
-                } else {
-                    alert("old score is " + row.result.score + "   current score is:" + userScore);
-                    if (parseInt(row.result.score) < parseInt(userScore)) {
-                        alert("updating");
-                        var object1 = { ID: (scoreid), userid: (userId), username: (username), stageid: (stageID), practiceid: (practiceid), score: (userScore) };
-                        var write_transition = db.transaction("qnimate_score", "readwrite");
-                        var store = write_transition.objectStore("qnimate_score");
-                        store.put(object1);
-                        alert("updated");
-                    }
-                }
-            }
-            row.onerror = function (evt) {
-                var object1 = { ID: (scoreid), userid: (userId), username: (username), stageid: (stageID), practiceid: (practiceid), score: (userScore) };
-                var write_transition = db.transaction("qnimate_score", "readwrite");
-                var store = write_transition.objectStore("qnimate_score");
-                store.put(object1);
-                alert("new saved with error");
-
-            }
         }
 
     </script>
@@ -1757,7 +1496,49 @@
 
     <!--Categories Form-->
     <script>
-     
+        var userID;
+        function RegisterUser() {
+            name = document.getElementById('txtName').value;
+            age = document.getElementById('txtAge').value;
+            var xhr = new XMLHttpRequest();
+            //xhr.open("POST", "http://localhost/Autizam/register.php?name=" + name + "&age= " + age, false);
+            xhr.open("POST", "http://104.130.212.148/glow/register.php?name=" + name + "&age= " + age, false);
+            
+            xhr.onload = function () {
+                //navigator.notification.alert("Message", "", "Caption");
+                var json_string = xhr.responseText;
+                var json = JSON.parse(json_string);
+                userID = json.user.id;
+                if (xhr.status == 200) {
+                    //{"error":false,"uid":"5852db59e96b45.01941344","user":{"name":"sdhfdhf","email":"sdhfdhf","age":"34dfhdh","created_at":"2016-12-15 20:05:13","updated_at":null}}
+
+                    var json = JSON.parse(json_string);
+                    //intel.xdk.notification.alert(json.rows[0][0], "Name 1");
+                }
+                else if (xhr.status == 404) {
+                    //intel.xdk.notification.alert("Web Service Doesn't Exist", "Error");
+                }
+                else {
+                    //intel.xdk.notification.alert("Unknown error occured while connecting to server", "Error");
+                }
+            }
+            xhr.send();
+
+            //GoTocontainerMenu();
+            //window.location.href = "categories.html?userid=" + userID;
+            document.getElementById("userid").value = userID;
+            document.getElementById('userid').value = userID;
+            if (userID > 0) {
+                document.getElementById("divusername").innerHTML = "مرحبا: " + name;
+            } else {
+                document.getElementById("divusername").innerHTML = "";
+            }
+            GetActiveLevels(1);
+            GetActiveLevels(2);
+            GetActiveLevels(3);
+            ShowCategoriesForm();
+        }
+
         function ShowCategoriesForm() {
             show_OnlyFormWithMenu("pnl_Categories");
             //PlayMusic();
@@ -2675,7 +2456,6 @@
 
 
             document.getElementById(ids[1]).src = "";
-            document.getElementById(ids[1]).style.display = "none";
 
             if (document.getElementById("isSoundPlayed").value == 1) {
                 var audio = new Audio(sounds[0]);
@@ -3244,16 +3024,16 @@
 
             <div id="pnlLevel3Practices" class="panel grid" data-title="" data-selected="true">
                 <div class="grid level3-photo" style="width: 100%; height: 100%">
-                    <table width="100%" Height="100%">
+                    <table>
                         <tr>
-                            <td width="50%" valign="center" align="center">
-                                <div id="div1" style="border: 0px; text-align: center">
-                                    <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" style="width:40vw;height:60vh;" />
+                            <td width="50%">
+                                <div id="div1" class="grid-level3-box" style="border: 0px; text-align: center">
+                                    <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" />
                                 </div>
                             </td>
-                            <td width="50%" valign="center" align="center">
-                                <div id="div2" style="border: 0px; text-align: center">
-                                    <img id="right" style="width:40vw;height:60vh;"  src="" onclick="javascript:Level3_Clicked(this.id);"/>
+                            <td width="50%">
+                                <div id="div2" class="grid-level3-box" style="border: 0px; text-align: center">
+                                    <img id="right" style="height: auto%;" src="" onclick="javascript:Level3_Clicked(this.id);" />
                                 </div>
                             </td>
                         </tr>
