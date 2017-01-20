@@ -750,6 +750,26 @@
                 alert("new saved with error");
 
             }
+
+
+            document.getElementById('score').value = 0;
+            score = 0;
+            if (document.getElementById("isSoundPlayed").value == 1) {
+                if (userScore == 5) {
+                    var audio = new Audio("content/sounds/goodjob.ogg");
+                    audio.play();
+                    //ShowComicResult(5);
+                } else if (userScore >= 3 && userScore < 5) {
+                    var audio = new Audio("content/sounds/clamps.ogg");
+                    audio.play();
+                    //ShowComicResult(1);
+                } else {
+                    var audio = new Audio("content/sounds/tryagain.ogg");
+                    audio.play();
+
+                    //ShowComicResult(0);
+                }
+            }
         }
 
     </script>
@@ -1001,13 +1021,13 @@
                 Level2Camel_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
                 
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1114,13 +1134,13 @@
 
                 Level2Rect_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1291,13 +1311,13 @@
                 ShowComicResult(0);
                 Level2Plane_UpdateCells();
             } else if (repeatCount > maxRepeat){
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1403,13 +1423,13 @@
                 ShowComicResult(0);
                 Level2Bird_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1514,13 +1534,13 @@
                 ShowComicResult(0);
                 Level2Star_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1628,13 +1648,13 @@
                 ShowComicResult(0);
                 Level2Ball_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -1739,13 +1759,13 @@
                 ShowComicResult(0);
                 Level2Fish_UpdateCells();
             } else if (repeatCount >= maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat2Levels");
-                    GetActiveLevels(2);
-                    fullImage.style.left = 0;
-                    fullImage.style.top = 0;
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat2Levels");
+                //    GetActiveLevels(2);
+                //    fullImage.style.left = 0;
+                //    fullImage.style.top = 0;
+                //}, 2000);
             }
             return;
         }
@@ -2315,11 +2335,11 @@
                 ShowComicResult(0);
                 Level1_UpdateCells(ids[stepIndex]);
             } else if (repeatCount > maxRepeat) {
-                //RegisterScore();
-                setTimeout(function () {
-                    show_OnlyFormWithMenu("pnl_Cat1Levels");
-                    GetActiveLevels(1);
-                }, 2000);
+                ////RegisterScore();
+                //setTimeout(function () {
+                //    show_OnlyFormWithMenu("pnl_Cat1Levels");
+                //    GetActiveLevels(1);
+                //}, 2000);
             }
             return;
         }
