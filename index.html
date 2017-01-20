@@ -4,7 +4,7 @@
 <head>
     <title>Glow</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <meta http-equiv="Refresh" content="0;indexeddb.html">
+<!--    <meta http-equiv="Refresh" content="0;indexeddb.html">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -2763,12 +2763,12 @@
             <div id="pnl_Info" class="panel grid" data-title="" data-selected="true">
                 <table class="tblContent" style="width: 100%; height: 95%;">
                     <tr>
-                        <td style="width: 20%" valign="center"></td>
+                        <td style="width: 10%" valign="center"></td>
 
                         <td style="background: url('content/screen03/about.png') no-repeat; background-size: 100% 100%;">
                             <!--<img src="content/screen03/about.png" />-->
                         </td>
-                        <td style="width: 20%" valign="center"></td>
+                        <td style="width: 10%" valign="center"></td>
                     </tr>
                     <!--<tr style="height:20%">
                         <td></td>
@@ -2787,7 +2787,7 @@
 
             <div id="page_level2_Rect" class="panel grid" data-title="Star" data-selected="true" onload="javascript:level2Rect_start();">
                 <div class="grid grid-photo" style="align-content: center; text-align: center; align-items: center">
-                    <table style="width:100%;Height:100%">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%">
                         <tr>
                             <td Width="40%"></td>
                             <td>
@@ -2834,7 +2834,7 @@
             
             <div id="pnlLevel2BallPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <table style="width:100%;height:100%;" border="1">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0">
                         <tr height="33%">
                             <td width="33%"><div id="div_fullBall" >
                                 <img id="img_fullBall" src="" draggable="true" style="width:120px;Height:120px;"/>
@@ -2864,7 +2864,7 @@
 
             <div id="pnlLevel2BirdPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <table style="width:100%;height:100%;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0">
                         <tr height="33%">
                             <td width="33%"></td>
                             <td width="33%"></td>
@@ -2893,31 +2893,32 @@
 
             <div id="pnlLevel2PlanePractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <table style="width:100%;height:100%;" >
-                        <tr style="height:33%;">
-                            <td width="33%"></td>
-                            <td width="33%"></td>
-                            <td width="33%" height="33%" align="center">
-                                <div id="div_emptyPlane" style="border: 0;width:100%;height:100%;align-content:center;">
-                                    <img id="img_emptyPlane" src="" style="width:150px;height:150px; "/></div>
-                            </td>
-
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0" >
+                       <tr>
+                           <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
-                        <tr>
-                            <td  align="right">
-                                <div id="div_fullPlane" style="width:150px;height:150px;">
-                                    <img id="img_fullPlane" src="" draggable="true" style="width: 100%; height: 100%; " />
+                        <tr style="height:50%;">
+                          
+                       <td  width="40%" align="center" valign="bottom">
+                                <div id="div_fullPlane" style="width:100%;height:100%;">
+                                    <img id="img_fullPlane" src="" draggable="true" style="width: 200px; height: 200px; " />
                                 </div>
                             </td>
+                            <td width="20%"></td>
+                            <td width="40%" align="center" valign="top" >
+                                <div id="div_emptyPlane" style="border: 0;width:100%;height:100%;align-content:center;">
+                                    <img id="img_emptyPlane" src="" style="width:280px;height:280px; "/></div>
+                            </td>
+                        </tr>
+                        <tr>
+                           <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         
-                        <tr style="height:25%;">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        
                     </table>
                      
                 </div>
@@ -2926,22 +2927,22 @@
             <div id="pnlLevel2StarPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
 
-                    <table style="width:100%;height:100%;" >
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0" >
                         <tr height="33%">
-                            <td width="33%"></td>
-                            <td width="33%"></td>
-                            <td width="33%"></td>
+                            <td width="40%"></td>
+                            <td width="20%"></td>
+                            <td width="40%"></td>
                         </tr>
                         <tr height="33%">
                             <td align="right">
                                 <div id="div_fullStar" style="border: 0; width: 100%; height: 100%;">
-                                    <img id="img_fullStar" src="" draggable="true" style="width: 200px; height: 200px" />
+                                    <img id="img_fullStar" src="" draggable="true" style="width: 250px; height: 250px" />
                                 </div>
                             </td>
                             <td></td>
-                            <td align="center">
+                            <td align="left">
                                 <div id="div_emptyStar"  style="border: 0; width: 100%; height: 100%;align-content:center;">
-                                    <img id="img_emptyStar" src="" style="width:200px; height:200px;" />
+                                    <img id="img_emptyStar" src="" style="width:250px; height:250px;" />
                                 </div>
                             </td>
                         </tr>
@@ -2959,23 +2960,23 @@
             <div id="pnlLevel2FishPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
 
-                    <table style="width:100%;height:100%;" border="1">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0">
                         <tr  height="33%">
-                            <td width="33%"></td>
-                            <td width="33%"></td>
-                            <td width="33%"></td>
+                            <td width="40%"></td>
+                            <td width="20%"></td>
+                            <td width="40%"></td>
 
                         </tr>
                         <tr height="33%">
                             <td align="center" valign="center">
                                 <div id="div_emptyFish" style="border: 0; width: 100%; height: 100%; align-content: center;">
-                                    <img id="img_emptyFish" src="" style="width: 220px; height: 220px;" />
+                                    <img id="img_emptyFish" src="" style="width: 280px; height: 280px;" />
                                 </div>
                             </td>
                             <td></td>
-                            <td valign="center" align="center">
-                                <div id="div_fullFish" style="border: 0; width: 100%; height: 100%;align-content:center;border:solid;">
-                                    <img id="img_fullFish" src="" draggable="true" style="width: 170px; height: 170px;" />
+                            <td valign="center" align="left">
+                                <div id="div_fullFish" style="border: 0; width: 100%; height: 100%;align-content:center;">
+                                    <img id="img_fullFish" src="" draggable="true" style="width: 180px; height: 180px;" />
                                 </div>
                             </td>
                         </tr>
@@ -2991,22 +2992,20 @@
 
             <div id="pnlLevel2CamelPractice" class="panel grid" data-title="" data-selected="true">
                 <div class="grid grid-level" style="width: 100%; height: 100%;">
-                    <table style="width:100%;height:100%;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%;Height:100%" border="0">
                         <tr height="25%">
-                            <td width="20%"></td>
-                            <td width="20%"></td>
-                            <td width="20%"></td>
-                            <td width="20%"></td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
+                            <td width="25%"></td>
 
                         </tr>
                         <tr height="25%">
-                            <td><div id="div_fullCamel"  >
+                            <td align="center"><div id="div_fullCamel"  >
                                 <img id="img_fullCamel"  src="" draggable="true" 
                                     style="width:200px;height:200px;"/>
                             </div> </td>
-                            <td><!--<div id="div_movingarrowCamel" class="grid-photo-box"  >
-                                    <img src="content/level02/Turn_sign.gif" style="transform:rotate(345deg);width:128px;height:50px; " />
-                            </div>--></td>
+                            <td></td>
                             <td></td>
                             <td width="25%"><div id="div_emptyCamel" style="border: 0;">
                                     <img id="img_emptyCamel" src=""  style="width:200px;height:200px;"/>
@@ -3027,12 +3026,13 @@
                 <div class="grid level3-photo" style="width: 100%; height: 100%">
                     <table>
                         <tr>
-                            <td width="50%">
+                            <td width="45%">
                                 <div id="div1" class="grid-level3-box" style="border: 0px; text-align: center">
                                     <img id="left" src="" onclick="javascript:Level3_Clicked(this.id);" />
                                 </div>
                             </td>
-                            <td width="50%">
+                            <td width="10%"></td>
+                            <td width="45%">
                                 <div id="div2" class="grid-level3-box" style="border: 0px; text-align: center">
                                     <img id="right" style="height: auto%;" src="" onclick="javascript:Level3_Clicked(this.id);" />
                                 </div>
@@ -3495,7 +3495,7 @@
                                                 <tr>
                                                     <td>
                                                         <div style="margin-right: 10%; background: url('content/screen01/Name.png') no-repeat; text-align: left; background-size: contain;">
-                                                            <input value="" type="text" id="txtName" style="width: 66%; text-align: center; background: none; color: #FFFFFF;" />
+                                                            <input value="" type="text" id="txtName" style="width: 66%; text-align: center; background: none; color: #FFFFFF;" autofocus tabindex="0" />
                                                         </div>
 
                                                     </td>
