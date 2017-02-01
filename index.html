@@ -94,40 +94,56 @@
         
 
         //Existing Functions
-
-		function GotoRandomAccessPreLevels(topracticeid) {
+        function GotoRandomAccessPreLevels(topracticeid, isSpecifiedSample) {
 
             score = 0;
 
             document.getElementById("IsRandomAccess").value = 1;
+            document.getElementById("isSpecifiedSample").value = isSpecifiedSample;
 
             if (topracticeid == 1) {
-
-
 
                 document.getElementById("currentStage").value = 1;
 
                 document.getElementById("currentPracitceLevel").value = "0";
 
-                show_OnlyFormWithMenu('pnlLevel1Practices');
+                if (isSpecifiedSample == 1) {
+                    document.getElementById("imgSamplePractice").src = "content/screen03/level1practice.gif"
+                    show_OnlyFormWithMenu('pnlSamplePractice');
 
-				StartStage1LevelsView();
+                    setTimeout(function () {
+                        show_OnlyFormWithMenu('pnlLevel1Practices');
+                        StartStage1LevelsView();
+                    }, 10000);
 
+                } else {
+                    show_OnlyFormWithMenu('pnlLevel1Practices');
+                    StartStage1LevelsView();
+                }
 
+				
 
             } if (topracticeid == 2) {
-
-
 
                 document.getElementById("currentStage").value = 2;
 
                 document.getElementById("currentPracitceLevel").value = "0";
 
-                show_OnlyFormWithMenu('pnlLevel2StarPractice');
 
-                level2Zero_start(0);
+                if (isSpecifiedSample == 1) {
+                    document.getElementById("imgSamplePractice").src = "content/screen03/level2practice.gif"
+                    show_OnlyFormWithMenu('pnlSamplePractice');
 
+                    setTimeout(function () {
+                        show_OnlyFormWithMenu('pnlLevel2StarPractice');
+                        level2Zero_start(0);
+                    }, 10000);
 
+                } else {
+                    show_OnlyFormWithMenu('pnlLevel2StarPractice');
+                    level2Zero_start(0);
+                }
+                
 
             } if (topracticeid == 3) {
 
@@ -135,9 +151,23 @@
 
                 document.getElementById("currentPracitceLevel").value = "0";
 
-                show_OnlyFormWithMenu('pnlLevel3Practices');
 
-                StartStage3LevelsView();
+                if (isSpecifiedSample == 1) {
+                    document.getElementById("imgSamplePractice").src = "content/screen03/level3practice.gif"
+                    show_OnlyFormWithMenu('pnlSamplePractice');
+
+                    setTimeout(function () {
+                        show_OnlyFormWithMenu('pnlLevel3Practices');
+                        StartStage3LevelsView();
+                    }, 10000);
+
+                } else {
+                    show_OnlyFormWithMenu('pnlLevel3Practices');
+                    StartStage3LevelsView();
+                }
+
+                
+
 
             }
 
@@ -1354,7 +1384,7 @@
                                     
 									fullImage.style.left = 0;
                                     fullImage.style.top = 0;
-									GotoRandomAccessPreLevels(3);
+                                    GotoRandomAccessPreLevels(3, document.getElementById("isSpecifiedSample").value);
                                 }, 2000);
                                 
                             }
@@ -1669,7 +1699,7 @@ function Level2Star_UpdateCells() {
 
                                     fullImage.style.left = 0;
                                     fullImage.style.top = 0;
-                                    GotoRandomAccessPreLevels(3);
+                                    GotoRandomAccessPreLevels(3, document.getElementById("isSpecifiedSample").value);
                                 }, 2000);
 
                             }
@@ -2249,7 +2279,7 @@ function Level2Star_UpdateCells() {
         function StartStage1LevelsView() {
             
             var practiceid = document.getElementById('currentPracitceLevel').value;
-            alert(practiceid);
+            
             var PracticeImageName = "content/level01/pic1-" + practiceid + ".png";
             //Intialize(0, "content/level01/pic01.png", 6000);
 
@@ -2307,6 +2337,7 @@ function Level2Star_UpdateCells() {
                 document.getElementById(i).style.height = imgPercent + "%";
                 
             }
+
             document.getElementById(ids[stepIndex]).src = imgURL;
             document.getElementById(ids[stepIndex]).style.display = "block";
         }
@@ -2367,7 +2398,11 @@ function Level2Star_UpdateCells() {
                             }
                         }
                         setTimeout(function () {
-                            GotoRandomAccessPreLevels(2);
+                            if (document.getElementById("isSpecifiedSample").value == 0) {
+                                GotoRandomAccessPreLevels(2, 0);
+                            } else {
+                                BackToLevel();
+                            }
                         }, 2000);
                         
                     }
@@ -2384,7 +2419,11 @@ function Level2Star_UpdateCells() {
                         //    GetLocalActiveLevels(1);
                         //}, 2000);
                     } else {
-                        GotoRandomAccessPreLevels(2);
+                        if (document.getElementById("isSpecifiedSample").value == 0) {
+                            GotoRandomAccessPreLevels(2, 0);
+                        } else {
+                            BackToLevel();
+                        }
                     }
                 }
             }
@@ -2816,7 +2855,7 @@ li {
             ids = ["right", "left"];
             practiceid = document.getElementById("currentPracitceLevel").value;
 
-            var c2 = Math.floor((Math.random() * 2) + 1);
+            var c2 = 1;//Math.floor((Math.random() * 2) + 1);
             if (practiceid == 19) {
                 if (c2 == 1) {
                     images = ["content/level03/pic3-1-r.png", "content/level03/pic3-1-l.png"];
@@ -2922,6 +2961,10 @@ li {
                     setTimeout(function () {
                         document.getElementById(currentCellId).src = "";
                         document.getElementById(currentCellId).style.display = "none";
+                        
+                        var srcSwitch = images[0];
+                        images[0] = images[1];
+                        images[1] = srcSwitch;
 
                         document.getElementById(ids[nextCellIndex]).src = images[nextCellIndex];
                         document.getElementById(ids[nextCellIndex]).style.display = "block";
@@ -3145,6 +3188,8 @@ function level2Zero_start(levelid) {
       <input type="hidden" id="isSoundPlayed" value="1" />
       <input type="hidden" id="currentStage" value="1" />
       <input type="hidden" id="IsRandomAccess" value="0" />
+      <input type="hidden" id="isSpecifiedSample" value="0" />
+        
       <input type="hidden" id="currentPracitceLevel" value="1" />
       
       <div id="pnl_Menu" style="display: none; height: 64px; vertical-align: top; background-color: transparent;">
@@ -3376,6 +3421,15 @@ function level2Zero_start(levelid) {
           </div>
         </div>
         
+          <div id="pnlSamplePractice" class="panel grid" data-title="" data-selected="true" style="margin-top:0px;">
+          <div class="grid grid-level" style="width: 100%; height: 80%; margin-top: 10%">
+              <div id="divSamplePractice" class="grid-level-box" style="text-align: center;">
+                  <img id="imgSamplePractice" src="" />
+              </div>
+          </div>
+        </div>
+
+
         <div id="pnlLevel1Practices" class="panel grid" data-title="" data-selected="true" onclick="practice1ClickOutside()"
                 style="margin-top:0px;">
           <div class="grid grid-level" style="width: 100%; height: 80%; margin-top: 10%">
@@ -3471,8 +3525,17 @@ function level2Zero_start(levelid) {
         <div id="pnl_Cat3Levels" class="panel grid" data-title="" data-selected="true">
           <table style="width: 100%; height: 80%; margin-top: 5%;">
             <tr>
-              <td style="width: 25%" valign="center"><div style="border: 0px; width: 100%;"> <img src="content/screen02/third-level.png"
-                                    style="max-height: 100%; margin-top: -10%; max-width: 100%; position: center" /> </div></td>
+                <td style="width: 25%" valign="bottom">
+                    <div id="divlvl3Sample" style="border: 0px; width: 100%;">
+                        <img src="content/screen02/pre-level.png" style="max-height: 100%; max-width: 100%; position: center" 
+                                onclick="javascript:GotoRandomAccessPreLevels(3,1);" />
+                    </div>
+
+                    <div style="border: 0px; width: 100%;">
+                        <img src="content/screen02/third-level.png"
+                            style="max-height: 100%; margin-top: 0%; max-width: 100%; position: center" />
+                    </div>
+                </td>
               <td width="2%"></td>
               <td class="pnlContainerCat3LevelsContainer"><div style="margin-left: 5%; margin-top: -5%; width: 100%; height: 80%">
                   <table style="width: 100%; height: 70%">
@@ -3526,8 +3589,18 @@ function level2Zero_start(levelid) {
         <div id="pnl_Cat2Levels" class="panel grid" data-title="" data-selected="true">
           <table style="width: 100%; height: 70%; margin-top: 50px">
             <tr>
-              <td style="width: 25%" valign="center"><div style="border: 0px; width: 100%; margin-top: -20%"> <img src="content/screen02/second-level.png"
-                                    style="max-height: 100%; max-width: 100%; position: center" /> </div></td>
+                <td style="width: 25%" valign="bottom">
+
+                    <div id="divlvl2Sample" style="border: 0px; width: 100%;">
+                        <img src="content/screen02/pre-level.png" style="max-height: 100%; max-width: 100%; position: center" 
+                                onclick="javascript:GotoRandomAccessPreLevels(2,1);" />
+                    </div>
+
+                    <div style="border: 0px; width: 100%; margin-top: 0%">
+                        <img src="content/screen02/second-level.png"
+                            style="max-height: 100%; max-width: 100%; position: center" />
+                    </div>
+                </td>
               <td width="2%"></td>
               <td class="pnlContainerCat2LevelsContainer"><div style="margin-left: 5%; width: 100%; height: 80%">
                   <table style="width: 100%; height: 70%;">
@@ -3584,8 +3657,17 @@ function level2Zero_start(levelid) {
         <div id="pnl_Cat1Levels" class="panel grid" data-title="" data-selected="true">
           <table style="width: 100%; height: 70%; margin-top: 50px;">
             <tr>
-              <td style="width: 25%" valign="center"><div id="divCategImage" style="border: 0px; width: 100%;"> <img src="content/screen02/first-level.png"
-                                    style="max-height: 100%; max-width: 100%; position: center" /> </div></td>
+                <td style="width: 25%" valign="bottom">
+                    <div id="divlvl1Sample" style="border: 0px; width: 100%;">
+                        <img src="content/screen02/pre-level.png" style="max-height: 100%; max-width: 100%; position: center" 
+                                onclick="javascript:GotoRandomAccessPreLevels(1,1);" />
+                    </div>
+                    <div id="divCategImage" style="border: 0px; width: 100%;">
+                        <img src="content/screen02/first-level.png"
+                            style="max-height: 100%; max-width: 100%; position: center" />
+                    </div>
+                    
+                </td>
               <td width="2%"></td>
               <td class="pnlContainerCat1LevelsContainer"><div data-title="" style="margin-left: 5%; width: 100%; height: 80%">
                   <table style="width: 100%; height: 70%;">
@@ -3651,7 +3733,7 @@ function level2Zero_start(levelid) {
                 <td></td>
                 <td></td>
                 <td width="15%" valign="bottom" style="margin-top: 20px;"><div id="divPrelevel" class="Category" style="border: 0px;"> <img  style="width:150px;height:120px" id="imgPreLevel" src="content/screen02/pre-level.png" 
-                                        onclick="javascript:GotoRandomAccessPreLevels(1);" /> </div></td>
+                                        onclick="javascript:GotoRandomAccessPreLevels(1,0);" /> </div></td>
                 <td></td>
                 <td></td>
               </tr>
